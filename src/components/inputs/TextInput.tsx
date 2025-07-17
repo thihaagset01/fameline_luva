@@ -6,6 +6,7 @@ interface TextInputProps {
   value: string;
   onChange: (value: string) => void;
   type?: string;
+  icon?: React.ReactNode;
 }
 
 export const TextInput: React.FC<TextInputProps> = ({
@@ -13,18 +14,24 @@ export const TextInput: React.FC<TextInputProps> = ({
   placeholder,
   value,
   onChange,
-  type = 'text'
+  type = 'text',
+  icon
 }) => {
   return (
     <div className="input-group">
       <label className="input-label">{label}</label>
-      <div className="input-wrapper">
+      <div className="input-wrapper relative">
+        {icon && (
+          <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
+            {icon}
+          </div>
+        )}
         <input
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           placeholder={placeholder}
-          className="input-field"
+          className={`input-field ${icon ? 'pl-12' : ''}`}
         />
         <div className="input-indicator">
           {value && (

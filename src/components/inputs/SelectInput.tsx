@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { ChevronDown } from 'lucide-react';
 
 interface SelectOption {
   value: string;
@@ -34,7 +35,7 @@ export const SelectInput: React.FC<SelectInputProps> = ({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className={`input-pill ${icon ? 'pl-12' : ''}`}
+          className={`input-pill ${icon ? 'pl-12' : ''} pr-12`}
           required
         >
           <option value="" disabled>{placeholder}</option>
@@ -44,6 +45,9 @@ export const SelectInput: React.FC<SelectInputProps> = ({
             </option>
           ))}
         </select>
+        <div className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none">
+          <ChevronDown size={20} />
+        </div>
       </div>
     </div>
   );
