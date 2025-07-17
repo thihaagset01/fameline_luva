@@ -1,4 +1,4 @@
-# LouverBoy 🏗️
+# Luva 🏗️
 
 AI-powered louver selection and specification system for architects, consultants, and engineers.
 
