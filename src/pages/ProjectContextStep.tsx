@@ -9,151 +9,146 @@ import {
 
 export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   return (
-    <div className="app-container">
-      <div className="content-card">
-        <div className="text-center mb-12 lg:mb-16">
-          <h2 className="text-3xl lg:text-4xl font-light text-white mb-4">Project Context</h2>
-          <p className="text-white/70 text-lg max-w-2xl mx-auto">
-            Help us understand your building requirements and performance needs
-          </p>
-        </div>
-        
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
-          {/* Purpose */}
-          <div className="space-y-4">
-            <SelectInput
-              label="What is the purpose?"
-              placeholder="Choose purpose"
-              value={formData.purpose}
-              onChange={(value) => updateFormData('purpose', value)}
-              options={PURPOSE_OPTIONS}
-            />
-            
-            {formData.purpose && (
-              <div className="glass-effect rounded-xl p-4">
-                <h4 className="text-emerald-400 text-sm font-medium mb-1">Purpose Focus</h4>
-                <p className="text-white/80 text-xs">
-                  {getPurposeDescription(formData.purpose)}
-                </p>
-              </div>
-            )}
-          </div>
-          
-          {/* Building Type */}
-          <div className="space-y-4">
-            <SelectInput
-              label="What is the building?"
-              placeholder="Choose building type"
-              value={formData.buildingType}
-              onChange={(value) => updateFormData('buildingType', value)}
-              options={BUILDING_TYPE_OPTIONS}
-            />
-            
-            {formData.buildingType && (
-              <div className="glass-effect rounded-xl p-4">
-                <h4 className="text-emerald-400 text-sm font-medium mb-1">Building Requirements</h4>
-                <p className="text-white/80 text-xs">
-                  {getBuildingTypeDescription(formData.buildingType)}
-                </p>
-              </div>
-            )}
-          </div>
-          
-          {/* Building Height */}
-          <div className="space-y-4">
-            <SelectInput
-              label="What is the building height?"
-              placeholder="Choose height"
-              value={formData.buildingHeight}
-              onChange={(value) => updateFormData('buildingHeight', value)}
-              options={BUILDING_HEIGHT_OPTIONS}
-            />
-            
-            {formData.buildingHeight && (
-              <div className="glass-effect rounded-xl p-4">
-                <h4 className="text-emerald-400 text-sm font-medium mb-1">Height Considerations</h4>
-                <p className="text-white/80 text-xs">
-                  {getHeightDescription(formData.buildingHeight)}
-                </p>
-              </div>
-            )}
-          </div>
+    <div className="min-h-screen flex flex-col items-center justify-center p-8">
+      {/* Title */}
+      <h1 className="text-4xl lg:text-5xl font-light text-white mb-16 text-center">
+        Project Context
+      </h1>
+      
+      {/* Three Column Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-6xl w-full">
+        {/* Purpose Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h3 style={{
+            fontSize: '1.25rem',
+            color: 'white',
+            fontWeight: '300',
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
+            What is the purpose?
+          </h3>
+          <select
+            style={{
+              width: '100%',
+              maxWidth: '280px',
+              padding: '1rem 1.5rem',
+              borderRadius: '9999px',
+              backgroundColor: 'white',
+              color: '#374151',
+              fontSize: '1rem',
+              fontWeight: '500',
+              border: 'none',
+              outline: 'none',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+              cursor: 'pointer',
+              appearance: 'none',
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 1.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '16px',
+              paddingRight: '3rem'
+            }}
+            value={formData.purpose || ''}
+            onChange={(e) => updateFormData('purpose', e.target.value)}
+          >
+            <option value="">Choose purpose</option>
+            {PURPOSE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Summary Preview */}
-        {formData.purpose && formData.buildingType && formData.buildingHeight && (
-          <div className="mt-12 text-center">
-            <div className="glass-effect rounded-2xl p-6 max-w-2xl mx-auto">
-              <h3 className="text-emerald-400 font-medium mb-3">Project Summary</h3>
-              <p className="text-white/90 text-lg">
-                {getProjectSummary(formData.purpose, formData.buildingType, formData.buildingHeight)}
-              </p>
-            </div>
-          </div>
-        )}
+        {/* Building Type Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h3 style={{
+            fontSize: '1.25rem',
+            color: 'white',
+            fontWeight: '300',
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
+            What is the building?
+          </h3>
+          <select
+            style={{
+              width: '100%',
+              maxWidth: '280px',
+              padding: '1rem 1.5rem',
+              borderRadius: '9999px',
+              backgroundColor: 'white',
+              color: '#374151',
+              fontSize: '1rem',
+              fontWeight: '500',
+              border: 'none',
+              outline: 'none',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+              cursor: 'pointer',
+              appearance: 'none',
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 1.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '16px',
+              paddingRight: '3rem'
+            }}
+            value={formData.buildingType || ''}
+            onChange={(e) => updateFormData('buildingType', e.target.value)}
+          >
+            <option value="">Choose building type</option>
+            {BUILDING_TYPE_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
 
-        {/* Step indicator */}
-        <div className="text-center mt-8">
-          <p className="text-white/50 text-sm">
-            Step 3 of 6 • Project Requirements
-          </p>
+        {/* Building Height Column */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+          <h3 style={{
+            fontSize: '1.25rem',
+            color: 'white',
+            fontWeight: '300',
+            marginBottom: '1.5rem',
+            textAlign: 'center'
+          }}>
+            What is the building height?
+          </h3>
+          <select
+            style={{
+              width: '100%',
+              maxWidth: '280px',
+              padding: '1rem 1.5rem',
+              borderRadius: '9999px',
+              backgroundColor: 'white',
+              color: '#374151',
+              fontSize: '1rem',
+              fontWeight: '500',
+              border: 'none',
+              outline: 'none',
+              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)',
+              cursor: 'pointer',
+              appearance: 'none',
+              backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
+              backgroundPosition: 'right 1.5rem center',
+              backgroundRepeat: 'no-repeat',
+              backgroundSize: '16px',
+              paddingRight: '3rem'
+            }}
+            value={formData.buildingHeight || ''}
+            onChange={(e) => updateFormData('buildingHeight', e.target.value)}
+          >
+            <option value="">Choose height</option>
+            {BUILDING_HEIGHT_OPTIONS.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
     </div>
   );
 };
-
-function getPurposeDescription(purpose: string): string {
-  const descriptions = {
-    ventilation: "Maximize airflow efficiency and air exchange rates",
-    'weather-protection': "Superior rain defense and wind resistance",
-    acoustic: "Sound transmission control and noise reduction",
-    aesthetic: "Architectural integration and visual appeal"
-  };
-  return descriptions[purpose as keyof typeof descriptions] || "";
-}
-
-function getBuildingTypeDescription(buildingType: string): string {
-  const descriptions = {
-    commercial: "Professional appearance with reliable performance",
-    residential: "Aesthetic compatibility with moderate performance",
-    industrial: "Robust construction for high-duty applications", 
-    healthcare: "Acoustic control and superior air quality",
-    education: "Noise reduction for learning environments"
-  };
-  return descriptions[buildingType as keyof typeof descriptions] || "";
-}
-
-function getHeightDescription(height: string): string {
-  const descriptions = {
-    'low-rise': "Standard performance for ground-level exposure",
-    'mid-rise': "Enhanced wind resistance for moderate heights",
-    'high-rise': "Superior weather protection for high wind exposure"
-  };
-  return descriptions[height as keyof typeof descriptions] || "";
-}
-
-function getProjectSummary(purpose: string, buildingType: string, height: string): string {
-  const purposeLabels = {
-    ventilation: "ventilation",
-    'weather-protection': "weather protection", 
-    acoustic: "acoustic control",
-    aesthetic: "aesthetic integration"
-  };
-  
-  const buildingLabels = {
-    commercial: "commercial",
-    residential: "residential",
-    industrial: "industrial",
-    healthcare: "healthcare",
-    education: "educational"
-  };
-  
-  const heightLabels = {
-    'low-rise': "low-rise",
-    'mid-rise': "mid-rise", 
-    'high-rise': "high-rise"
-  };
-  
-  return `${purposeLabels[purpose as keyof typeof purposeLabels]} for ${heightLabels[height as keyof typeof heightLabels]} ${buildingLabels[buildingType as keyof typeof buildingLabels]} building`;
-}
