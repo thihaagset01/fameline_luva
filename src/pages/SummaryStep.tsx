@@ -1,7 +1,6 @@
 import React from 'react';
 import { Download, Share2, RotateCcw, CheckCircle } from 'lucide-react';
 import { FormData } from '@/types';
-import { NavigationButton } from '@/components/NavigationButton';
 
 interface SummaryStepProps {
   formData: FormData;
@@ -36,137 +35,125 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset, onP
   };
 
   return (
-    <div className="max-w-4xl mx-auto text-center">
-      {/* Success Icon */}
-      <div className="mb-8">
-        <div className="w-24 h-24 mx-auto rounded-full bg-emerald-500/20 border-2 border-emerald-400 flex items-center justify-center">
-          <CheckCircle className="w-12 h-12 text-emerald-400" />
+    <div className="summary-step">
+      <div className="summary-completion">
+        {/* Success Icon */}
+        <div className="success-icon-container">
+          <div className="success-icon">
+            <CheckCircle size={48} />
+          </div>
         </div>
-      </div>
 
-      {/* Main Message */}
-      <div className="mb-12">
-        <h2 className="text-4xl lg:text-5xl font-light text-white mb-6">
-          You're ready to go.
-        </h2>
+        {/* Main Message */}
+        <h2 className="summary-title">You're ready to go.</h2>
         
-        <div className="max-w-2xl mx-auto space-y-4">
-          <p className="text-white/80 text-xl leading-relaxed">
-            Our technical team will contact you within <span className="text-emerald-400 font-medium">2-5 business days</span> to discuss your project in more detail and provide comprehensive specifications.
-          </p>
-          
-          <div className="glass-effect rounded-2xl p-6 text-left">
-            <h3 className="text-emerald-400 font-medium mb-4">Your Project Summary</h3>
-            <div className="grid sm:grid-cols-2 gap-4 text-white/80">
-              <div>
-                <span className="text-white/60 text-sm">Contact:</span>
-                <div className="font-medium">{formData.name}</div>
-                <div className="text-sm">{formData.email}</div>
-              </div>
-              <div>
-                <span className="text-white/60 text-sm">Location:</span>
-                <div className="font-medium">{formData.location}</div>
-                <div className="text-sm capitalize">{formData.environment} environment</div>
-              </div>
-              <div>
-                <span className="text-white/60 text-sm">Building:</span>
-                <div className="font-medium capitalize">{formData.buildingType}</div>
-                <div className="text-sm capitalize">{formData.buildingHeight}</div>
-              </div>
-              <div>
-                <span className="text-white/60 text-sm">Purpose:</span>
-                <div className="font-medium capitalize">{formData.purpose.replace('-', ' ')}</div>
-                <div className="text-sm">AI-matched solution</div>
-              </div>
+        <p className="summary-description">
+          Our technical team will contact you within <span className="highlight">2-5 business days</span> to discuss your project in more detail and provide comprehensive specifications.
+        </p>
+        
+        {/* Project Summary */}
+        <div className="summary-card">
+          <h3 className="summary-card-title">Your Project Summary</h3>
+          <div className="summary-grid">
+            <div className="summary-grid-item">
+              <span className="summary-label">Contact:</span>
+              <div className="summary-value">{formData.name}</div>
+              <div className="summary-subvalue">{formData.email}</div>
+            </div>
+            <div className="summary-grid-item">
+              <span className="summary-label">Location:</span>
+              <div className="summary-value">{formData.location}</div>
+              <div className="summary-subvalue capitalize">{formData.environment} environment</div>
+            </div>
+            <div className="summary-grid-item">
+              <span className="summary-label">Building:</span>
+              <div className="summary-value capitalize">{formData.buildingType}</div>
+              <div className="summary-subvalue capitalize">{formData.buildingHeight}</div>
+            </div>
+            <div className="summary-grid-item">
+              <span className="summary-label">Purpose:</span>
+              <div className="summary-value capitalize">{formData.purpose.replace('-', ' ')}</div>
+              <div className="summary-subvalue">AI-matched solution</div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Action Buttons */}
-      <div className="mb-12">
-        <p className="text-white/90 text-lg mb-8">In the meantime, you can:</p>
+        {/* Action Buttons */}
+        <p className="summary-prompt">In the meantime, you can:</p>
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto">
+        <div className="summary-actions">
           <button 
             onClick={handleDownloadSummary}
-            className="w-full sm:w-auto btn-outline px-8 py-4 rounded-full text-lg font-medium flex items-center justify-center space-x-3 hover:shadow-glow"
+            className="summary-download-btn"
           >
-            <Download className="w-5 h-5" />
+            <Download className="summary-download-icon" />
             <span>Download Summary (PDF)</span>
           </button>
           
           <button 
             onClick={handleShare}
-            className="w-full sm:w-auto glass-effect hover:bg-white/20 px-8 py-4 rounded-full text-lg font-medium text-white flex items-center justify-center space-x-3 transition-all"
+            className="summary-download-btn"
           >
-            <Share2 className="w-5 h-5" />
+            <Share2 className="summary-download-icon" />
             <span>Share Results</span>
           </button>
         </div>
-      </div>
 
-      {/* What's Next */}
-      <div className="glass-effect rounded-2xl p-8 mb-12 text-left max-w-2xl mx-auto">
-        <h3 className="text-emerald-400 font-medium mb-6 text-center">What happens next?</h3>
-        
-        <div className="space-y-6">
-          <div className="flex items-start space-x-4">
-            <div className="w-8 h-8 bg-emerald-500 text-black rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-              1
-            </div>
-            <div>
-              <h4 className="text-white font-medium mb-1">Technical Review</h4>
-              <p className="text-white/70 text-sm">Our engineers review your requirements and AI recommendation for accuracy and compliance.</p>
-            </div>
-          </div>
+        {/* What's Next */}
+        <div className="summary-card">
+          <h3 className="summary-card-title">What happens next?</h3>
           
-          <div className="flex items-start space-x-4">
-            <div className="w-8 h-8 bg-emerald-500 text-black rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-              2
+          <div className="summary-steps">
+            <div className="summary-step-item">
+              <div className="summary-step-number">1</div>
+              <div className="summary-step-content">
+                <h4 className="summary-step-title">Technical Review</h4>
+                <p className="summary-step-description">Our engineers review your requirements and AI recommendation for accuracy and compliance.</p>
+              </div>
             </div>
-            <div>
-              <h4 className="text-white font-medium mb-1">Detailed Consultation</h4>
-              <p className="text-white/70 text-sm">We'll contact you to discuss specific requirements, sizing, and any customizations needed.</p>
+            
+            <div className="summary-step-item">
+              <div className="summary-step-number">2</div>
+              <div className="summary-step-content">
+                <h4 className="summary-step-title">Detailed Consultation</h4>
+                <p className="summary-step-description">We'll contact you to discuss specific requirements, sizing, and any customizations needed.</p>
+              </div>
             </div>
-          </div>
-          
-          <div className="flex items-start space-x-4">
-            <div className="w-8 h-8 bg-emerald-500 text-black rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0">
-              3
-            </div>
-            <div>
-              <h4 className="text-white font-medium mb-1">Final Specifications</h4>
-              <p className="text-white/70 text-sm">Receive comprehensive technical drawings, performance data, and installation guidelines.</p>
+            
+            <div className="summary-step-item">
+              <div className="summary-step-number">3</div>
+              <div className="summary-step-content">
+                <h4 className="summary-step-title">Final Specifications</h4>
+                <p className="summary-step-description">Receive comprehensive technical drawings, performance data, and installation guidelines.</p>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* Navigation and New Project Buttons */}
-      <div className="flex justify-between items-center mt-8 mb-8">
-        <NavigationButton 
-          onClick={onPrevStep || (() => {})} 
-          direction="prev" 
-        />
-        <button 
-          onClick={handleNewProject}
-          className="glass-effect hover:bg-white/20 px-6 py-3 rounded-full text-white flex items-center space-x-2 mx-auto transition-all"
-        >
-          <RotateCcw className="w-4 h-4" />
-          <span>Start New Project</span>
-        </button>
-        <div className="w-10"></div> {/* Empty space to balance the layout */}
-      </div>
+        {/* Navigation and New Project Buttons */}
+        <div className="summary-navigation">
+          <button 
+            onClick={onPrevStep || (() => {})}
+            className="summary-download-btn"
+          >
+            Previous
+          </button>
+          <button 
+            onClick={handleNewProject}
+            className="summary-download-btn"
+          >
+            <RotateCcw size={16} />
+            <span>Start New Project</span>
+          </button>
+        </div>
 
-      {/* Company Info */}
-      <div className="mt-16 pt-8 border-t border-white/10">
-        <div className="text-center">
-          <h4 className="text-emerald-400 font-medium mb-2">Powered by Fameline APSG</h4>
-          <p className="text-white/60 text-sm">
+        {/* Company Info */}
+        <div className="summary-footer">
+          <h4 className="summary-footer-title">Powered by Fameline APSG</h4>
+          <p className="summary-footer-text">
             Performance Louver Solutions for the Built Environment
           </p>
-          <p className="text-white/40 text-xs mt-2">
+          <p className="summary-footer-locations">
             Singapore • Malaysia • Thailand • Indonesia • Vietnam • Philippines • Cambodia • India
           </p>
         </div>

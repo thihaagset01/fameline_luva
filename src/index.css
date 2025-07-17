@@ -1079,6 +1079,39 @@ body {
   border-radius: 0.75rem;
 }
 
+/* Recommendation Error Styles */
+.recommendations-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.error-icon-container {
+  margin-bottom: 2rem;
+}
+
+.error-icon {
+  width: 8rem;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  font-size: 3rem;
+  border: 2px solid #ef4444;
+  border-radius: 50%;
+}
+
 /* Page 6: Summary - Completion message */
 .summary-step {
   display: flex;
@@ -1091,7 +1124,26 @@ body {
 }
 
 .summary-completion {
-  max-width: 600px;
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.success-icon-container {
+  margin-bottom: 2rem;
+}
+
+.success-icon {
+  width: 8rem;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  font-size: 3rem;
+  border: 2px solid #10b981;
+  border-radius: 50%;
   margin: 0 auto;
 }
 
@@ -1112,11 +1164,75 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+.highlight {
+  color: #10b981;
+  font-weight: 500;
+}
+
+.summary-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.summary-card-title {
+  color: #10b981;
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.summary-grid-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-value {
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-subvalue {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-prompt {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
 .summary-actions {
   display: flex;
   justify-content: center;
   gap: 1rem;
   margin-top: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
 }
 
 .summary-download-btn {
@@ -1146,6 +1262,84 @@ body {
 .summary-download-icon {
   width: 1.25rem;
   height: 1.25rem;
+}
+
+.summary-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summary-step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.summary-step-number {
+  width: 2rem;
+  height: 2rem;
+  background: #10b981;
+  color: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.summary-step-content {
+  flex: 1;
+}
+
+.summary-step-title {
+  color: white;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-step-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.summary-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.summary-footer-title {
+  color: #10b981;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-footer-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-footer-locations {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Responsive adjustments for all pages */

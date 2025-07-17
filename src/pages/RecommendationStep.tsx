@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Download, Star, TrendingUp } from 'lucide-react';
 import { FormData } from '@/types';
 import { recommendationEngine } from '@/engine/recommendationEngine';
-import { NavigationButton } from '@/components/NavigationButton';
 
 // Define a custom recommendation interface that matches our application needs
 interface EnhancedLouverRecommendation {
@@ -80,13 +79,13 @@ function adjustLouverColor(model: string): string {
 
 // Loading component
 const LoadingState: React.FC = () => (
-  <div className="app-container">
+  <div className="recommendations-step">
     <div className="content-card text-center">
       <div className="mb-8">
-        <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 animate-pulse orb-glow"></div>
+        <div className="w-32 h-32 mx-auto rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 animate-pulse"></div>
       </div>
-      <h2 className="text-3xl font-light text-white mb-4">Analyzing Your Requirements</h2>
-      <p className="text-white/70 text-lg mb-8">Our AI is processing your inputs and matching the optimal louver...</p>
+      <h2 className="recommendations-title">Analyzing Your Requirements</h2>
+      <p className="recommendations-description">Our AI is processing your inputs and matching the optimal louver...</p>
       <div className="flex justify-center space-x-2">
         {[...Array(3)].map((_, i) => (
           <div 
@@ -102,18 +101,16 @@ const LoadingState: React.FC = () => (
 
 // Error component
 const ErrorState: React.FC<{ error: string; onRetry: () => void }> = ({ error, onRetry }) => (
-  <div className="app-container">
-    <div className="content-card text-center">
-      <div className="mb-8">
-        <div className="w-32 h-32 mx-auto rounded-full bg-red-500/20 border-2 border-red-500 flex items-center justify-center">
-          <span className="text-red-400 text-4xl">⚠</span>
-        </div>
+  <div className="recommendations-step">
+    <div className="recommendations-error">
+      <div className="error-icon-container">
+        <div className="error-icon">⚠</div>
       </div>
-      <h2 className="text-3xl font-light text-white mb-4">Recommendation Error</h2>
-      <p className="text-white/70 text-lg mb-8">{error}</p>
+      <h2 className="recommendations-title">Recommendation Error</h2>
+      <p className="recommendations-description">{error}</p>
       <button 
         onClick={onRetry}
-        className="btn-emerald px-8 py-3 rounded-full text-lg font-medium"
+        className="recommendations-button"
       >
         Try Again
       </button>
@@ -164,73 +161,60 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   
   // Main recommendation display
   return (
-    <div className="app-container">
-      <div className="content-card">
-        {/* Header section */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <div 
-                className="w-12 h-12 rounded-full mr-4 flex items-center justify-center" 
-                style={{
-                  background: `linear-gradient(135deg, ${getLouverColor(recommendation.model)}, ${adjustLouverColor(recommendation.model)})`
-                }}
-              >
-                <Star className="text-white" size={20} />
-              </div>
-              <div>
-                <h2 className="text-2xl font-medium text-white">{recommendation.model}</h2>
-                <p className="text-white/70">{getLouverTypeDescription(recommendation)}</p>
-              </div>
-            </div>
-            <div className="bg-emerald-500/20 px-4 py-1 rounded-full">
-              <span className="text-emerald-400 font-medium">{recommendation.confidenceScore}% Match</span>
+    <div className="recommendations-step">
+      <div className="recommendations-content">
+        {/* Recommendation header */}
+        <div className="recommendations-info">
+          <div>
+            <span className="confidence-badge">
+              {Math.round(recommendation.confidenceScore * 100)}% Match
+            </span>
+            <div className="flex items-center text-yellow-400">
+              {[...Array(5)].map((_, i) => (
+                <Star 
+                  key={i} 
+                  size={16} 
+                  fill={i < Math.round(recommendation.confidence * 5) ? "currentColor" : "none"} 
+                  className="mr-0.5" 
+                />
+              ))}
             </div>
           </div>
+          <h1 className="recommendations-title">{recommendation.model}</h1>
+          <p className="recommendations-description">
+            {getLouverTypeDescription(recommendation)}
+          </p>
         </div>
 
         {/* Description section */}
         <div className="mb-8">
           <p className="text-white/80 mb-4">{getDetailedDescription(recommendation, formData)}</p>
-          
-          {/* Performance metrics */}
-          <div className="bg-white/5 rounded-lg p-4 mb-6">
-            <h3 className="text-xl font-medium text-white mb-3">Performance Metrics</h3>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-white/5 p-3 rounded">
-                <div className="flex items-center mb-1">
-                  <TrendingUp size={16} className="text-emerald-400 mr-2" />
-                  <span className="text-white/80 text-sm">Airflow</span>
-                </div>
-                <div className="text-lg font-medium text-white">{recommendation.airflowRating}/10</div>
-              </div>
-              <div className="bg-white/5 p-3 rounded">
-                <div className="flex items-center mb-1">
-                  <TrendingUp size={16} className="text-emerald-400 mr-2" />
-                  <span className="text-white/80 text-sm">Water Resistance</span>
-                </div>
-                <div className="text-lg font-medium text-white">{recommendation.waterResistanceRating}/10</div>
-              </div>
-              <div className="bg-white/5 p-3 rounded">
-                <div className="flex items-center mb-1">
-                  <TrendingUp size={16} className="text-emerald-400 mr-2" />
-                  <span className="text-white/80 text-sm">Durability</span>
-                </div>
-                <div className="text-lg font-medium text-white">{recommendation.durabilityRating}/10</div>
-              </div>
-              <div className="bg-white/5 p-3 rounded">
-                <div className="flex items-center mb-1">
-                  <TrendingUp size={16} className="text-emerald-400 mr-2" />
-                  <span className="text-white/80 text-sm">Aesthetics</span>
-                </div>
-                <div className="text-lg font-medium text-white">{recommendation.aestheticsRating}/10</div>
+          {/* Specs grid */}
+          <div className="recommendations-specs">
+            <div className="spec-item">
+              <div className="spec-label">Airflow</div>
+              <div className="spec-value flex items-center">
+                <TrendingUp size={18} className="mr-1 text-emerald-400" />
+                {recommendation.airflowRating}/10
               </div>
             </div>
+            <div className="spec-item">
+              <div className="spec-label">Water Resistance</div>
+              <div className="spec-value">{recommendation.waterResistanceRating}/10</div>
+            </div>
+            <div className="spec-item">
+              <div className="spec-label">Durability</div>
+              <div className="spec-value">{recommendation.durabilityRating}/10</div>
+            </div>
+            <div className="spec-item">
+              <div className="spec-label">Aesthetics</div>
+              <div className="spec-value">{recommendation.aestheticsRating}/10</div>
+            </div>
           </div>
-          
-          {/* Match reasons */}
-          <div className="bg-white/5 rounded-lg p-4 mb-6">
-            <h3 className="text-xl font-medium text-white mb-3">Why This Matches Your Needs</h3>
+
+          {/* Detailed description */}
+          <div className="bg-white/5 p-6 rounded-xl mb-8">
+            <h3 className="text-white text-xl font-medium mb-4">Why This Louver</h3>
             <ul className="space-y-2">
               {recommendation.matchReasons.map((reason, index) => (
                 <li key={index} className="flex items-start">
@@ -243,57 +227,37 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
         </div>
 
         {/* Louver visualization */}
-        <div className="relative mb-8">
-          {/* Main louver visualization */}
-          <div 
-            className="w-full h-64 md:h-80 rounded-xl relative overflow-hidden shadow-xl"
-            style={{
-              background: `linear-gradient(135deg, ${getLouverColor(recommendation.model)}, ${adjustLouverColor(recommendation.model)})`
-            }}
-          >
-            {/* Louver blade pattern */}
-            <div className="absolute inset-0 opacity-20">
-              {[...Array(8)].map((_, i) => (
-                <div 
-                  key={i}
-                  className="h-8 bg-white/10"
-                  style={{
-                    transform: `translateY(${i * 40}px) rotate(${recommendation.frontBlade === 'Horizontal' ? 0 : -45}deg)`,
-                    marginTop: i * 8
-                  }}
-                />
-              ))}
-            </div>
-
-            {/* Model badge */}
-            <div className="absolute bottom-4 right-4 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-lg">
-              <div className="text-white font-medium">{recommendation.model}</div>
-              <div className="text-white/70 text-sm">{recommendation.type} Bank</div>
-            </div>
-          </div>
-
-          {/* Alternative options */}
-          {recommendation.alternatives && recommendation.alternatives.length > 0 && (
-            <div className="mt-6">
-              <h3 className="text-white text-lg font-medium mb-3">Alternative Options</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                {recommendation.alternatives.slice(0, 3).map((alternative, index) => (
-                  <div 
-                    key={index} 
-                    className="rounded-lg overflow-hidden cursor-pointer hover:ring-2 hover:ring-emerald-400 transition-all"
-                    style={{
-                      background: `linear-gradient(135deg, ${getLouverColor(alternative.model)}, ${adjustLouverColor(alternative.model)})`
-                    }}
-                  >
-                    <div className="p-3">
-                      <div className="text-white font-medium text-sm">{alternative.model}</div>
-                      <div className="text-white/70 text-xs">{alternative.type} Bank</div>
-                    </div>
-                  </div>
-                ))}
+        <div className="recommendations-visualization">
+          <div className="louver-3d-container">
+            <div 
+              className="louver-3d-panel primary"
+              style={{
+                background: `linear-gradient(135deg, ${getLouverColor(recommendation.model)}, ${adjustLouverColor(recommendation.model)})`
+              }}
+            >
+              {/* Model badge */}
+              <div className="absolute bottom-4 right-4 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-lg">
+                <div className="text-white font-medium">{recommendation.model}</div>
+                <div className="text-white/70 text-sm">{recommendation.type} Bank</div>
               </div>
             </div>
-          )}
+
+            {/* Alternative options */}
+            {recommendation.alternatives && recommendation.alternatives.length > 0 && recommendation.alternatives.slice(0, 2).map((alternative, index) => (
+              <div 
+                key={index} 
+                className={`louver-3d-panel ${index === 0 ? 'secondary' : 'tertiary'}`}
+                style={{
+                  background: `linear-gradient(135deg, ${getLouverColor(alternative.model)}, ${adjustLouverColor(alternative.model)})`
+                }}
+              >
+                <div className="absolute bottom-4 right-4 bg-black/30 backdrop-blur-sm px-3 py-1 rounded-lg">
+                  <div className="text-white font-medium text-sm">{alternative.model}</div>
+                  <div className="text-white/70 text-xs">{alternative.type} Bank</div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Download section */}
@@ -303,7 +267,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
               <h3 className="text-xl font-medium text-white mb-1">Download Specification</h3>
               <p className="text-white/70 text-sm">Get the complete technical details</p>
             </div>
-            <button className="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-400 p-3 rounded-full transition-colors">
+            <button className="recommendations-button">
               <Download size={20} />
             </button>
           </div>
@@ -311,19 +275,23 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
         
         {/* Navigation buttons */}
         <div className="flex justify-between items-center mt-8">
-          <NavigationButton 
+          <button 
             onClick={onPrevStep} 
-            direction="prev" 
-          />
+            className="recommendations-button"
+          >
+            Previous
+          </button>
           <div className="text-center">
             <p className="text-white/50 text-sm">
               Step 5 of 6 • AI Recommendation
             </p>
           </div>
-          <NavigationButton 
+          <button 
             onClick={onNextStep} 
-            direction="next" 
-          />
+            className="recommendations-button"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
