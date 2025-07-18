@@ -5,7 +5,7 @@ import { DEFAULT_FORM_DATA, VALIDATION } from '@/utils/constants';
 export const useFormData = () => {
   const [formData, setFormData] = useState<FormData>(DEFAULT_FORM_DATA);
 
-  const updateFormData = useCallback((field: keyof FormData, value: string) => {
+  const updateFormData = useCallback((field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   }, []);
 
@@ -47,6 +47,18 @@ export const useFormData = () => {
         if (!value) return 'Building height is required';
         return null;
 
+      case 'louverApplication':
+        if (!value) return 'Please select an application';
+        return null;
+
+      case 'airflowRequirement':
+        if (!value) return 'Please select airflow requirement';
+        return null;
+
+      case 'waterTolerance':
+        if (!value) return 'Please select water tolerance';
+        return null;
+
       default:
         return null;
     }
@@ -65,18 +77,25 @@ export const useFormData = () => {
 
       case 1: // Location
         const locationError = validateField('location', formData.location);
-        const environmentError = validateField('environment', formData.environment);
         if (locationError) errors.location = locationError;
-        if (environmentError) errors.environment = environmentError;
         break;
 
       case 2: // Project Context
-        const purposeError = validateField('purpose', formData.purpose);
-        const buildingTypeError = validateField('buildingType', formData.buildingType);
-        const buildingHeightError = validateField('buildingHeight', formData.buildingHeight);
-        if (purposeError) errors.purpose = purposeError;
-        if (buildingTypeError) errors.buildingType = buildingTypeError;
-        if (buildingHeightError) errors.buildingHeight = buildingHeightError;
+        // Check for guided selection fields first
+        if (formData.louverApplication) {
+          // If using guided selection, validate those fields
+          if (!formData.louverApplication) errors.louverApplication = 'Please select an application';
+          if (!formData.airflowRequirement) errors.airflowRequirement = 'Please select airflow requirement';
+          if (!formData.waterTolerance) errors.waterTolerance = 'Please select water tolerance';
+        } else {
+          // Fall back to legacy fields
+          const purposeError = validateField('purpose', formData.purpose);
+          const buildingTypeError = validateField('buildingType', formData.buildingType);
+          const buildingHeightError = validateField('buildingHeight', formData.buildingHeight);
+          if (purposeError) errors.purpose = purposeError;
+          if (buildingTypeError) errors.buildingType = buildingTypeError;
+          if (buildingHeightError) errors.buildingHeight = buildingHeightError;
+        }
         break;
 
       case 3: // Aesthetics
@@ -94,7 +113,7 @@ export const useFormData = () => {
 
   const getCompletionPercentage = useCallback((): number => {
     const requiredFields = [
-      'name', 'email', 'location', 'environment', 
+      'name', 'email', 'location', 
       'purpose', 'buildingType', 'buildingHeight'
     ];
     

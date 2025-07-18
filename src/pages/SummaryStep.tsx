@@ -5,10 +5,9 @@ import { FormData } from '@/types';
 interface SummaryStepProps {
   formData: FormData;
   onReset: () => void;
-  onPrevStep?: () => void;
 }
 
-export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset, onPrevStep }) => {
+export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) => {
   const handleDownloadSummary = () => {
     // This would generate and download a PDF summary
     console.log('Generating PDF summary...', formData);
@@ -35,7 +34,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset, onP
   };
 
   return (
-    <div className="summary-step">
+    <div className="summary-step scrollable-page">
       <div className="summary-completion">
         {/* Success Icon */}
         <div className="success-icon-container">
@@ -132,12 +131,6 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset, onP
 
         {/* Navigation and New Project Buttons */}
         <div className="summary-navigation">
-          <button 
-            onClick={onPrevStep || (() => {})}
-            className="summary-download-btn"
-          >
-            Previous
-          </button>
           <button 
             onClick={handleNewProject}
             className="summary-download-btn"

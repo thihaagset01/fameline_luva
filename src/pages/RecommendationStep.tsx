@@ -161,7 +161,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   
   // Main recommendation display
   return (
-    <div className="recommendations-step">
+    <div className="recommendation-step scrollable-page">
       <div className="recommendations-content">
         {/* Recommendation header */}
         <div className="recommendations-info">

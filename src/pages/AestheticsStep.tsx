@@ -18,7 +18,7 @@ function adjustColor(hex: string, percent: number): string {
 
 export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   return (
-    <div className="aesthetics-step">
+    <div className="app-container fixed-height-page aesthetics-step">
       <h1 className="page-title">Design Aesthetics</h1>
       
       <div className="aesthetics-container">
