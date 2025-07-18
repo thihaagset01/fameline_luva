@@ -1,6 +1,5 @@
 import { FormData, LouverModel, LouverRecommendation, MatchReason } from '@/types';
 import { louverDatabase } from '@/data/louverDatabase';
-import { MATCH_WEIGHTS, GRADE_SCORES, RATING_SCORES } from '@/utils/constants';
 
 class RecommendationEngine {
   private static instance: RecommendationEngine;
@@ -14,13 +13,152 @@ class RecommendationEngine {
     return RecommendationEngine.instance;
   }
 
+  // Detailed scoring matrices from legacy system
+  private static readonly MODEL_APPLICATION_SCORES = {
+    'PL-2250': { 
+      'mission-critical': 95, 
+      'commercial-general': 85, 
+      'industrial-warehouse': 90,
+      'infrastructure': 88,
+      'screening-aesthetic': 70,
+      'specialized-acoustic': 60
+    },
+    'PL-2250V': { 
+      'mission-critical': 90, 
+      'commercial-general': 80, 
+      'industrial-warehouse': 85,
+      'infrastructure': 83,
+      'screening-aesthetic': 75,
+      'specialized-acoustic': 55
+    },
+    'PL-2075': { 
+      'mission-critical': 80, 
+      'commercial-general': 95, 
+      'industrial-warehouse': 75,
+      'infrastructure': 85,
+      'screening-aesthetic': 85,
+      'specialized-acoustic': 65
+    },
+    'PL-1075': { 
+      'mission-critical': 60, 
+      'commercial-general': 80, 
+      'industrial-warehouse': 65,
+      'infrastructure': 70,
+      'screening-aesthetic': 95,
+      'specialized-acoustic': 70
+    },
+    'PL-3075': { 
+      'mission-critical': 85, 
+      'commercial-general': 75, 
+      'industrial-warehouse': 90,
+      'infrastructure': 80,
+      'screening-aesthetic': 60,
+      'specialized-acoustic': 50
+    },
+    'PL-2170': { 
+      'mission-critical': 50, 
+      'commercial-general': 65, 
+      'industrial-warehouse': 85,
+      'infrastructure': 70,
+      'screening-aesthetic': 80,
+      'specialized-acoustic': 45
+    },
+    'PL-2150V': { 
+      'mission-critical': 45, 
+      'commercial-general': 60, 
+      'industrial-warehouse': 80,
+      'infrastructure': 65,
+      'screening-aesthetic': 90,
+      'specialized-acoustic': 40
+    },
+    'AC-150': { 
+      'mission-critical': 70, 
+      'commercial-general': 75, 
+      'industrial-warehouse': 55,
+      'infrastructure': 70,
+      'screening-aesthetic': 60,
+      'specialized-acoustic': 95
+    },
+    'AC-300': { 
+      'mission-critical': 80, 
+      'commercial-general': 85, 
+      'industrial-warehouse': 65,
+      'infrastructure': 80,
+      'screening-aesthetic': 70,
+      'specialized-acoustic': 100
+    },
+    'PL-1050': { 
+      'mission-critical': 55, 
+      'commercial-general': 65, 
+      'industrial-warehouse': 80,
+      'infrastructure': 60,
+      'screening-aesthetic': 70,
+      'specialized-acoustic': 45
+    },
+    'PL-2050': { 
+      'mission-critical': 75, 
+      'commercial-general': 70, 
+      'industrial-warehouse': 85,
+      'infrastructure': 75,
+      'screening-aesthetic': 65,
+      'specialized-acoustic': 50
+    },
+    'PL-3050': { 
+      'mission-critical': 80, 
+      'commercial-general': 70, 
+      'industrial-warehouse': 95,
+      'infrastructure': 75,
+      'screening-aesthetic': 55,
+      'specialized-acoustic': 45
+    }
+  } as const;
+
+  private static readonly AIRFLOW_REQUIREMENT_SCORES = {
+    'PL-2250': { 'basic': 60, 'good': 85, 'maximum': 100 },
+    'PL-2250V': { 'basic': 55, 'good': 80, 'maximum': 95 },
+    'PL-2075': { 'basic': 70, 'good': 90, 'maximum': 85 },
+    'PL-1075': { 'basic': 85, 'good': 75, 'maximum': 60 },
+    'PL-3075': { 'basic': 50, 'good': 75, 'maximum': 95 },
+    'PL-2170': { 'basic': 80, 'good': 70, 'maximum': 50 },
+    'PL-2150V': { 'basic': 90, 'good': 65, 'maximum': 45 },
+    'AC-150': { 'basic': 75, 'good': 80, 'maximum': 70 },
+    'AC-300': { 'basic': 70, 'good': 85, 'maximum': 80 },
+    'PL-1050': { 'basic': 80, 'good': 70, 'maximum': 55 },
+    'PL-2050': { 'basic': 75, 'good': 80, 'maximum': 70 },
+    'PL-3050': { 'basic': 60, 'good': 80, 'maximum': 90 }
+  } as const;
+
+  private static readonly WATER_TOLERANCE_SCORES = {
+    'PL-2250': { 'zero': 100, 'minimal': 95, 'moderate': 85 },
+    'PL-2250V': { 'zero': 95, 'minimal': 90, 'moderate': 80 },
+    'PL-2075': { 'zero': 85, 'minimal': 95, 'moderate': 100 },
+    'PL-1075': { 'zero': 60, 'minimal': 80, 'moderate': 100 },
+    'PL-3075': { 'zero': 75, 'minimal': 85, 'moderate': 95 },
+    'PL-2170': { 'zero': 50, 'minimal': 70, 'moderate': 95 },
+    'PL-2150V': { 'zero': 45, 'minimal': 65, 'moderate': 90 },
+    'AC-150': { 'zero': 70, 'minimal': 85, 'moderate': 95 },
+    'AC-300': { 'zero': 80, 'minimal': 90, 'moderate': 100 },
+    'PL-1050': { 'zero': 55, 'minimal': 75, 'moderate': 90 },
+    'PL-2050': { 'zero': 70, 'minimal': 85, 'moderate': 95 },
+    'PL-3050': { 'zero': 65, 'minimal': 80, 'moderate': 90 }
+  } as const;
+
+  // Category weights (from legacy successful system)
+  private static readonly CATEGORY_WEIGHTS = {
+    application: 0.40,      // Most important - 40 points
+    airflowRequirement: 0.25, // Airflow performance - 25 points  
+    waterTolerance: 0.20,   // Weather protection - 20 points
+    environment: 0.10,      // Environmental factors - 10 points
+    specialFactors: 0.05    // Context-specific adjustments - 5 points
+  } as const;
+
   async getRecommendation(formData: FormData): Promise<LouverRecommendation> {
     const louvers = await louverDatabase.getAllLouvers();
     
-    // Score each louver
+    // Score each louver using enhanced algorithm
     const scoredLouvers = louvers.map(louver => ({
       louver,
-      ...this.scoreLouver(louver, formData)
+      ...this.scoreLouverEnhanced(louver, formData)
     }));
 
     // Sort by total score (descending)
@@ -36,181 +174,180 @@ class RecommendationEngine {
 
     return {
       louver: bestMatch.louver,
-      confidence: Math.min(Math.round(bestMatch.totalScore * 10), 100), // Convert to percentage
+      confidence: Math.min(Math.round(bestMatch.totalScore), 100), // Already normalized 0-100
       matchReasons: bestMatch.reasons,
       alternatives
     };
   }
 
-  private scoreLouver(louver: LouverModel, formData: FormData) {
+  private scoreLouverEnhanced(louver: LouverModel, formData: FormData) {
     const reasons: MatchReason[] = [];
     let totalScore = 0;
 
-    // 1. Environment-based scoring
-    const envScore = this.scoreEnvironment(louver, formData.environment);
+    // 1. Application-based scoring (40% weight)
+    const applicationScore = this.scoreApplication(louver, formData);
+    reasons.push({
+      category: 'Application',
+      score: applicationScore,
+      explanation: this.getApplicationExplanation(louver, formData),
+      weight: RecommendationEngine.CATEGORY_WEIGHTS.application
+    });
+    totalScore += applicationScore * RecommendationEngine.CATEGORY_WEIGHTS.application;
+
+    // 2. Airflow requirement scoring (25% weight)
+    const airflowScore = this.scoreAirflowRequirement(louver, formData);
+    reasons.push({
+      category: 'Airflow Performance',
+      score: airflowScore,
+      explanation: this.getAirflowExplanation(louver, formData),
+      weight: RecommendationEngine.CATEGORY_WEIGHTS.airflowRequirement
+    });
+    totalScore += airflowScore * RecommendationEngine.CATEGORY_WEIGHTS.airflowRequirement;
+
+    // 3. Water tolerance scoring (20% weight)
+    const waterScore = this.scoreWaterTolerance(louver, formData);
+    reasons.push({
+      category: 'Water Protection',
+      score: waterScore,
+      explanation: this.getWaterExplanation(louver, formData),
+      weight: RecommendationEngine.CATEGORY_WEIGHTS.waterTolerance
+    });
+    totalScore += waterScore * RecommendationEngine.CATEGORY_WEIGHTS.waterTolerance;
+
+    // 4. Environment scoring (10% weight)
+    const envScore = this.scoreEnvironment(louver, formData);
     reasons.push({
       category: 'Environment',
       score: envScore,
       explanation: this.getEnvironmentExplanation(louver, formData.environment),
-      weight: MATCH_WEIGHTS.environment
+      weight: RecommendationEngine.CATEGORY_WEIGHTS.environment
     });
-    totalScore += envScore * MATCH_WEIGHTS.environment;
+    totalScore += envScore * RecommendationEngine.CATEGORY_WEIGHTS.environment;
 
-    // 2. Purpose-based scoring
-    const purposeScore = this.scorePurpose(louver, formData.purpose);
-    reasons.push({
-      category: 'Purpose',
-      score: purposeScore,
-      explanation: this.getPurposeExplanation(louver, formData.purpose),
-      weight: MATCH_WEIGHTS.purpose
-    });
-    totalScore += purposeScore * MATCH_WEIGHTS.purpose;
-
-    // 3. Building type scoring
-    const buildingScore = this.scoreBuildingType(louver, formData.buildingType);
-    reasons.push({
-      category: 'Building Type',
-      score: buildingScore,
-      explanation: this.getBuildingExplanation(louver, formData.buildingType),
-      weight: MATCH_WEIGHTS.buildingType
-    });
-    totalScore += buildingScore * MATCH_WEIGHTS.buildingType;
-
-    // 4. Building height scoring
-    const heightScore = this.scoreBuildingHeight(louver, formData.buildingHeight);
-    reasons.push({
-      category: 'Building Height',
-      score: heightScore,
-      explanation: this.getHeightExplanation(louver, formData.buildingHeight),
-      weight: MATCH_WEIGHTS.buildingHeight
-    });
-    totalScore += heightScore * MATCH_WEIGHTS.buildingHeight;
-
-    // 5. Rain defense scoring
-    const rainScore = RATING_SCORES[louver.rainDefenseRating];
-    reasons.push({
-      category: 'Rain Defense',
-      score: rainScore,
-      explanation: `${louver.rainDefenseRating} rain defense rating`,
-      weight: MATCH_WEIGHTS.rainDefense
-    });
-    totalScore += rainScore * MATCH_WEIGHTS.rainDefense;
-
-    // 6. Airflow performance scoring
-    const airflowScore = RATING_SCORES[louver.airflowRating];
-    reasons.push({
-      category: 'Airflow Performance',
-      score: airflowScore,
-      explanation: `${louver.airflowRating} airflow rating with coefficient ${louver.airflowCoefficient}`,
-      weight: MATCH_WEIGHTS.airflow
-    });
-    totalScore += airflowScore * MATCH_WEIGHTS.airflow;
+    // 5. Apply contextual adjustments (5% weight)
+    const contextScore = this.applyContextualAdjustments(louver, formData);
+    if (contextScore !== 0) {
+      reasons.push({
+        category: 'Special Considerations',
+        score: contextScore,
+        explanation: this.getContextualExplanation(louver, formData),
+        weight: RecommendationEngine.CATEGORY_WEIGHTS.specialFactors
+      });
+    }
+    totalScore += contextScore * RecommendationEngine.CATEGORY_WEIGHTS.specialFactors;
 
     return { totalScore, reasons };
   }
 
-  private scoreEnvironment(louver: LouverModel, environment: string): number {
-    // Environment-based logic
-    switch (environment) {
+  private scoreApplication(louver: LouverModel, formData: FormData): number {
+    const application = formData.louverApplication;
+    if (!application) return 50; // Default score
+
+    const scores = RecommendationEngine.MODEL_APPLICATION_SCORES[louver.model as keyof typeof RecommendationEngine.MODEL_APPLICATION_SCORES];
+    return scores?.[application as keyof typeof scores] || 50;
+  }
+
+  private scoreAirflowRequirement(louver: LouverModel, formData: FormData): number {
+    const airflowReq = formData.airflowRequirement;
+    if (!airflowReq) return 50;
+
+    const scores = RecommendationEngine.AIRFLOW_REQUIREMENT_SCORES[louver.model as keyof typeof RecommendationEngine.AIRFLOW_REQUIREMENT_SCORES];
+    return scores?.[airflowReq as keyof typeof scores] || 50;
+  }
+
+  private scoreWaterTolerance(louver: LouverModel, formData: FormData): number {
+    const waterTolerance = formData.waterTolerance;
+    if (!waterTolerance) return 50;
+
+    const scores = RecommendationEngine.WATER_TOLERANCE_SCORES[louver.model as keyof typeof RecommendationEngine.WATER_TOLERANCE_SCORES];
+    return scores?.[waterTolerance as keyof typeof scores] || 50;
+  }
+
+  private scoreEnvironment(louver: LouverModel, formData: FormData): number {
+    // Enhanced environment scoring
+    switch (formData.environment) {
       case 'coastal':
         // Coastal needs excellent rain defense
-        return louver.rainDefenseRating === 'Excellent' ? 4 : 
-               louver.rainDefenseRating === 'Very Good' ? 3 : 2;
+        return louver.rainDefenseRating === 'Excellent' ? 100 : 
+               louver.rainDefenseRating === 'Very Good' ? 75 : 50;
       
       case 'urban':
-        // Urban areas benefit from acoustic properties and good airflow
-        if (louver.model.startsWith('AC-')) return 4; // Acoustic models
-        return louver.airflowRating === 'Excellent' ? 4 : 3;
-      
-      case 'industrial':
-        // Industrial needs robust performance and airflow
-        return louver.airflowClass <= 2 ? 4 : louver.airflowClass === 3 ? 3 : 2;
-      
-      case 'suburban':
-        // Suburban is more balanced, aesthetic considerations
-        return louver.type === 'Double' ? 4 : louver.type === 'Single' ? 3 : 2;
-      
-      default:
-        return 3;
-    }
-  }
-
-  private scorePurpose(louver: LouverModel, purpose: string): number {
-    switch (purpose) {
-      case 'ventilation':
-        // High airflow coefficient and excellent airflow rating preferred
-        if (louver.airflowCoefficient > 0.3 && louver.airflowRating === 'Excellent') return 4;
-        if (louver.airflowCoefficient > 0.2) return 3;
-        return 2;
-      
-      case 'weather-protection':
-        // Excellent rain defense is critical
-        return louver.rainDefenseRating === 'Excellent' ? 4 : 
-               louver.rainDefenseRating === 'Very Good' ? 3 : 2;
-      
-      case 'acoustic':
-        // Acoustic models (AC-series) are best, others get lower scores
-        if (louver.model.startsWith('AC-')) return 4;
-        return louver.type === 'Triple' ? 3 : louver.type === 'Double' ? 2 : 1;
-      
-      case 'aesthetic':
-        // Architectural line series with hidden mullions preferred
-        if (louver.model.includes('2250')) return 4; // High-performance models
-        return louver.type === 'Double' ? 3 : 2;
-      
-      default:
-        return 3;
-    }
-  }
-
-  private scoreBuildingType(louver: LouverModel, buildingType: string): number {
-    switch (buildingType) {
-      case 'healthcare':
-        // Healthcare needs acoustic control and excellent air quality
-        if (louver.model.startsWith('AC-')) return 4;
-        return louver.airflowRating === 'Excellent' ? 3 : 2;
-      
-      case 'education':
-        // Schools need acoustic control
-        if (louver.model.startsWith('AC-')) return 4;
-        return 3;
+        // Urban areas benefit from acoustic properties
+        if (louver.model.startsWith('AC-')) return 100;
+        return louver.airflowRating === 'Excellent' ? 85 : 70;
       
       case 'industrial':
         // Industrial needs robust airflow
-        return louver.airflowClass <= 2 ? 4 : 3;
+        return louver.airflowClass <= 2 ? 100 : louver.airflowClass === 3 ? 75 : 50;
       
-      case 'commercial':
-        // Commercial benefits from aesthetic and performance balance
-        if (louver.model.includes('2250')) return 4;
-        return louver.type === 'Double' ? 3 : 2;
-      
-      case 'residential':
-        // Residential prefers aesthetic and moderate performance
-        return louver.type === 'Single' ? 3 : louver.type === 'Double' ? 4 : 2;
+      case 'suburban':
+        // Suburban is balanced
+        return louver.type === 'Double' ? 90 : louver.type === 'Single' ? 75 : 60;
       
       default:
-        return 3;
+        return 70;
     }
   }
 
-  private scoreBuildingHeight(louver: LouverModel, height: string): number {
-    switch (height) {
-      case 'high-rise':
-        // High-rise needs excellent rain defense due to wind pressure
-        return louver.rainDefenseRating === 'Excellent' ? 4 : 2;
-      
-      case 'mid-rise':
-        // Mid-rise needs good balance
-        return louver.rainDefenseRating === 'Excellent' ? 4 : 
-               louver.rainDefenseRating === 'Very Good' ? 3 : 2;
-      
-      case 'low-rise':
-        // Low-rise can be more flexible
-        return 3;
-      
-      default:
-        return 3;
+  private applyContextualAdjustments(louver: LouverModel, formData: FormData): number {
+    let adjustment = 0;
+
+    // Data center specific logic (from legacy)
+    if (this.isDataCenter(formData)) {
+      if (louver.model.startsWith('PL-2250')) {
+        adjustment += 20; // Boost for cooling efficiency
+      }
+      if (louver.model.startsWith('AC-')) {
+        adjustment -= 10; // Reduce acoustic importance for data centers
+      }
     }
+
+    // Coastal conditions boost
+    if (formData.environment === 'coastal') {
+      if (louver.rainDefenseRating === 'Excellent') {
+        adjustment += 15;
+      }
+    }
+
+    // Mission critical applications
+    if (formData.louverApplication === 'mission-critical') {
+      if (louver.model === 'PL-2250' || louver.model === 'AC-300') {
+        adjustment += 10;
+      }
+    }
+
+    return Math.min(Math.max(adjustment, -20), 20); // Cap adjustments
+  }
+
+  private isDataCenter(formData: FormData): boolean {
+    return formData.louverApplication === 'mission-critical' && 
+           formData.airflowRequirement === 'maximum';
+  }
+
+  // Enhanced explanation methods
+  private getApplicationExplanation(louver: LouverModel, formData: FormData): string {
+    const app = formData.louverApplication;
+    const score = this.scoreApplication(louver, formData);
+    
+    if (score >= 90) {
+      return `${louver.model} is excellently suited for ${app} applications`;
+    } else if (score >= 75) {
+      return `${louver.model} performs very well in ${app} environments`;
+    } else if (score >= 60) {
+      return `${louver.model} is adequate for ${app} applications`;
+    } else {
+      return `${louver.model} has limited suitability for ${app} applications`;
+    }
+  }
+
+  private getAirflowExplanation(louver: LouverModel, formData: FormData): string {
+    const airflowReq = formData.airflowRequirement;
+    return `Airflow coefficient of ${louver.airflowCoefficient} provides ${airflowReq} airflow performance`;
+  }
+
+  private getWaterExplanation(louver: LouverModel, formData: FormData): string {
+    const waterTolerance = formData.waterTolerance;
+    return `${louver.rainDefenseRating} rain defense rating meets ${waterTolerance} water tolerance requirements`;
   }
 
   private getEnvironmentExplanation(louver: LouverModel, environment: string): string {
@@ -223,34 +360,18 @@ class RecommendationEngine {
     return explanations[environment as keyof typeof explanations] || 'Suitable for general environment';
   }
 
-  private getPurposeExplanation(louver: LouverModel, purpose: string): string {
-    const explanations = {
-      ventilation: `Airflow coefficient of ${louver.airflowCoefficient} provides ${louver.airflowRating.toLowerCase()} ventilation`,
-      'weather-protection': `${louver.rainDefenseRating} rain defense rating ensures superior weather protection`,
-      acoustic: louver.model.startsWith('AC-') ? 'Dedicated acoustic louver for noise control' : `${louver.type} bank design provides moderate acoustic benefits`,
-      aesthetic: `${louver.type} bank ${louver.frontBlade.toLowerCase()} blade design for architectural integration`
-    };
-    return explanations[purpose as keyof typeof explanations] || 'Balanced performance for general purpose';
-  }
-
-  private getBuildingExplanation(louver: LouverModel, buildingType: string): string {
-    const explanations = {
-      healthcare: louver.model.startsWith('AC-') ? 'Acoustic control for patient comfort' : `${louver.airflowRating} airflow for healthy indoor environment`,
-      education: louver.model.startsWith('AC-') ? 'Acoustic louver for learning environment' : 'Suitable for educational facility ventilation',
-      industrial: `Class ${louver.airflowClass} airflow meets industrial ventilation standards`,
-      commercial: `Professional appearance with ${louver.airflowRating.toLowerCase()} performance for commercial spaces`,
-      residential: `${louver.type} bank design appropriate for residential scale and aesthetics`
-    };
-    return explanations[buildingType as keyof typeof explanations] || 'Suitable for building type';
-  }
-
-  private getHeightExplanation(louver: LouverModel, height: string): string {
-    const explanations = {
-      'high-rise': `${louver.rainDefenseRating} rain defense handles high-altitude wind pressures`,
-      'mid-rise': `Balanced performance suitable for ${height} building exposure`,
-      'low-rise': `Appropriate performance level for ${height} building requirements`
-    };
-    return explanations[height as keyof typeof explanations] || 'Suitable for building height';
+  private getContextualExplanation(louver: LouverModel, formData: FormData): string {
+    const explanations = [];
+    
+    if (this.isDataCenter(formData)) {
+      explanations.push('Optimized for data center cooling requirements');
+    }
+    
+    if (formData.environment === 'coastal' && louver.rainDefenseRating === 'Excellent') {
+      explanations.push('Enhanced weather protection for coastal exposure');
+    }
+    
+    return explanations.join('; ') || 'Standard application considerations';
   }
 }
 
