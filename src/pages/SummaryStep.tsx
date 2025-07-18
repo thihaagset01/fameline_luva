@@ -1,6 +1,7 @@
 import React from 'react';
 import { Download, Share2, RotateCcw, CheckCircle } from 'lucide-react';
-import { FormData } from '@/types';
+import { FormData, WeatherData } from '@/types';
+import { WeatherSummary } from '@/components/WeatherSummary';
 
 interface SummaryStepProps {
   formData: FormData;
@@ -8,21 +9,25 @@ interface SummaryStepProps {
 }
 
 export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) => {
+  // Parse weather data if available
+  const weatherData: WeatherData | null = formData.weatherData 
+    ? JSON.parse(formData.weatherData) 
+    : null;
+
   const handleDownloadSummary = () => {
-    // This would generate and download a PDF summary
-    console.log('Generating PDF summary...', formData);
+    // Generate PDF with weather data included
+    console.log('Generating PDF summary with weather data...', formData);
     alert('PDF download would start here. Feature coming soon!');
   };
 
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'LouverBoy Recommendation',
-        text: 'Check out my louver specification from LouverBoy AI',
+        title: 'Fameline Luva Recommendation',
+        text: 'Check out my louver specification from Fameline Luva AI',
         url: window.location.href
       });
     } else {
-      // Fallback for browsers without Web Share API
       navigator.clipboard.writeText(window.location.href);
       alert('Link copied to clipboard!');
     }
@@ -31,6 +36,21 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
   const handleNewProject = () => {
     onReset();
     window.location.reload();
+  };
+
+  // Get application name for display
+  const getApplicationName = () => {
+    const appMap = {
+      'mission-critical': 'Mission Critical',
+      'commercial-general': 'Commercial General',
+      'industrial-warehouse': 'Industrial & Warehouse',
+      'infrastructure': 'Infrastructure',
+      'screening-aesthetic': 'Screening & Aesthetic',
+      'specialized-acoustic': 'Specialized Acoustic'
+    };
+    return formData.louverApplication 
+      ? appMap[formData.louverApplication as keyof typeof appMap]
+      : formData.purpose?.replace('-', ' ');
   };
 
   return (
@@ -65,17 +85,26 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
               <div className="summary-subvalue capitalize">{formData.environment} environment</div>
             </div>
             <div className="summary-grid-item">
-              <span className="summary-label">Building:</span>
-              <div className="summary-value capitalize">{formData.buildingType}</div>
-              <div className="summary-subvalue capitalize">{formData.buildingHeight}</div>
+              <span className="summary-label">Application:</span>
+              <div className="summary-value">{getApplicationName()}</div>
+              {formData.airflowRequirement && (
+                <div className="summary-subvalue capitalize">
+                  {formData.airflowRequirement} airflow • {formData.waterTolerance} water tolerance
+                </div>
+              )}
             </div>
             <div className="summary-grid-item">
-              <span className="summary-label">Purpose:</span>
-              <div className="summary-value capitalize">{formData.purpose.replace('-', ' ')}</div>
-              <div className="summary-subvalue">AI-matched solution</div>
+              <span className="summary-label">Solution:</span>
+              <div className="summary-value">AI-matched recommendation</div>
+              <div className="summary-subvalue">Based on performance analysis</div>
             </div>
           </div>
         </div>
+
+        {/* Weather Summary - if available */}
+        {weatherData && (
+          <WeatherSummary weatherData={weatherData} />
+        )}
 
         {/* Action Buttons */}
         <p className="summary-prompt">In the meantime, you can:</p>
@@ -106,8 +135,11 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
             <div className="summary-step-item">
               <div className="summary-step-number">1</div>
               <div className="summary-step-content">
-                <h4 className="summary-step-title">Technical Review</h4>
-                <p className="summary-step-description">Our engineers review your requirements and AI recommendation for accuracy and compliance.</p>
+                <h4 className="summary-step-title">AI Analysis Review</h4>
+                <p className="summary-step-description">
+                  Our engineers review your AI recommendation for accuracy and compliance with local standards.
+                  {weatherData && ' Weather data is integrated into the final analysis.'}
+                </p>
               </div>
             </div>
             
@@ -115,7 +147,9 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
               <div className="summary-step-number">2</div>
               <div className="summary-step-content">
                 <h4 className="summary-step-title">Detailed Consultation</h4>
-                <p className="summary-step-description">We'll contact you to discuss specific requirements, sizing, and any customizations needed.</p>
+                <p className="summary-step-description">
+                  We'll contact you to discuss specific requirements, sizing, customizations, and installation details.
+                </p>
               </div>
             </div>
             
@@ -123,7 +157,9 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
               <div className="summary-step-number">3</div>
               <div className="summary-step-content">
                 <h4 className="summary-step-title">Final Specifications</h4>
-                <p className="summary-step-description">Receive comprehensive technical drawings, performance data, and installation guidelines.</p>
+                <p className="summary-step-description">
+                  Receive comprehensive technical drawings, performance data, compliance certificates, and installation guidelines.
+                </p>
               </div>
             </div>
           </div>
@@ -149,6 +185,11 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
           <p className="summary-footer-locations">
             Singapore • Malaysia • Thailand • Indonesia • Vietnam • Philippines • Cambodia • India
           </p>
+          {weatherData && (
+            <p className="summary-footer-weather">
+              Climate data provided by Google Earth Engine • Historical analysis: {weatherData.period}
+            </p>
+          )}
         </div>
       </div>
     </div>
