@@ -4,7 +4,7 @@ import { TextInput } from '@/components/inputs';
 
 export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   return (
-    <div className="app-container">
+    <div className="app-container fixed-height-page">
       <div className="content-card">
         <div className="form-side">
           {/* Welcome Message */}

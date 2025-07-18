@@ -1,14 +1,306 @@
 import * as React from 'react';
+import { useState, useEffect, useCallback, memo } from 'react';
 import { StepProps } from '@/types';
-import {
-  PURPOSE_OPTIONS,
-  BUILDING_TYPE_OPTIONS,
-  BUILDING_HEIGHT_OPTIONS
-} from '@/utils/constants';
+
+// Define the new fields we want to add to FormData
+declare module '@/types' {
+  interface FormData {
+    louverApplication?: string;
+    airflowRequirement?: string;
+    waterTolerance?: string;
+  }
+}
+
+// Application Context Data (Step 1)
+const louverApplications = [
+  {
+    id: 'mission-critical',
+    name: 'Mission Critical',
+    description: 'Data centers, hospitals, critical infrastructure',
+    icon: '🏥',
+    examples: ['Data centers', 'Server rooms', 'Medical facilities', 'Clean rooms'],
+    colorClass: 'application-card-critical'
+  },
+  {
+    id: 'commercial-general',
+    name: 'Commercial General', 
+    description: 'Office buildings, retail, standard commercial',
+    icon: '🏢',
+    examples: ['Office buildings', 'Retail spaces', 'Shopping centers', 'Hotels'],
+    colorClass: 'application-card-commercial'
+  },
+  {
+    id: 'industrial-warehouse',
+    name: 'Industrial & Warehouse',
+    description: 'Manufacturing, storage, industrial facilities', 
+    icon: '🏭',
+    examples: ['Manufacturing plants', 'Warehouses', 'Distribution centers', 'Factories'],
+    colorClass: 'application-card-industrial'
+  },
+  {
+    id: 'infrastructure',
+    name: 'Infrastructure',
+    description: 'Transportation, utilities, public facilities',
+    icon: '🚇',
+    examples: ['MRT stations', 'Airports', 'Utility buildings', 'Public facilities'],
+    colorClass: 'application-card-infrastructure'
+  },
+  {
+    id: 'screening-aesthetic',
+    name: 'Screening & Aesthetic',
+    description: 'Equipment screening, architectural features',
+    icon: '🎨',
+    examples: ['Equipment screening', 'Architectural features', 'Facade elements', 'Privacy screens'],
+    colorClass: 'application-card-aesthetic'
+  },
+  {
+    id: 'specialized-acoustic',
+    name: 'Specialized Acoustic',
+    description: 'Sound-sensitive environments requiring noise control',
+    icon: '🔇',
+    examples: ['Recording studios', 'Libraries', 'Residential areas', 'Schools'],
+    colorClass: 'application-card-acoustic'
+  }
+];
+
+// Airflow Options (Step 2)
+const airflowOptions = [
+  {
+    id: 'basic',
+    name: 'Basic Airflow',
+    description: 'Minimal ventilation needs',
+    technicalNote: 'Lower airflow coefficient, cost-effective solution',
+    icon: '💨',
+    performance: 'Low'
+  },
+  {
+    id: 'good', 
+    name: 'Good Airflow',
+    description: 'Standard ventilation requirements',
+    technicalNote: 'Balanced airflow performance for most applications',
+    icon: '🌬️',
+    performance: 'Medium'
+  },
+  {
+    id: 'maximum',
+    name: 'Maximum Airflow',
+    description: 'High ventilation/cooling needs',
+    technicalNote: 'High airflow coefficient, premium performance',
+    icon: '🌪️',
+    performance: 'High'
+  }
+];
+
+// Water Tolerance Options (Step 3)
+const waterToleranceOptions = [
+  {
+    id: 'zero',
+    name: 'Zero Tolerance',
+    description: 'Mission critical equipment protection',
+    technicalNote: 'Class A rain defense, maximum water resistance',
+    icon: '🛡️',
+    protection: 'Maximum'
+  },
+  {
+    id: 'minimal',
+    name: 'Minimal Water',
+    description: 'Light spray/mist acceptable',
+    technicalNote: 'Class B rain defense, good water resistance',
+    icon: '☔',
+    protection: 'Good'
+  },
+  {
+    id: 'moderate',
+    name: 'Moderate Protection',
+    description: 'Light rain acceptable',
+    technicalNote: 'Class C/D rain defense, standard protection',
+    icon: '🌧️',
+    protection: 'Standard'
+  }
+];
+
+// Smart Default Logic
+const getIntelligentDefaults = (applicationId: string) => {
+  const defaultMap: Record<string, { airflow: string; water: string; reasoning: string }> = {
+    'mission-critical': {
+      airflow: 'maximum',
+      water: 'zero',
+      reasoning: 'Critical equipment requires maximum airflow for cooling and zero water penetration for protection'
+    },
+    'commercial-general': {
+      airflow: 'good', 
+      water: 'minimal',
+      reasoning: 'Commercial spaces need balanced performance with good protection against weather'
+    },
+    'industrial-warehouse': {
+      airflow: 'good',
+      water: 'moderate', 
+      reasoning: 'Industrial environments can handle moderate water exposure while maintaining good airflow'
+    },
+    'infrastructure': {
+      airflow: 'good',
+      water: 'minimal',
+      reasoning: 'Public infrastructure requires reliable performance with good weather protection'
+    },
+    'screening-aesthetic': {
+      airflow: 'basic',
+      water: 'moderate',
+      reasoning: 'Aesthetic applications prioritize visual appeal with basic functional requirements'
+    },
+    'specialized-acoustic': {
+      airflow: 'good',
+      water: 'minimal',
+      reasoning: 'Acoustic environments need balanced airflow while minimizing water ingress that could affect acoustics'
+    }
+  };
+  
+  return defaultMap[applicationId] || {
+    airflow: 'good',
+    water: 'minimal', 
+    reasoning: 'Standard balanced recommendation for general applications'
+  };
+};
+
+// Memoized Option Card Components for performance optimization
+const ApplicationCard = memo(({ 
+  app, 
+  selected, 
+  onClick 
+}: { 
+  app: typeof louverApplications[0]; 
+  selected: boolean; 
+  onClick: () => void;
+}) => (
+  <div
+    className={`application-card ${app.colorClass} ${selected ? 'selected' : ''}`}
+    onClick={onClick}
+    tabIndex={0}
+    role="button"
+    aria-pressed={selected}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onClick();
+      }
+    }}
+  >
+    <span className="application-icon" aria-hidden="true">{app.icon}</span>
+    <h4 className="application-name">{app.name}</h4>
+    <p className="application-description">{app.description}</p>
+    <p className="application-examples">
+      Examples: {app.examples.join(', ')}
+    </p>
+  </div>
+));
+
+const SelectionOptionCard = memo(({ 
+  option, 
+  selected, 
+  recommended,
+  onClick 
+}: { 
+  option: any; 
+  selected: boolean; 
+  recommended: boolean;
+  onClick: () => void;
+}) => (
+  <div
+    className={`selection-option-card ${selected ? 'selected' : ''} ${recommended ? 'recommended' : ''}`}
+    onClick={onClick}
+    tabIndex={0}
+    role="button"
+    aria-pressed={selected}
+    onKeyDown={(e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        onClick();
+      }
+    }}
+  >
+    {recommended && <span className="recommendation-badge" aria-label="Recommended">Recommended</span>}
+    <span className="application-icon" aria-hidden="true">{option.icon}</span>
+    <h4 className="application-name">{option.name}</h4>
+    <p className="application-description">{option.description}</p>
+    <p className="technical-note">{option.technicalNote}</p>
+  </div>
+));
 
 export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
+  const [currentSubStep, setCurrentSubStep] = useState<1 | 2 | 3>(1);
+  const [showRecommendation, setShowRecommendation] = useState(false);
+  const [recommendationReasoning, setRecommendationReasoning] = useState('');
+
+  // Auto-advance to next sub-step when selection is made
+  useEffect(() => {
+    if (formData.louverApplication && currentSubStep === 1) {
+      setTimeout(() => setCurrentSubStep(2), 300);
+    }
+    if (formData.airflowRequirement && currentSubStep === 2) {
+      setTimeout(() => setCurrentSubStep(3), 300);
+    }
+  }, [formData.louverApplication, formData.airflowRequirement, currentSubStep]);
+
+  // Event Handlers with useCallback for performance
+  const handleApplicationSelect = useCallback((applicationId: string) => {
+    const defaults = getIntelligentDefaults(applicationId);
+    
+    // Update application selection
+    updateFormData('louverApplication', applicationId);
+    
+    // Set intelligent defaults
+    updateFormData('airflowRequirement', defaults.airflow);
+    updateFormData('waterTolerance', defaults.water);
+    
+    // Show reasoning
+    setRecommendationReasoning(defaults.reasoning);
+    setShowRecommendation(true);
+
+    // For backward compatibility
+    const purposeMap: Record<string, string> = {
+      'mission-critical': 'ventilation',
+      'commercial-general': 'weather-protection',
+      'industrial-warehouse': 'ventilation',
+      'infrastructure': 'weather-protection',
+      'screening-aesthetic': 'aesthetic',
+      'specialized-acoustic': 'acoustic'
+    };
+    
+    const buildingTypeMap: Record<string, string> = {
+      'mission-critical': 'healthcare',
+      'commercial-general': 'commercial',
+      'industrial-warehouse': 'industrial',
+      'infrastructure': 'commercial',
+      'screening-aesthetic': 'commercial',
+      'specialized-acoustic': 'education'
+    };
+    
+    // Update legacy fields for backward compatibility
+    updateFormData('purpose', purposeMap[applicationId] || 'ventilation');
+    updateFormData('buildingType', buildingTypeMap[applicationId] || 'commercial');
+  }, [updateFormData]);
+
+  const handleAirflowChange = useCallback((airflowId: string) => {
+    updateFormData('airflowRequirement', airflowId);
+  }, [updateFormData]);
+
+  const handleWaterToleranceChange = useCallback((waterToleranceId: string) => {
+    updateFormData('waterTolerance', waterToleranceId);
+  }, [updateFormData]);
+
+  // Get recommended options based on application selection
+  const getRecommendedOptions = () => {
+    if (!formData.louverApplication) return { airflow: null, water: null };
+    const defaults = getIntelligentDefaults(formData.louverApplication);
+    return {
+      airflow: defaults.airflow,
+      water: defaults.water
+    };
+  };
+
+  const recommendedOptions = getRecommendedOptions();
+
   return (
-    <div className="app-container">
+    <div className="app-container scrollable-page">
       <div className="content-card">
         <div className="form-side">
           {/* Welcome Message */}
@@ -17,112 +309,67 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
               Project <span className="welcome-name">Context</span>
             </h1>
             <p className="welcome-subtitle">
-              Tell us about the purpose and type of your building project.
+              Tell us about your louver application requirements.
             </p>
           </div>
           
-          {/* Form Container */}
-          <div className="form-container">
-            <div className="input-group">
-              <label className="input-label">What is the purpose?</label>
-              <div className="input-wrapper">
-                <select
-                  className="input-field"
-                  value={formData.purpose || ''}
-                  onChange={(e) => updateFormData('purpose', e.target.value)}
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: 'right 1rem center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: '16px',
-                    paddingRight: '3rem',
-                    appearance: 'none'
-                  }}
-                >
-                  <option value="">Choose purpose</option>
-                  {PURPOSE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="input-indicator">
-                  {formData.purpose && (
-                    <div className="input-active-dot"></div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="input-group">
-              <label className="input-label">What is the building type?</label>
-              <div className="input-wrapper">
-                <select
-                  className="input-field"
-                  value={formData.buildingType || ''}
-                  onChange={(e) => updateFormData('buildingType', e.target.value)}
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: 'right 1rem center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: '16px',
-                    paddingRight: '3rem',
-                    appearance: 'none'
-                  }}
-                >
-                  <option value="">Choose building type</option>
-                  {BUILDING_TYPE_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="input-indicator">
-                  {formData.buildingType && (
-                    <div className="input-active-dot"></div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            <div className="input-group">
-              <label className="input-label">What is the building height?</label>
-              <div className="input-wrapper">
-                <select
-                  className="input-field"
-                  value={formData.buildingHeight || ''}
-                  onChange={(e) => updateFormData('buildingHeight', e.target.value)}
-                  style={{
-                    backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e")`,
-                    backgroundPosition: 'right 1rem center',
-                    backgroundRepeat: 'no-repeat',
-                    backgroundSize: '16px',
-                    paddingRight: '3rem',
-                    appearance: 'none'
-                  }}
-                >
-                  <option value="">Choose building height</option>
-                  {BUILDING_HEIGHT_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
-                <div className="input-indicator">
-                  {formData.buildingHeight && (
-                    <div className="input-active-dot"></div>
-                  )}
-                </div>
-              </div>
+          {/* Step 1: Application Selection */}
+          <div className={`substep-container ${currentSubStep >= 1 ? 'substep-fade-in' : ''}`}>
+            <h3 className="input-label">What is your louver application?</h3>
+            <div className="application-grid">
+              {louverApplications.map((app) => (
+                <ApplicationCard
+                  key={app.id}
+                  app={app}
+                  selected={formData.louverApplication === app.id}
+                  onClick={() => handleApplicationSelect(app.id)}
+                />
+              ))}
             </div>
           </div>
 
-          {/* Progress Hint */}
-          <div className="progress-hint">
-            <p className="text-white/50 text-sm">
-              Step 3 of 6 • Project Context
-            </p>
-          </div>
+          {/* Step 2: Airflow Requirements */}
+          {formData.louverApplication && (
+            <div className={`substep-container ${currentSubStep >= 2 ? 'substep-fade-in' : ''}`}>
+              <h3 className="input-label">Select airflow requirements:</h3>
+              <div className="selection-option-row">
+                {airflowOptions.map((option) => (
+                  <SelectionOptionCard
+                    key={option.id}
+                    option={option}
+                    selected={formData.airflowRequirement === option.id}
+                    recommended={recommendedOptions.airflow === option.id}
+                    onClick={() => handleAirflowChange(option.id)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Step 3: Water Tolerance */}
+          {formData.airflowRequirement && (
+            <div className={`substep-container ${currentSubStep >= 3 ? 'substep-fade-in' : ''}`}>
+              <h3 className="input-label">Select water tolerance level:</h3>
+              <div className="selection-option-row">
+                {waterToleranceOptions.map((option) => (
+                  <SelectionOptionCard
+                    key={option.id}
+                    option={option}
+                    selected={formData.waterTolerance === option.id}
+                    recommended={recommendedOptions.water === option.id}
+                    onClick={() => handleWaterToleranceChange(option.id)}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Show recommendation reasoning if available */}
+          {showRecommendation && (
+            <div className="recommendation-reasoning">
+              <p><strong>Why we recommend these options:</strong> {recommendationReasoning}</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

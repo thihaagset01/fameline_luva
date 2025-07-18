@@ -22,10 +22,101 @@
 }
 
 /* Global styles */
-body {
+html, body {
   font-family: 'Inter', sans-serif;
   color: white;
-  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+html.has-scrollable-page,
+body.has-scrollable-page {
+  overflow: initial;
+}
+
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root.has-scrollable-page {
+  overflow: initial;
+  height: auto;
+  min-height: 100%;
+}
+
+/* App container */
+.app-container {
+  width: 100%;
+  position: relative;
+  padding: 1rem 2rem;
+  padding-top: 5rem;
+  box-sizing: border-box;
+}
+
+/* Gradient background - defined in @layer components */
+
+/* Page height control */
+.fixed-height-page {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.scrollable-page {
+  min-height: 100vh;
+  overflow-y: auto !important;
+  max-height: none !important;
+}
+
+/* Guided navigation buttons */
+.guided-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+/* Progress hint */
+.progress-hint {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.guided-nav-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.prev-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.prev-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.next-button {
+  background-color: #10b981;
+  color: white;
+}
+
+.next-button:hover {
+  background-color: #059669;
 }
 
 /* Animation keyframes */
@@ -54,7 +145,6 @@ body {
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden;
     background-color: #0f172a;
     color: #f8fafc;
     font-family: 'Poppins', 'Inter', sans-serif;
@@ -82,6 +172,14 @@ body {
     background-size: 300% 300%;
     animation: subtleShimmer 20s ease-in-out infinite;
     position: relative;
+    overflow: hidden;
+    z-index: 0;
+  }
+  
+  @keyframes subtleShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
   
   .gradient-bg::after {
@@ -119,7 +217,7 @@ body {
     overflow-y: auto;
     padding: 0;
     margin: 0 auto;
-    padding-bottom: 28rem; /* Add padding to account for navigation buttons */
+    padding-bottom: 6rem; /* Reduced padding for better space utilization */
   }
   
   /* Content card */
@@ -127,12 +225,10 @@ body {
     display: flex;
     width: 100%;
     max-width: 1200px;
-    height: 100%;
-    min-height: 500px;
     margin: 0 auto;
-    padding: 2rem;
-    justify-content: center;
-    margin-top: -3rem; /* Move content higher on screen */
+    height: 100%;
+    gap: 2rem;
+    padding: 1rem;
   }
   
   /* Form side */
@@ -141,7 +237,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-right: 1.5rem; /* Reduced padding to bring closer to orb */
+    padding: 2rem 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 1rem;
   }
   
   /* Orb side */
@@ -155,17 +254,25 @@ body {
   .form-container {
     display: flex;
     flex-direction: column;
-    gap: 1.75rem;
-    margin-top: 2.5rem;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
     width: 100%;
-    max-width: 32rem;
+    max-width: 36rem;
     margin-left: auto;
     margin-right: auto;
+    max-height: 75vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #10b981 rgba(255, 255, 255, 0.1);
+    font-family: 'Poppins', 'Inter', sans-serif;
+    padding: 2rem;
   }
   
   /* Welcome message */
   .welcome-message {
     margin-bottom: 3rem;
+    text-align: center;
+    padding: 0 1rem;
   }
   
   .welcome-title {
@@ -559,6 +666,18 @@ body {
   .toggle-button.inactive:hover {
     background-color: rgba(255, 255, 255, 0.3); /* hover:bg-white/30 */
   }
+}
+
+.welcome-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.5px;
 }
 
 /* Custom utilities */
@@ -1342,6 +1461,239 @@ body {
   font-family: 'Poppins', sans-serif;
 }
 
+/* ===== GUIDED SELECTION COMPONENT STYLES ===== */
+
+/* Guided selection styles moved to form-container */
+
+/* WebKit scrollbar styling */
+.form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background-color: #10b981;
+  border-radius: 4px;
+}
+
+.guided-step-header {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+/* Application Grid Layout */
+.application-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Application Cards */
+.application-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  color: white;
+}
+
+.application-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.application-card.selected {
+  background: rgba(16, 185, 129, 0.2);
+  border: 2px solid #10b981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Application Card Color Variants */
+.application-card-critical {
+  border-left: 4px solid #ef4444;
+}
+
+.application-card-commercial {
+  border-left: 4px solid #3b82f6;
+}
+
+.application-card-industrial {
+  border-left: 4px solid #6b7280;
+}
+
+.application-card-infrastructure {
+  border-left: 4px solid #10b981;
+}
+
+.application-card-aesthetic {
+  border-left: 4px solid #8b5cf6;
+}
+
+.application-card-acoustic {
+  border-left: 4px solid #4f46e5;
+}
+
+.application-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  text-align: center;
+}
+
+.application-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.application-description {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.application-examples {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* Selection Options Row */
+.selection-option-row {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.selection-option-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  color: white;
+  min-width: 180px;
+  position: relative;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.selection-option-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.selection-option-card.recommended {
+  border: 2px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.selection-option-card.selected {
+  background: rgba(16, 185, 129, 0.2);
+  border: 2px solid #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.recommendation-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #f59e0b;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+}
+
+/* Substep Animation */
+.substep-container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease-out;
+}
+
+.substep-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reasoning-text {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  color: white;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.technical-note {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Focus States for Accessibility */
+.application-card:focus,
+.selection-option-card:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .application-card,
+  .selection-option-card {
+    border: 2px solid white;
+  }
+  
+  .application-card.selected,
+  .selection-option-card.selected {
+    background: #10b981;
+    color: black;
+  }
+}
+
+/* Animation for smooth transitions */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.substep-container.animate {
+  animation: slideInUp 0.5s ease-out;
+}
+
 /* Responsive adjustments for all pages */
 @media (max-width: 768px) {
   .project-context-grid {
@@ -1473,18 +1825,18 @@ body {
 /* Progress dots for header - ensure they work with existing system */
 .progress-dots {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   align-items: center;
-  position: fixed;
-  top: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1000;
+  position: fixed !important;
+  top: 4rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  z-index: 1000 !important;
 }
 
 .progress-dots .progress-dot {
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.1);
@@ -1495,12 +1847,24 @@ body {
   font-weight: 600;
   font-size: 0.875rem;
   transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
 }
 
 .progress-dots .progress-dot.completed {
   background: #10b981;
   border-color: #10b981;
   color: white;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  transform: scale(1.05);
+}
+
+.progress-dots .progress-dot.clickable {
+  cursor: pointer;
+}
+
+.progress-dots .progress-dot.clickable:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
 }
 
 .progress-dots .progress-dot.completed::after {
@@ -1512,6 +1876,14 @@ body {
   background: rgba(255, 255, 255, 0.2);
   border-color: white;
   color: white;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
 }
 
 /* Back button for header */
