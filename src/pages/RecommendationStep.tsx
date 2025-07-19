@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Star, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Download, Star } from 'lucide-react';
 import { FormData } from '@/types';
 import { recommendationEngine } from '@/engine/recommendationEngine';
 
@@ -35,8 +35,6 @@ interface EnhancedLouverRecommendation {
 // Props interface for the RecommendationStep component
 interface RecommendationStepProps {
   formData: FormData;
-  onPrevStep: () => void;
-  onNextStep: () => void;
 }
 
 // Helper functions
@@ -105,7 +103,7 @@ const ErrorState: React.FC<{ error: string; onRetry: () => void }> = ({ error, o
 );
 
 // Main component
-export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData, onPrevStep, onNextStep }) => {
+export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData }) => {
   
   const [recommendation, setRecommendation] = useState<EnhancedLouverRecommendation | null>(null);
   const [loading, setLoading] = useState(true);
@@ -234,7 +232,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
               <div className="spec-item">
                 <div className="spec-label">Airflow</div>
                 <div className="spec-value">
-                  <TrendingUp size={18} className="spec-icon" />
                   <span>{!isNaN(recommendation.airflowRating) && recommendation.airflowRating !== undefined ? recommendation.airflowRating : '-'}</span>
                   <span className="spec-unit">/10</span>
                 </div>
@@ -327,18 +324,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Navigation buttons */}
-      <div className="navigation-buttons">
-        <button className="nav-button prev" onClick={onPrevStep}>
-          <ChevronLeft size={20} />
-          Previous
-        </button>
-        <button className="nav-button next" onClick={onNextStep}>
-          Next
-          <ChevronRight size={20} />
-        </button>
       </div>
     </div>
   );
