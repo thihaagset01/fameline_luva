@@ -3,23 +3,79 @@ import { Download, Share2, RotateCcw, CheckCircle } from 'lucide-react';
 import { FormData, WeatherData } from '@/types';
 import { WeatherSummary } from '@/components/WeatherSummary';
 
+/**
+ * 🎉 SummaryStep Component
+ * 
+ * This is the final step in our louver selection wizard! It presents a summary
+ * of all the user's selections and the AI-generated recommendation.
+ * 
+ * Key features:
+ * - Displays a success message and project summary
+ * - Shows weather data if available
+ * - Provides options to download or share results
+ * - Explains next steps in the process
+ * - Allows starting a new project
+ * 
+ * This component serves as the completion page that confirms the user has
+ * successfully completed the louver selection process and what they can
+ * expect next.
+ */
+
+/**
+ * Props for the SummaryStep component
+ * 
+ * @property formData - All collected user data from previous steps
+ * @property onReset - Function to reset the form and start a new project
+ */
 interface SummaryStepProps {
   formData: FormData;
   onReset: () => void;
 }
 
+/**
+ * The SummaryStep component implementation
+ * 
+ * This component is structured in sections:
+ * 1. Success message and completion status
+ * 2. Project summary card with key details
+ * 3. Weather data summary (if available)
+ * 4. Action buttons for download and sharing
+ * 5. "What's next" process explanation
+ * 6. Company information footer
+ */
 export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) => {
-  // Parse weather data if available
+  /**
+   * Parse stored weather data string back to object if available
+   * Weather data enhances the recommendation with climate considerations
+   */
   const weatherData: WeatherData | null = formData.weatherData 
     ? JSON.parse(formData.weatherData) 
     : null;
 
+  /**
+   * Handles the "Download Summary" button click
+   * 
+   * In the future, this will generate a PDF with all project details
+   * and the louver recommendation. Currently shows a placeholder alert.
+   * 
+   * 📥 The PDF would include all form data and weather information
+   * for a complete record of the recommendation.
+   */
   const handleDownloadSummary = () => {
     // Generate PDF with weather data included
     console.log('Generating PDF summary with weather data...', formData);
     alert('PDF download would start here. Feature coming soon!');
   };
 
+  /**
+   * Handles the "Share Results" button click
+   * 
+   * Uses the Web Share API if available (mobile devices, modern browsers)
+   * or falls back to copying the URL to clipboard on unsupported browsers.
+   * 
+   * 👥 This allows users to easily share their louver recommendation
+   * with colleagues, contractors, or other stakeholders.
+   */
   const handleShare = () => {
     if (navigator.share) {
       navigator.share({
@@ -33,12 +89,29 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
     }
   };
 
+  /**
+   * Handles the "Start New Project" button click
+   * 
+   * Resets the form data via the onReset callback and reloads the page
+   * to start fresh with a new louver selection project.
+   * 
+   * 🔄 This provides a clean slate for users who want to create
+   * multiple louver specifications for different projects.
+   */
   const handleNewProject = () => {
     onReset();
     window.location.reload();
   };
 
-  // Get application name for display
+  /**
+   * Converts technical application codes to user-friendly display names
+   * 
+   * Maps the internal louverApplication codes to more readable names
+   * for display in the summary. Falls back to the purpose field if needed.
+   * 
+   * 📚 This mapping ensures technical codes are translated to terms
+   * that make sense to end users and stakeholders.
+   */
   const getApplicationName = () => {
     const appMap = {
       'mission-critical': 'Mission Critical',

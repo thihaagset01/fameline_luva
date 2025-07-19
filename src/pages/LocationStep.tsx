@@ -5,6 +5,21 @@ import { StepProps } from '@/types';
 import { weatherService } from '@/services/weatherService';
 import { ENVIRONMENT_OPTIONS } from '@/utils/constants';
 
+/**
+ * 📍 LocationStep Component
+ * 
+ * This component handles the project location input and environment selection step
+ * in the louver selection wizard. It's responsible for:
+ * 
+ * 1. Validating user-entered locations using the weather service
+ * 2. Fetching weather data for the location
+ * 3. Auto-detecting the appropriate environment type
+ * 4. Allowing manual environment selection
+ * 
+ * The location data is crucial as it affects louver recommendations based on
+ * local weather conditions and environmental factors.
+ */
+
 export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   const [locationValid, setLocationValid] = useState(false);
   const [locationValidating, setLocationValidating] = useState(false);
@@ -13,7 +28,18 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
   // Coordinates removed as they were unused
   const [validatedAddress, setValidatedAddress] = useState<string>('');
 
-  // Debounced location validation
+  /**
+   * Validates the user-entered location using the weather service API
+   * 
+   * This function performs several important tasks:
+   * - Checks if the location string is valid (at least 3 characters)
+   * - Calls the weather service to validate the location exists
+   * - Updates UI state based on validation results
+   * - Triggers weather data fetching when location is valid
+   * 
+   * 🔔 Note: This is wrapped in useCallback to prevent unnecessary re-renders
+   * and is debounced in the useEffect hook below to avoid excessive API calls.
+   */
   const validateLocation = useCallback(async (location: string) => {
     if (!location || location.length < 3) {
       setLocationValid(false);
@@ -43,7 +69,18 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     }
   }, []);
 
-  // Fetch weather data in background
+  /**
+   * Fetches weather data for a validated location
+   * 
+   * Once a location is validated, this function:
+   * - Retrieves detailed weather data from our weather service
+   * - Updates the form data with the retrieved weather information
+   * - Triggers automatic environment detection based on the weather
+   * - Handles errors gracefully (weather data is helpful but optional)
+   * 
+   * 🌧️ The weather data is crucial for making appropriate louver recommendations
+   * that account for local climate conditions.
+   */
   const fetchWeatherData = useCallback(async (location: string) => {
     setWeatherLoading(true);
     try {
@@ -63,7 +100,24 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     }
   }, [updateFormData]);
 
-  // Auto-set environment based on weather and location
+  /**
+   * 🧠 Automatically determines the environment type based on location and weather
+   * 
+   * This smart function analyzes weather data and location characteristics to suggest
+   * the most appropriate environment type for the project. It considers:
+   * - Keywords in the location name (e.g., "beach", "industrial", "city")
+   * - Weather conditions (like wind speed)
+   * 
+   * It then sets the appropriate environment type:
+   * - coastal: For seaside, beach, or high-wind locations
+   * - industrial: For factory, plant, or industrial areas
+   * - urban: For city centers and metropolitan areas
+   * - suburban: Default for residential and other areas
+   * 
+   * 🌿 The environment type affects which louver models are recommended,
+   * as different environments have different requirements for durability,
+   * corrosion resistance, and aesthetics.
+   */
   const autoSetEnvironment = useCallback((weatherData: any, location: string) => {
     const locationLower = location.toLowerCase();
     
@@ -98,7 +152,15 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     updateFormData('environment', 'suburban');
   }, [updateFormData]);
 
-  // Debounce location validation
+  /**
+   * ⏱️ Debounced location validation
+   * 
+   * This effect sets up a debounce mechanism to prevent excessive API calls
+   * while the user is typing. It waits 500ms after the user stops typing
+   * before triggering the location validation process.
+   * 
+   * This improves user experience and reduces unnecessary API calls.
+   */
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       if (formData.location) {
@@ -109,6 +171,32 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     return () => clearTimeout(timeoutId);
   }, [formData.location, validateLocation]);
 
+  /**
+   * 🔄 Initialize location from existing form data
+   * 
+   * This effect runs once when the component mounts and checks if there's
+   * already location data in the form. If so, it validates that location
+   * to ensure continuity when users navigate back to this step.
+   */
+  useEffect(() => {
+    if (formData.location) {
+      validateLocation(formData.location);
+    }
+  }, [formData.location, validateLocation]);
+
+  /**
+   * 📝 Handles changes to the location input field
+   * 
+   * When the user types in the location field, this function:
+   * - Updates the form data with the new location value
+   * - Resets validation states to prepare for new validation
+   * - Triggers the debounced validation process
+   * 
+   * This provides immediate feedback while maintaining a smooth UX by not
+   * validating every keystroke.
+   * 
+   * @param value - The new location text entered by the user
+   */
   const handleLocationChange = (value: string) => {
     updateFormData('location', value);
     // Reset validation state when user types
@@ -120,6 +208,21 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     }
   };
 
+  /**
+   * 🚦 Determines the current status of the location input field
+   * 
+   * Returns one of four possible statuses:
+   * - 'validating': When checking if the location is valid (blue indicator)
+   * - 'valid': When the location has been confirmed valid (green indicator)
+   * - 'error': When the location is invalid or not found (red indicator)
+   * - '': Default/neutral state (no special styling)
+   * 
+   * This status is used for visual feedback (colors, icons) in the UI to help
+   * users understand the current state of their input without having to read
+   * detailed messages.
+   * 
+   * @returns The current status string for styling and feedback
+   */
   const getLocationInputStatus = () => {
     if (locationValidating) return 'validating';
     if (locationError) return 'error';
@@ -127,6 +230,22 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     return 'default';
   };
 
+  /**
+   * 💬 Renders the appropriate status message below the location input
+   * 
+   * This function displays different UI elements based on the current status:
+   * - A spinner and "Validating..." message during validation
+   * - A checkmark and success message when location is valid
+   * - An alert icon and error message when location is invalid
+   * - Weather loading indicator when fetching weather data
+   * 
+   * These visual cues help users understand what's happening with their input
+   * and provide immediate feedback on the validation process. The status messages
+   * are designed to be friendly and informative, guiding the user through any
+   * issues they might encounter.
+   * 
+   * @returns JSX element with appropriate status message and styling
+   */
   const renderLocationStatus = () => {
     const status = getLocationInputStatus();
     
@@ -250,7 +369,13 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
         </div>
       </div>
 
-      {/* CSS Styles */}
+      {/* 
+        CSS Styles for the LocationStep component
+        
+        Note: In a future update, these styles should be migrated to global CSS
+        classes in index.css for better maintainability and consistency across
+        the application.
+      */}
       <style>{`
         .location-status {
           margin-top: 0.75rem;

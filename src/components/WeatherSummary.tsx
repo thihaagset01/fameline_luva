@@ -3,11 +3,49 @@ import { Cloud, Droplets, Wind, Thermometer, Shield } from 'lucide-react';
 import { WeatherData } from '@/types';
 import { weatherService } from '@/services/weatherService';
 
+/**
+ * 🌧️ WeatherSummary Component
+ * 
+ * This component displays a comprehensive climate analysis card based on
+ * weather data for the project location. It helps users understand the
+ * environmental factors that influence louver selection.
+ * 
+ * The summary includes:
+ * - Temperature data
+ * - Rainfall measurements
+ * - Wind speed and category
+ * - Recommended rain defense class
+ * - Detailed climate insights and considerations
+ * 
+ * This information is crucial for making appropriate louver recommendations
+ * as different weather conditions require different specifications.
+ */
+
+/**
+ * Props for the WeatherSummary component
+ */
 interface WeatherSummaryProps {
+  /**
+   * Weather data object containing temperature, rainfall, wind speed, and more
+   */
   weatherData: WeatherData;
 }
 
+/**
+ * Renders a detailed weather analysis card with climate insights
+ * 
+ * @param props - Component props containing weather data
+ */
 export const WeatherSummary: React.FC<WeatherSummaryProps> = ({ weatherData }) => {
+  /**
+   * Maps rain defense classes to appropriate colors for visual indication
+   * 
+   * Class A (highest protection) is red, while Class D (basic protection)
+   * is green, creating an intuitive visual scale of protection requirements.
+   * 
+   * @param rainClass - The rain defense class (A, B, C, or D)
+   * @returns Hex color code corresponding to the rain class
+   */
   const getRainClassColor = (rainClass: string): string => {
     switch (rainClass) {
       case 'A': return '#ef4444'; // Red - highest protection needed
@@ -18,6 +56,15 @@ export const WeatherSummary: React.FC<WeatherSummaryProps> = ({ weatherData }) =
     }
   };
 
+  /**
+   * Determines wind category, color, and description based on wind speed
+   * 
+   * Categorizes the project location's wind conditions into Low, Medium, or High
+   * based on the average wind speed. Each category has a corresponding color
+   * and description to help users understand the implications for louver selection.
+   * 
+   * @returns Object with category name, color code, and descriptive text
+   */
   const getWindCategory = (): { category: string; color: string; description: string } => {
     const windSpeed = weatherData.windSpeed;
     if (windSpeed >= 20) {
@@ -135,6 +182,13 @@ export const WeatherSummary: React.FC<WeatherSummaryProps> = ({ weatherData }) =
         </p>
       </div>
 
+      {/* 
+        CSS Styles for the WeatherSummary component
+        
+        Note: In a future update, these styles should be migrated to global CSS
+        classes in index.css for better maintainability and consistency across
+        the application.
+      */}
       <style>{`
         .weather-summary-card {
           background: rgba(255, 255, 255, 0.05);

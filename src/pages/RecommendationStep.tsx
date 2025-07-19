@@ -3,7 +3,19 @@ import { Download, Star } from 'lucide-react';
 import { FormData } from '@/types';
 import { recommendationEngine } from '@/engine/recommendationEngine';
 
-// Define a custom recommendation interface that matches our application needs
+/**
+ * Comprehensive interface for louver recommendations 📋
+ * 
+ * This interface defines the structure of louver recommendations returned by the recommendation engine.
+ * It includes all the properties needed to display detailed information about recommended louvers
+ * including ratings, specs, and alternative options.
+ * 
+ * The structure mirrors what the recommendation engine returns, with additional fields for UI display.
+ * Each recommendation includes both the primary louver and alternative options.
+ * 
+ * 💡 When working with this interface, you'll mainly be consuming data from the recommendation
+ * engine and displaying it in the UI. The engine handles all the complex scoring logic.
+ */
 interface EnhancedLouverRecommendation {
   louver: {
     id: string;
@@ -32,12 +44,33 @@ interface EnhancedLouverRecommendation {
   }[];
 }
 
-// Props interface for the RecommendationStep component
+/**
+ * Props for the RecommendationStep component 🧩
+ * 
+ * The component requires formData which contains all user selections and preferences
+ * from previous steps in the wizard. This formData drives the recommendation engine
+ * and determines which louver models are suggested to the user.
+ * 
+ * 🔄 When formData changes (e.g., when the user goes back and changes their selections),
+ * the component will automatically fetch new recommendations using useEffect.
+ * 
+ * @example
+ * <RecommendationStep formData={userFormData} />
+ */
 interface RecommendationStepProps {
   formData: FormData;
 }
 
-// Helper functions
+/**
+ * Helper functions for formatting and displaying louver information 🔠
+ * 
+ * These utility functions transform raw data into user-friendly display text.
+ * They handle the conversion of technical terms and codes into more readable
+ * descriptions that make sense to end users without technical knowledge.
+ * 
+ * 🧰 These functions are used throughout the component to ensure consistent
+ * formatting and presentation of technical louver information.
+ */
 function getLouverTypeDescription(louver: any): string {
   const typeMap = {
     'Single': 'Single Bank Louver',
@@ -47,8 +80,25 @@ function getLouverTypeDescription(louver: any): string {
   return typeMap[louver.type as keyof typeof typeMap] || 'Performance Louver';
 }
 
+/**
+ * Creates a detailed, human-readable description of a louver model 📝
+ * 
+ * This function combines various properties from both the louver model and the user's
+ * form selections to generate a comprehensive description that highlights the key
+ * features and intended application of the louver.
+ * 
+ * 🛡️ The function includes null/undefined checks to prevent runtime errors when
+ * dealing with potentially incomplete data from the API or user inputs.
+ * 
+ * @param louver - The louver model object with technical specifications
+ * @param formData - User selections from previous steps
+ * @returns A formatted string describing the louver's features and application
+ * @example
+ * // Returns something like: "This acoustic louver features horizontal blades in a double bank configuration with hidden mullion design. Optimized for ventilation applications in coastal environments."
+ * const description = getDetailedDescription(louverModel, userFormData);
+ */
 function getDetailedDescription(louver: any, formData: FormData): string {
-  // Add null checks to prevent errors
+  // Extract properties with null/undefined checks to prevent runtime errors
   const acoustic = louver?.model ? (louver.model.startsWith('AC-') ? 'acoustic ' : '') : '';
   const orientation = louver?.frontBlade?.toLowerCase() || 'standard';
   const mullion = formData?.mullionVisibility === 'hidden' ? 'hidden mullion ' : '';
@@ -59,9 +109,21 @@ function getDetailedDescription(louver: any, formData: FormData): string {
   return `This ${acoustic}louver features ${orientation} blades in a ${louverType} bank configuration with ${mullion}design. Optimized for ${purpose} applications in ${environment} environments.`;
 }
 
-// Function removed as it's no longer needed with global CSS classes
-
-// Loading component
+/**
+ * Loading state component ⏳
+ * 
+ * Displays an animated loading indicator with a friendly message while
+ * the recommendation engine processes the user's inputs.
+ * 
+ * 🎭 The component includes a pulsing circle animation and bouncing dots to indicate
+ * that the system is working. This provides visual feedback to users during what
+ * might otherwise feel like a delay.
+ * 
+ * This is a standalone component used within RecommendationStep when
+ * recommendations are being fetched from the engine.
+ * 
+ * @returns JSX element with loading animation and message
+ */
 const LoadingState: React.FC = () => (
   <div className="recommendations-step">
     <div className="content-card text-center">
@@ -83,7 +145,23 @@ const LoadingState: React.FC = () => (
   </div>
 );
 
-// Error component
+/**
+ * Error state component ⚠️
+ * 
+ * Displays an error message with a retry button when the recommendation
+ * engine encounters an issue fetching recommendations.
+ * 
+ * 🔄 This component helps users recover from errors without needing to restart
+ * the entire wizard process. The retry button allows them to try fetching recommendations
+ * again without losing the user's previous selections.
+ * 
+ * This is a standalone component used within RecommendationStep when
+ * an error occurs during recommendation fetching.
+ * 
+ * @param error - The error message to display
+ * @param onRetry - Callback function to retry fetching recommendations
+ * @returns JSX element with error message and retry button
+ */
 const ErrorState: React.FC<{ error: string; onRetry: () => void }> = ({ error, onRetry }) => (
   <div className="recommendations-step">
     <div className="recommendations-error">
@@ -102,34 +180,72 @@ const ErrorState: React.FC<{ error: string; onRetry: () => void }> = ({ error, o
   </div>
 );
 
-// Main component
+/**
+ * RecommendationStep component 🏆
+ * 
+ * This is the main component for the recommendation step in the wizard.
+ * It fetches and displays louver recommendations based on the user's inputs from previous steps.
+ * 
+ * 🔄 The component handles three states:
+ * 1. Loading - When recommendations are being fetched (shows animated loading indicator)
+ * 2. Error - When there's an issue fetching recommendations (shows retry option)
+ * 3. Results - When recommendations are successfully loaded (shows interactive UI)
+ * 
+ * The component automatically fetches new recommendations whenever the formData prop changes,
+ * ensuring that users always see recommendations based on their current selections.
+ * 
+ * 🖱️ Users can interact with the 3D louver panels on the right side to view details
+ * for different recommended models. The left side shows detailed information about
+ * the currently selected model.
+ */
 export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData }) => {
   
+  // State variables to store the current recommendation, loading status, error messages, and active model index
   const [recommendation, setRecommendation] = useState<EnhancedLouverRecommendation | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeModelIndex, setActiveModelIndex] = useState(0); // Track which model is active (0 = primary, 1 = first alt, 2 = second alt)
+  const [activeModelIndex, setActiveModelIndex] = useState(0);  // Tracks which model is currently selected (0 = primary recommendation, 1-2 = alternative options)
   const [allModels, setAllModels] = useState<EnhancedLouverRecommendation[]>([]);
 
-  // Track previous formData to avoid unnecessary rerenders
+  // Stores previous formData to compare and prevent unnecessary API calls when formData hasn't changed
   const prevFormDataRef = React.useRef<FormData | null>(null);
   
-  // Function to fetch recommendation data
+  /**
+   * Fetches recommendation data from the recommendation engine 🔍
+   * 
+   * This function calls the recommendation engine with the current formData,
+   * processes the results, and sets up the primary and alternative models for display.
+   * 
+   * ⚙️ Process flow:
+   * 1. Set loading state to true
+   * 2. Call the recommendation engine with formData
+   * 3. Process the returned data and format it for display
+   * 4. Set up the primary and alternative models
+   * 5. Update component state with the results
+   * 
+   * It also handles loading states and error conditions appropriately, ensuring
+   * that the UI always reflects the current state of the recommendation process.
+   * 
+   * The function is called automatically when the component mounts and whenever
+   * the formData changes via useEffect.
+   * 
+   * @private Internal component method
+   */
   const fetchRecommendation = async () => {
     try {
       setLoading(true);
-      // Reset active model index when fetching new data
+      // Always reset to the primary recommendation when fetching new data
       setActiveModelIndex(0);
       
-      // Use the recommendationEngine directly without getInstance
+      // Call the recommendation engine with the current form data
       const result = await recommendationEngine.getRecommendation(formData);
       const enhancedResult = result as unknown as EnhancedLouverRecommendation;
       setRecommendation(enhancedResult);
       
-      // Prepare all models array with primary recommendation and alternatives
+      // Create an array containing both the primary recommendation and alternatives for the 3D visualization
       const models = [enhancedResult];
       if (result.alternatives && result.alternatives.length > 0) {
-        // Create enhanced alternatives with the same structure as the main recommendation
+        // Format alternative models to match the structure of the primary recommendation
         const enhancedAlternatives = result.alternatives.map((alt: any) => {
           return {
             ...enhancedResult,
@@ -151,17 +267,33 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   };
 
   useEffect(() => {
-    // Check if formData has changed
+    // Compare current and previous formData to determine if we need to fetch new recommendations
     const formDataChanged = JSON.stringify(formData) !== JSON.stringify(prevFormDataRef.current);
     
-    // Only fetch if formData has changed or this is the initial mount
+    // Only fetch new recommendations if the user has changed their inputs
     if (formDataChanged) {
       prevFormDataRef.current = {...formData};
       fetchRecommendation();
     }
-  }, [formData]); // Depend on formData changes
+  }, [formData]); // Re-run this effect whenever formData changes
   
-  // Function to handle model selection
+  /**
+   * Handles user selection of different louver models 👆
+   * 
+   * When a user clicks on one of the 3D louver panels, this function updates the
+   * active model and displays its details in the information section.
+   * 
+   * 🔄 The function performs these actions:
+   * 1. Updates the activeModelIndex state to highlight the selected panel
+   * 2. Sets the activeModel state to the selected model's data
+   * 3. The information panel updates to show details for the selected model
+   * 
+   * This creates an interactive experience where users can easily compare
+   * different louver options by clicking on the visual representations.
+   * 
+   * @param index - The index of the selected model in the allModels array
+   * @private Internal component method
+   */
   const handleModelSelect = (index: number) => {
     if (index >= 0 && index < allModels.length) {
       setActiveModelIndex(index);
@@ -169,6 +301,11 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
     }
   };
 
+  // Conditional rendering based on component state
+  // The component renders different UI based on three possible states:
+  // 1. Loading: Shows a loading animation while fetching recommendations
+  // 2. Error: Shows an error message with retry button if fetching fails
+  // 3. Success: Shows the full recommendation UI with interactive panels
   if (loading) {
     return <LoadingState />;
   }
@@ -177,7 +314,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
     return <ErrorState error={error} onRetry={() => {
       setLoading(true);
       setError(null);
-      // Re-fetch recommendation
+      // Try fetching recommendations again after user clicks retry
       recommendationEngine.getRecommendation(formData)
         .then(result => {
           setRecommendation(result as unknown as EnhancedLouverRecommendation);
@@ -194,15 +331,16 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
     return <LoadingState />;
   }
   
-  // Main recommendation display
+  // Render the main recommendation UI with information and 3D visualization
   return (
     <div className="recommendations-step">
       <div className="recommendations-content">
-        {/* Two-column layout for better space utilization */}
+        {/* Main content organized in a two-column layout for optimal space usage */}
         <div className="recommendations-grid">
-          {/* Left column: Information */}
+          {/* Left column: Detailed information about the selected louver */}
+            {/* This column shows specifications, ratings, and explanations for the currently selected model */}
           <div className="recommendations-info-column">
-            {/* Recommendation header */}
+            {/* Header section with confidence score and model name */}
             <div className="recommendations-info">
               <div className="recommendation-header">
                 <span className="confidence-badge">
@@ -220,6 +358,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
               </div>
               <h1 className="recommendations-title">{recommendation.model || recommendation.louver?.model}</h1>
               <p className="recommendations-description">
+                {/* Louver type and description - Shows the louver type and a detailed description */}
                 {getLouverTypeDescription(recommendation)}
               </p>
               <p className="recommendations-description">
@@ -227,7 +366,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
               </p>
             </div>
 
-            {/* Specs grid section */}
+            {/* Technical specifications - Shows the louver's key performance metrics */}
             <div className="recommendations-specs">
               <div className="spec-item">
                 <div className="spec-label">Airflow</div>
@@ -259,7 +398,8 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
               </div>
             </div>
 
-            {/* Detailed description */}
+            {/* Explanation of why this louver was recommended - Shows reasoning behind the recommendation */}
+            {/* These reasons are generated by the recommendation engine and explain why this louver is a good match for the user's needs */}
             <div className="reason-section">
               <h3 className="reason-title">Why This Louver</h3>
               <ul className="reason-list">
@@ -272,7 +412,8 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
               </ul>
             </div>
 
-            {/* Download section */}
+            {/* Option to download detailed technical specifications - Allows users to get complete documentation */}
+            {/* This feature allows users to download a PDF with complete technical specifications for the selected louver */}
             <div className="download-section">
               <div className="download-content">
                 <div className="download-info">
@@ -286,18 +427,19 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
             </div>
           </div>
 
-          {/* Right column: Visualization */}
+          {/* Right column: Interactive 3D louver visualization - Shows 3D panels that users can click to select */}
+          {/* This interactive visualization helps users understand the physical differences between louver options */}
           <div className="recommendations-visual-column">
-            {/* Louver visualization */}
+            {/* Interactive 3D louver panel visualization */}
             <div className="recommendations-visualization">
               <div className="louver-3d-container">
-                {/* Primary panel */}
+                {/* Primary (recommended) louver panel - The best match based on user requirements */}
                 <div 
                   className={`louver-3d-panel primary ${activeModelIndex === 0 ? 'active' : ''}`}
                   onClick={() => handleModelSelect(0)}
                   title="Primary recommendation"
                 >
-                  {/* Model badge */}
+                  {/* Model information badge showing model name and type - Helps users identify each panel */}
                   <div className="louver-model-badge">
                     <div className="louver-model-name">{allModels[0]?.model || recommendation.model}</div>
                     <div className="louver-model-type">{allModels[0]?.type || recommendation.type} Bank</div>
@@ -305,7 +447,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                   {activeModelIndex === 0 && <div className="active-model-indicator">Current Selection</div>}
                 </div>
 
-                {/* Alternative options */}
+                {/* Alternative louver options the user can select - Shows other good matches the user might prefer */}
                 {allModels.length > 1 && allModels.slice(1, 3).map((altModel, index) => (
                   <div 
                     key={index} 

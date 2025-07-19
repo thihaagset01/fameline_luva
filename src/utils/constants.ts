@@ -1,3 +1,21 @@
+/**
+ * Constants.ts - Application Configuration Hub 📊
+ *
+ * This file serves as the central repository for all application constants,
+ * configuration values, and data structures used throughout the LouverBoy app.
+ *
+ * It contains:
+ * - Wizard step definitions
+ * - Form options and selections
+ * - Application categories and their properties
+ * - Performance standards and specifications
+ * - Validation rules
+ * - Default values
+ * - Color schemes and theme values
+ *
+ * When modifying this file, please keep related constants grouped together
+ * and maintain the existing organization to help other developers find what they need.
+ */
 import { 
   Environment, 
   Purpose, 
@@ -11,7 +29,20 @@ import {
   SelectionOption
 } from '@/types';
 
-// Step Configuration
+/**
+ * Wizard Step Configuration 💼
+ * 
+ * Defines the sequence and names of steps in the application wizard.
+ * These values are used for navigation, progress tracking, and UI display.
+ * 
+ * The wizard follows this sequence:
+ * 1. User Info - Collect basic contact information
+ * 2. Location - Get project location and environment
+ * 3. Project Context - Understand application needs and requirements
+ * 4. Aesthetics - Capture design preferences
+ * 5. Recommendation - Show suggested louver models
+ * 6. Summary - Final overview and submission
+ */
 export const STEPS = [
   'User Info',
   'Location', 
@@ -21,36 +52,75 @@ export const STEPS = [
   'Summary'
 ];
 
-// Legacy Form Options (for backward compatibility)
+/**
+ * Environment Options 🌍
+ * 
+ * Defines the possible environmental contexts for louver installation.
+ * The environment affects recommendations for water resistance and durability.
+ * 
+ * Note: These are part of the legacy form system but still supported.
+ */
 export const ENVIRONMENT_OPTIONS: SelectOption[] = [
-  { value: 'urban', label: 'Urban' },
-  { value: 'coastal', label: 'Coastal' },
-  { value: 'industrial', label: 'Industrial' },
-  { value: 'suburban', label: 'Suburban' }
+  { value: 'urban', label: 'Urban' },       // City environments with moderate exposure
+  { value: 'coastal', label: 'Coastal' },    // Near ocean/sea with salt spray and high winds
+  { value: 'industrial', label: 'Industrial' }, // Manufacturing areas with potential pollutants
+  { value: 'suburban', label: 'Suburban' }   // Residential areas with standard conditions
 ];
 
+/**
+ * Purpose Options 🛠️
+ * 
+ * Defines the primary functional purpose of the louvers.
+ * This helps determine which performance characteristics to prioritize.
+ * 
+ * Note: Part of the legacy form system but still supported.
+ */
 export const PURPOSE_OPTIONS: SelectOption[] = [
-  { value: 'ventilation', label: 'Ventilation' },
-  { value: 'weather-protection', label: 'Weather Protection' },
-  { value: 'acoustic', label: 'Acoustic Attenuation' },
-  { value: 'aesthetic', label: 'Aesthetic Integration' }
+  { value: 'ventilation', label: 'Ventilation' },           // Prioritize airflow performance
+  { value: 'weather-protection', label: 'Weather Protection' }, // Prioritize water resistance
+  { value: 'acoustic', label: 'Acoustic Attenuation' },     // Prioritize noise reduction
+  { value: 'aesthetic', label: 'Aesthetic Integration' }    // Prioritize appearance
 ];
 
+/**
+ * Building Type Options 🏘️
+ * 
+ * Categorizes the type of building where louvers will be installed.
+ * Different building types have different performance requirements and standards.
+ * 
+ * Note: Part of the legacy form system but still supported.
+ */
 export const BUILDING_TYPE_OPTIONS: SelectOption[] = [
-  { value: 'commercial', label: 'Commercial' },
-  { value: 'residential', label: 'Residential' },
-  { value: 'industrial', label: 'Industrial' },
-  { value: 'healthcare', label: 'Healthcare' },
-  { value: 'education', label: 'Education' }
+  { value: 'commercial', label: 'Commercial' },   // Office buildings, retail, etc.
+  { value: 'residential', label: 'Residential' },  // Houses, apartments, condos
+  { value: 'industrial', label: 'Industrial' },    // Factories, warehouses, plants
+  { value: 'healthcare', label: 'Healthcare' },    // Hospitals, clinics, medical facilities
+  { value: 'education', label: 'Education' }       // Schools, universities, libraries
 ];
 
+/**
+ * Building Height Options 🖥️
+ * 
+ * Categorizes buildings by height, which affects wind load and exposure factors.
+ * Taller buildings typically require louvers with better performance against high winds.
+ * 
+ * Note: Part of the legacy form system but still supported.
+ */
 export const BUILDING_HEIGHT_OPTIONS: SelectOption[] = [
-  { value: 'low-rise', label: 'Low-rise (1-3 floors)' },
-  { value: 'mid-rise', label: 'Mid-rise (4-12 floors)' },
-  { value: 'high-rise', label: 'High-rise (13+ floors)' }
+  { value: 'low-rise', label: 'Low-rise (1-3 floors)' },    // Standard wind loads
+  { value: 'mid-rise', label: 'Mid-rise (4-12 floors)' },   // Moderate wind exposure
+  { value: 'high-rise', label: 'High-rise (13+ floors)' }   // High wind exposure
 ];
 
-// Enhanced Application Options for Guided Selection
+/**
+ * Enhanced Application Options for Guided Selection 📍
+ * 
+ * These define the main application categories in our new guided selection process.
+ * Each application has default settings for airflow and water tolerance based on
+ * typical requirements for that category.
+ * 
+ * This is the preferred way to categorize projects in the new UI.
+ */
 export const LOUVER_APPLICATIONS: ApplicationOption[] = [
   {
     id: 'mission-critical',
@@ -120,7 +190,13 @@ export const LOUVER_APPLICATIONS: ApplicationOption[] = [
   }
 ];
 
-// Airflow Requirement Options
+/**
+ * Airflow Requirement Options 🌬️
+ * 
+ * Defines the different levels of airflow performance a project might need.
+ * These options help users communicate their ventilation requirements without
+ * needing technical knowledge of airflow coefficients.
+ */
 export const AIRFLOW_OPTIONS: SelectionOption[] = [
   {
     id: 'basic',
@@ -148,7 +224,13 @@ export const AIRFLOW_OPTIONS: SelectionOption[] = [
   }
 ];
 
-// Water Tolerance Options
+/**
+ * Water Tolerance Options 💧
+ * 
+ * Defines how much water penetration is acceptable for the project.
+ * These options help translate technical water penetration metrics into
+ * user-friendly terms that clients can easily understand and select.
+ */
 export const WATER_TOLERANCE_OPTIONS: SelectionOption[] = [
   {
     id: 'zero',
@@ -202,7 +284,15 @@ export const MATCH_WEIGHTS = {
   airflow: 0.15
 } as const;
 
-// Enhanced Scoring Weights (for new algorithm)
+/**
+ * Enhanced Scoring Weights 📊
+ * 
+ * These weights determine how much each factor contributes to the overall
+ * recommendation score in our new algorithm. The weights sum to 1.0 (100%).
+ * 
+ * Adjusting these values will change which louver models are recommended
+ * for different scenarios.
+ */
 export const ENHANCED_WEIGHTS = {
   application: 0.40,        // Primary application - 40%
   airflowRequirement: 0.25, // Airflow performance - 25%
@@ -211,7 +301,18 @@ export const ENHANCED_WEIGHTS = {
   specialFactors: 0.05      // Context adjustments - 5%
 } as const;
 
-// Louver Model Performance Characteristics
+/**
+ * Louver Model Performance Characteristics 📈
+ * 
+ * Detailed information about each louver model's strengths, ideal applications,
+ * and technical specifications. This data is used for both recommendations and
+ * displaying product information to users.
+ * 
+ * Each model has:
+ * - strengths: Key performance advantages
+ * - applications: Ideal use cases
+ * - specifications: Technical details like pitch, depth, and bank count
+ */
 export const MODEL_CHARACTERISTICS = {
   'PL-2250': {
     strengths: ['Maximum airflow', 'Excellent rain defense', 'High performance'],
@@ -250,7 +351,15 @@ export const MODEL_CHARACTERISTICS = {
   }
 } as const;
 
-// Rain Defense Class Standards (BS EN 13030:2001)
+/**
+ * Rain Defense Class Standards ☔
+ * 
+ * Based on the British Standard BS EN 13030:2001, these classes define
+ * how well louvers prevent water penetration during rainfall.
+ * 
+ * Class A provides the best protection, while Class D offers minimal protection.
+ * The effectiveness percentage indicates how much water is prevented from entering.
+ */
 export const RAIN_DEFENSE_STANDARDS = {
   'A': { effectiveness: '99-100%', penetration: '≤0.75 l/h/m²', description: 'Excellent protection' },
   'B': { effectiveness: '95-98.9%', penetration: '≤3.75 l/h/m²', description: 'Very good protection' },
@@ -258,7 +367,15 @@ export const RAIN_DEFENSE_STANDARDS = {
   'D': { effectiveness: '<80%', penetration: '>15.00 l/h/m²', description: 'Basic protection' }
 } as const;
 
-// Airflow Class Standards
+/**
+ * Airflow Class Standards 💨
+ * 
+ * Industry standards for categorizing louver airflow performance.
+ * The coefficient represents how easily air passes through the louver.
+ * 
+ * Class 1 offers the best airflow (least resistance), while Class 4
+ * has the most restricted airflow (highest resistance).
+ */
 export const AIRFLOW_CLASS_STANDARDS = {
   1: { coefficient: '0.4-1.0', rating: 'Excellent', description: 'Lowest resistance' },
   2: { coefficient: '0.3-0.399', rating: 'Very Good', description: 'Low resistance' },
@@ -266,7 +383,19 @@ export const AIRFLOW_CLASS_STANDARDS = {
   4: { coefficient: '≤0.199', rating: 'Fair', description: 'Higher resistance' }
 } as const;
 
-// Application Colors
+/**
+ * Application Color Scheme 🎨
+ * 
+ * Defines the color palette used throughout the application.
+ * These colors ensure visual consistency and help communicate
+ * information through color coding.
+ * 
+ * The scheme includes:
+ * - Primary colors for main UI elements
+ * - Secondary colors for supporting elements
+ * - Accent colors for highlights and attention
+ * - Application-specific colors for category identification
+ */
 export const COLORS = {
   primary: {
     emerald: '#34d399',
@@ -290,7 +419,18 @@ export const COLORS = {
   }
 } as const;
 
-// Validation Rules
+/**
+ * Form Validation Rules ✅
+ * 
+ * Defines the requirements for valid form inputs.
+ * These rules are used by the validation functions to check user input
+ * and provide appropriate error messages.
+ * 
+ * Each field has its own set of rules, such as:
+ * - Minimum/maximum length
+ * - Required status
+ * - Pattern matching (for emails, etc.)
+ */
 export const VALIDATION = {
   name: {
     minLength: 2,
@@ -308,7 +448,14 @@ export const VALIDATION = {
   }
 } as const;
 
-// Animation Durations
+/**
+ * Animation Durations ⏱
+ * 
+ * Defines standard timing values for animations throughout the app.
+ * Using consistent animation durations helps create a smooth, cohesive feel.
+ * 
+ * Values are in milliseconds (ms).
+ */
 export const ANIMATION = {
   step: 300,
   button: 200,
@@ -316,7 +463,15 @@ export const ANIMATION = {
   substep: 500
 } as const;
 
-// Enhanced Default Form Values
+/**
+ * Default Form Values 📁
+ * 
+ * Initial values for all form fields when a new session starts.
+ * This serves as the starting point for the form state.
+ * 
+ * Includes both new guided selection fields and legacy fields
+ * to support both input methods.
+ */
 export const DEFAULT_FORM_DATA = {
   name: '',
   email: '',
@@ -337,14 +492,36 @@ export const DEFAULT_FORM_DATA = {
   customization: ''
 } as const;
 
-// Confidence Level Mapping
+/**
+ * Confidence Level Mapping 📊
+ * 
+ * Defines thresholds and display properties for recommendation confidence levels.
+ * These are used to visually communicate how well a recommended louver
+ * matches the user's requirements.
+ * 
+ * Each level has:
+ * - Minimum score threshold (percentage)
+ * - Display label
+ * - Color for visual indication
+ * - Description text
+ */
 export const CONFIDENCE_LEVELS = {
   HIGH: { min: 85, label: 'High', color: '#10b981', description: 'Excellent match' },
   MEDIUM: { min: 70, label: 'Medium', color: '#f59e0b', description: 'Good match' },
   LOW: { min: 0, label: 'Low', color: '#ef4444', description: 'Basic match' }
 } as const;
 
-// Weather Integration Constants
+/**
+ * Weather Integration Constants 🌧️
+ * 
+ * Thresholds for categorizing weather conditions that affect louver selection.
+ * These values help determine how local weather patterns should influence
+ * louver recommendations.
+ * 
+ * Includes thresholds for:
+ * - Wind speed (affects structural requirements)
+ * - Rainfall (affects water penetration resistance needs)
+ */
 export const WEATHER_FACTORS = {
   windSpeedThresholds: {
     low: 10,    // m/s
