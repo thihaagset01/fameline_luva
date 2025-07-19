@@ -1,41 +1,197 @@
+/**
+ * 🎨 LouverBoy Design System & Global Stylesheet
+ *
+ * This is the comprehensive design system and stylesheet for the LouverBoy application.
+ * It contains all global styles, design tokens, component styles, animations, and responsive design rules.
+ * The stylesheet is organized into logical sections for easier maintenance and onboarding of new UI/UX designers.
+ *
+ * DESIGN PHILOSOPHY:
+ * The LouverBoy UI follows a clean, modern aesthetic with a focus on accessibility and user experience.
+ * We use a gradient-rich dark theme with emerald green accents to create a premium, tech-forward appearance
+ * that appeals to both architects and homeowners. Rounded corners and subtle animations create a friendly,
+ * approachable interface while maintaining professional credibility.
+ *
+ * COLOR SYSTEM:
+ * - Primary: Emerald green (#10B981) - Used for primary actions, highlights, and branding
+ * - Background: Dark blue-gray gradient (#0F172A to #064E3B) - Creates depth and visual interest
+ * - Text: White (#FFFFFF) and light gray variants - For optimal readability on dark backgrounds
+ * - Accents: Teal (#0D9488), Light Green (#34D399) - For secondary elements and visual variety
+ * - Feedback: Red (#F87171), Yellow (#FBBF24), Green (#34D399) - For error, warning, and success states
+ *
+ * SPACING SYSTEM:
+ * We follow an 8px grid system with multipliers:
+ * - xs: 0.25rem (4px) - Minimal spacing, borders
+ * - sm: 0.5rem (8px) - Tight spacing between related elements
+ * - md: 1rem (16px) - Standard spacing between components
+ * - lg: 1.5rem (24px) - Generous spacing between sections
+ * - xl: 2rem (32px) - Major section divisions
+ * - 2xl: 3rem (48px) - Page-level spacing
+ *
+ * TYPOGRAPHY:
+ * - Font Family: Inter (sans-serif) - Clean, modern, highly readable
+ * - Base Size: 16px (1rem)
+ * - Scale: 1.25 ratio (major third)
+ * - Weights: 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold)
+ * - Line Heights: 1.5 for body text, 1.2 for headings
+ *
+ * COMPONENT ANATOMY:
+ * Each component follows consistent patterns for states:
+ * - Default: Base appearance
+ * - Hover: Subtle highlight or glow effect
+ * - Active/Selected: Clear visual indication
+ * - Disabled: Reduced opacity and non-interactive
+ * - Error: Red highlight and supporting text
+ *
+ * Table of Contents:
+ * 1. Tailwind CSS Imports
+ * 2. Design Tokens & Variables
+ * 3. Custom Scrollbar Styling
+ * 4. Global Base Styles
+ * 5. Layout & Container Styles
+ * 6. Typography System
+ * 7. Component-Specific Styles
+ * 8. Animation Keyframes
+ * 9. Responsive Design Rules
+ * 10. Utility Classes
+ */
+
+/* 1. Tailwind CSS Imports */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Custom scrollbar */
+/* 2. Design Tokens & Variables */
+:root {
+  /* Color Palette - Primary */
+  --primary: #10B981;         /* Emerald-500: Primary brand color */
+  --primary-light: #34D399;   /* Emerald-400: Lighter variant for hover states */
+  --primary-dark: #059669;    /* Emerald-600: Darker variant for active states */
+  
+  /* Color Palette - Background */
+  --bg-dark: #0F172A;         /* Slate-900: Dark background base */
+  --bg-dark-alt: #1E293B;     /* Slate-800: Slightly lighter background for cards */
+  --bg-accent: #064E3B;       /* Emerald-900: Accent background for sections */
+  
+  /* Color Palette - Text */
+  --text-primary: #FFFFFF;    /* White: Primary text color */
+  --text-secondary: #E2E8F0;  /* Slate-200: Secondary text for less emphasis */
+  --text-tertiary: #94A3B8;   /* Slate-400: Tertiary text for captions/hints */
+  
+  /* Color Palette - Feedback */
+  --success: #34D399;         /* Emerald-400: Success messages and indicators */
+  --warning: #FBBF24;         /* Amber-400: Warning messages and indicators */
+  --error: #F87171;           /* Red-400: Error messages and indicators */
+  --info: #60A5FA;            /* Blue-400: Informational messages */
+  
+  /* Spacing Scale (based on 8px grid) */
+  --space-xs: 0.25rem;        /* 4px: Minimal spacing */
+  --space-sm: 0.5rem;         /* 8px: Tight spacing */
+  --space-md: 1rem;           /* 16px: Standard spacing */
+  --space-lg: 1.5rem;         /* 24px: Generous spacing */
+  --space-xl: 2rem;           /* 32px: Section spacing */
+  --space-2xl: 3rem;          /* 48px: Page spacing */
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;       /* 4px: Subtle rounding */
+  --radius-md: 0.5rem;        /* 8px: Standard rounding */
+  --radius-lg: 1rem;          /* 16px: Prominent rounding */
+  --radius-xl: 1.5rem;        /* 24px: Major rounding */
+  --radius-full: 9999px;      /* Full rounding (pills, circles) */
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 15px rgba(16, 185, 129, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+  
+  /* Z-index layers */
+  --z-base: 1;
+  --z-above: 10;
+  --z-header: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
+
+/* Design System Usage Examples */
+/* 
+ * How to use our design system tokens:
+ *
+ * 1. Colors: var(--primary), var(--text-secondary), etc.
+ * 2. Spacing: var(--space-md), var(--space-lg), etc.
+ * 3. Border radius: var(--radius-md), var(--radius-full), etc.
+ * 4. Shadows: var(--shadow-sm), var(--shadow-glow), etc.
+ *
+ * Example:
+ * .my-button {
+ *   background-color: var(--primary);
+ *   color: var(--text-primary);
+ *   padding: var(--space-sm) var(--space-md);
+ *   border-radius: var(--radius-full);
+ *   box-shadow: var(--shadow-md);
+ *   transition: all var(--transition-normal);
+ * }
+ *
+ * .my-button:hover {
+ *   background-color: var(--primary-light);
+ *   box-shadow: var(--shadow-glow);
+ * }
+ */
+
+/* 2. Custom Scrollbar Styling */
+/* Creates a sleek, modern scrollbar that matches the application's design language */
+/* 
+ * Scrollbar Styling Guide:
+ * 
+ * We use custom scrollbars throughout the application to maintain visual consistency
+ * with our dark theme. The scrollbar is designed to be subtle yet visible enough for usability.
+ * 
+ * Design Considerations:
+ * - Semi-transparent to blend with various backgrounds
+ * - Rounded corners to match our UI's rounded aesthetic
+ * - Slightly more opaque on hover for better discoverability
+ * - Thin width (8px) for a modern look without taking too much space
+ */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 8px; /* Thin scrollbar for a modern look */
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1); /* Subtle track background */
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent thumb */
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.3); /* Slightly more opaque on hover */
 }
 
-/* Global styles */
+/* 3. Global Base Styles */
+/* Core styles that apply to the entire application */
 html, body {
-  font-family: 'Inter', sans-serif;
-  color: white;
+  font-family: 'Inter', sans-serif; /* Primary font family */
+  color: white; /* Default text color */
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
+  overflow: hidden; /* Prevents default scrolling */
 }
 
+/* Special handling for pages that need scrolling */
 html.has-scrollable-page,
 body.has-scrollable-page {
-  overflow: initial;
+  overflow: initial; /* Enables scrolling for longer content pages */
 }
 
+/* Root container styling */
 #root {
   height: 100%;
   overflow: hidden;
@@ -44,7 +200,7 @@ body.has-scrollable-page {
 #root.has-scrollable-page {
   overflow: initial;
   height: auto;
-  min-height: 100%;
+  min-height: 100%; /* Ensures full height even with minimal content */
 }
 /* 
 .app-container {
@@ -118,7 +274,45 @@ body.has-scrollable-page {
   background-color: #059669;
 }
 
-/* Animation keyframes */
+/* 6. Animation Keyframes */
+/* Defines all animation sequences used throughout the application */
+
+/**
+ * ANIMATION SYSTEM
+ *
+ * Our animation system creates a cohesive motion language throughout the application.
+ * Animations are designed to be subtle, purposeful, and enhance the user experience
+ * without being distracting.
+ *
+ * ANIMATION PRINCIPLES:
+ * 1. Subtle & Natural - Animations mimic natural physics for a polished feel
+ * 2. Purposeful - Each animation communicates meaning or directs attention
+ * 3. Consistent - Similar elements animate in similar ways for predictability
+ * 4. Performance-Focused - Animations optimize for smooth performance (transform/opacity)
+ *
+ * ANIMATION CATEGORIES:
+ * - Entrance/Exit: How elements appear/disappear (fade, slide, scale)
+ * - State Change: How elements respond to interaction (hover, active, selected)
+ * - Attention: How to draw user's focus (pulse, bounce, glow)
+ * - Loading/Progress: How to indicate processing or progress (spin, pulse)
+ *
+ * TIMING GUIDELINES:
+ * - Ultra Fast: 100-150ms (micro-interactions, clicks)
+ * - Fast: 200-300ms (small UI elements, feedback)
+ * - Medium: 300-500ms (panels, modals)
+ * - Slow: 500-800ms (page transitions, major elements)
+ *
+ * EASING FUNCTIONS:
+ * - ease-in-out: Most natural for general transitions
+ * - ease-out: Best for entrances (quick start, gentle end)
+ * - ease-in: Best for exits (gentle start, quick end)
+ * - cubic-bezier: For custom, specialized motion
+ */
+
+/* Float Animation
+ * Used for subtle hovering effects on decorative elements
+ * Creates a gentle up and down motion that adds life to static elements
+ */
 @keyframes float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -131,10 +325,12 @@ body.has-scrollable-page {
   100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
 }
 
-/* Import Inter font */
+/* Font Imports */
+/* Inter is our primary font family - a clean, modern sans-serif that works well for UI */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-/* Global base styles */
+/* 4. Tailwind Base Layer */
+/* Core HTML element styling using Tailwind's @layer directive */
 @layer base {
   * {
     border-color: var(--border);
@@ -161,8 +357,53 @@ body.has-scrollable-page {
   }
 }
 
-/* Custom component styles */
+/* 5. Component-Specific Styles */
+/* Reusable component styles using Tailwind's @layer components directive */
+
+/**
+ * COMPONENT LIBRARY DOCUMENTATION
+ * 
+ * This section contains our core UI component styles. Each component has been carefully
+ * designed to maintain visual consistency while providing flexibility for different contexts.
+ * 
+ * COMPONENT CATEGORIES:
+ * 1. Layout Components - Containers, grids, sections that structure the UI
+ * 2. Navigation Components - Headers, menus, navigation dots
+ * 3. Input Components - Form controls, selectors, toggles
+ * 4. Content Components - Cards, panels, content blocks
+ * 5. Feedback Components - Alerts, badges, progress indicators
+ * 6. Action Components - Buttons, links, interactive elements
+ * 7. Visual Components - Decorative elements, orbs, gradients
+ * 
+ * COMPONENT NAMING CONVENTION:
+ * We use a consistent naming pattern for all components:
+ * - Base class defines the component type (e.g., 'button', 'card')
+ * - Modifiers describe variations (e.g., 'primary', 'large', 'rounded')
+ * - State classes indicate component state (e.g., 'active', 'disabled')
+ * 
+ * Example: .button.primary.large.active
+ * 
+ * RESPONSIVE APPROACH:
+ * All components are designed with a mobile-first approach and include responsive
+ * variants where appropriate. Use Tailwind's responsive prefixes (sm:, md:, lg:, xl:)
+ * to apply different styles at different breakpoints.
+ */
+
 @layer components {
+  /**
+   * LAYOUT COMPONENTS
+   * 
+   * These components define the structural foundation of our UI.
+   * They provide consistent containers, backgrounds, and spacing.
+   */
+  
+  /* Gradient Background
+   * 
+   * Our signature background gradient creates depth and visual interest.
+   * Used for page backgrounds and large container areas.
+   * 
+   * Usage: <div class="gradient-bg">...</div>
+   */
   .gradient-bg {
     background: linear-gradient(135deg, #0f172a 0%, #064e3b 30%, #0f172a 60%);
     background-attachment: fixed;
@@ -204,6 +445,37 @@ body.has-scrollable-page {
     border-radius: 0.75rem; /* rounded-xl */
     border: 1px solid rgba(255, 255, 255, 0.2); /* border border-white/20 */
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  /**
+   * CONTENT COMPONENTS
+   * 
+   * Components that present and organize content for users.
+   * These maintain consistent styling while adapting to different content types.
+   */
+  
+  /* Card
+   * 
+   * Container for grouped content with consistent styling.
+   * Cards provide visual separation and hierarchy within the UI.
+   * 
+   * Design Principles:
+   * - Semi-transparent background with blur for depth
+   * - Consistent rounded corners (3xl = 1.5rem)
+   * - Subtle border for definition
+   * - Standard internal padding
+   * 
+   * Variations:
+   * - Default: Standard padding and styling
+   * - Interactive: Add hover effects for clickable cards
+   * - Featured: Add highlight border or glow effect
+   * 
+   * Usage: 
+   * <div class="card">Card content goes here</div>
+   * <div class="card card-interactive">Clickable card</div>
+   */
+  .card {
+    @apply bg-slate-800/70 backdrop-blur-sm rounded-3xl p-6 border border-slate-700/50;
   }
   
   /* App container */
@@ -411,25 +683,33 @@ body.has-scrollable-page {
     }
   }
 
-  /* Input styling */
-  .input-group {
-    margin-bottom: 1.5rem;
-    position: relative;
-  }
+  /**
+   * INPUT COMPONENTS
+   * 
+   * Form controls and input elements with consistent styling and behavior.
+   * All inputs maintain visual consistency while providing clear feedback states.
+   */
   
-  .input-label {
-    display: block;
-    color: white;
-    font-size: 1.25rem;
-    font-weight: 400;
-    margin-bottom: 0.75rem;
-    font-family: 'Poppins', sans-serif;
-  }
-  
-  .input-wrapper {
-    position: relative;
-    border-radius: 9999px;
-    overflow: hidden;
+  /* Input Pill
+   * 
+   * Our standard text input style with rounded ends (pill shape).
+   * Used for all text-based form inputs throughout the application.
+   * 
+   * States:
+   * - Default: White background with gray text
+   * - Focus: Emerald ring appears around the input
+   * - Error: Red ring appears (add class 'error' or use with error message)
+   * - Disabled: Reduced opacity and non-interactive
+   * 
+   * Variations:
+   * - With icon: Add padding-left and position icon absolutely
+   * - With validation: Add error message below
+   * 
+   * Usage: 
+   * <input class="input-pill" type="text" placeholder="Enter your name">
+   */
+  .input-pill {
+    @apply w-full px-6 py-4 rounded-full bg-white text-gray-800 placeholder-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all duration-200;
   }
   
   .input-field {
@@ -482,6 +762,35 @@ body.has-scrollable-page {
     box-shadow: 0 0 0 2px #34d399, 0 4px 12px rgba(0, 0, 0, 0.1); /* focus:ring-2 focus:ring-emerald-400 */
   }
 
+  /**
+   * ACTION COMPONENTS
+   * 
+   * These components enable user interactions and actions.
+   * They follow consistent patterns for states and feedback.
+   */
+  
+  /* Button Base
+   * 
+   * Our primary interactive element with consistent styling across the app.
+   * Buttons have multiple variants and states as documented below.
+   * 
+   * Anatomy:
+   * - Base (.btn): Core button styling shared by all variants
+   * - Variants: .btn-primary, .btn-secondary, .btn-outline, etc.
+   * - Sizes: .btn-sm, .btn-lg
+   * - States: :hover, :active, :disabled
+   * 
+   * Accessibility:
+   * - All buttons have appropriate focus states
+   * - Color contrast meets WCAG AA standards
+   * - Disabled states are visually distinct
+   * 
+   * Usage: <button class="btn btn-primary">Click Me</button>
+   */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full text-white font-medium text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-emerald-500;
+  }
+  
   .btn-emerald {
     background-color: #10b981; /* bg-emerald-500 */
     color: black;
@@ -506,8 +815,8 @@ body.has-scrollable-page {
   
   .prev-container {
     bottom: 2rem;
-      left: 2rem;
-    }
+    left: 2rem;
+  }
   
   .circular-nav-button {
     width: 3.5rem;
@@ -1899,8 +2208,40 @@ body.has-scrollable-page {
   animation: slideInUp 0.5s ease-out;
 }
 
-/* Responsive adjustments for all pages */
-@media (max-width: 768px) {
+/* 9. Responsive Design Rules */
+/* Adjustments for different screen sizes */
+
+/**
+ * RESPONSIVE DESIGN SYSTEM
+ *
+ * Our application follows a mobile-first approach with consistent breakpoints.
+ * All components are designed to be fully responsive and provide optimal
+ * experiences across all device sizes.
+ *
+ * BREAKPOINT SYSTEM:
+ * - Default (Mobile): 0-639px
+ * - sm: 640px and up (Small tablets, large phones)
+ * - md: 768px and up (Tablets, small laptops)
+ * - lg: 1024px and up (Laptops, desktops)
+ * - xl: 1280px and up (Large desktops)
+ * - 2xl: 1536px and up (Extra large screens)
+ *
+ * RESPONSIVE STRATEGIES:
+ * 1. Stack Instead of Row: Convert horizontal layouts to vertical on small screens
+ * 2. Reduce Padding/Margins: Use smaller spacing on mobile devices
+ * 3. Simplify UI: Hide secondary elements on smaller screens
+ * 4. Adjust Typography: Use smaller font sizes on mobile
+ * 5. Touch-Friendly: Increase tap target sizes on touch devices
+ *
+ * IMPLEMENTATION APPROACH:
+ * We use Tailwind's responsive prefixes (sm:, md:, lg:, etc.) to apply
+ * different styles at different breakpoints. Always design mobile-first,
+ * then add responsive variants for larger screens.
+ *
+ * Example:
+ * <div class="p-4 sm:p-6 md:p-8 lg:p-10">Content</div>
+ */
+@media (max-width: 1024px) {
   .project-context-grid {
     grid-template-columns: 1fr;
     gap: 2rem;

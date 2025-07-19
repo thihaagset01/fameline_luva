@@ -2,6 +2,22 @@ import * as React from 'react';
 import { StepProps } from '@/types';
 import { TextInput } from '@/components/inputs';
 
+/**
+ * 👤 UserInfoStep Component
+ * 
+ * This is the first step in our louver selection wizard! It collects basic user
+ * information (name and email) to personalize the experience and enable follow-up
+ * communication.
+ * 
+ * Features:
+ * - Simple, welcoming interface with animated orb visual
+ * - Collects user's name and email address
+ * - Introduces "Luva", our virtual assistant character
+ * 
+ * This step establishes the friendly, conversational tone of the entire wizard
+ * and begins building a relationship with the user.
+ */
+
 export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   return (
     <div className="app-container fixed-height-page">

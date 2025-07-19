@@ -2,16 +2,56 @@ import * as React from 'react';
 import { useState, useEffect, useCallback, memo } from 'react';
 import { StepProps } from '@/types';
 
-// Define the new fields we want to add to FormData
+/**
+ * 📃 ProjectContextStep Component
+ * 
+ * This step collects critical information about the project's requirements
+ * that will drive the louver recommendation process. It's structured as a
+ * multi-step wizard within a single page, where each choice reveals the next
+ * set of options.
+ * 
+ * The user progresses through three key selections:
+ * 1. Louver application type (e.g., Mission Critical, Commercial)
+ * 2. Airflow requirements (Basic, Good, Maximum)
+ * 3. Water tolerance level (Zero, Minimal, Moderate)
+ * 
+ * The component uses intelligent defaults to recommend options based on
+ * the user's application selection, making the process easier while still
+ * allowing for customization.
+ */
+
+/**
+ * Type extension for FormData to include project context fields
+ * 
+ * This declaration extends the FormData interface from @/types to include
+ * the specific fields needed for this step. This ensures proper type checking
+ * throughout the application when these fields are accessed.
+ */
 declare module '@/types' {
   interface FormData {
-    louverApplication?: string;
-    airflowRequirement?: string;
-    waterTolerance?: string;
+    // Using consistent types for form data fields
+    // These must match the types defined elsewhere in the application
+    louverApplication?: LouverApplication | undefined;
+    airflowRequirement?: AirflowRequirement | undefined;
+    waterTolerance?: WaterTolerance | undefined;
   }
 }
 
-// Application Context Data (Step 1)
+/**
+ * 🏢 Application Context Data (Step 1)
+ * 
+ * This array defines all possible louver application categories that a user
+ * can select from. Each application has specific characteristics that influence
+ * the recommended louver type.
+ * 
+ * Each object includes:
+ * - id: Unique identifier used in form data
+ * - name: Display name shown to users
+ * - description: Brief explanation of the application type
+ * - icon: Emoji for visual identification
+ * - examples: Real-world examples to help users understand the category
+ * - colorClass: CSS class for styling the selection card
+ */
 const louverApplications = [
   {
     id: 'mission-critical',
@@ -63,7 +103,21 @@ const louverApplications = [
   }
 ];
 
-// Airflow Options (Step 2)
+/**
+ * 💨 Airflow Options (Step 2)
+ * 
+ * These options define how much air needs to flow through the louvers.
+ * The selection affects which louver models are recommended based on their
+ * airflow coefficient ratings.
+ * 
+ * Each option includes:
+ * - id: Unique identifier used in form data
+ * - name: User-friendly option name
+ * - description: Simple explanation for non-technical users
+ * - technicalNote: More detailed information for technical understanding
+ * - icon: Visual indicator
+ * - performance: Rating category for comparison
+ */
 const airflowOptions = [
   {
     id: 'basic',
@@ -91,7 +145,21 @@ const airflowOptions = [
   }
 ];
 
-// Water Tolerance Options (Step 3)
+/**
+ * 🌧️ Water Tolerance Options (Step 3)
+ * 
+ * These options define how water-resistant the louvers need to be.
+ * The selection affects which louver models are recommended based on their
+ * rain defense ratings and water penetration resistance.
+ * 
+ * Each option includes:
+ * - id: Unique identifier used in form data
+ * - name: User-friendly option name
+ * - description: Simple explanation for non-technical users
+ * - technicalNote: Technical classification and performance details
+ * - icon: Visual indicator
+ * - protection: Rating category for comparison
+ */
 const waterToleranceOptions = [
   {
     id: 'zero',
@@ -119,7 +187,19 @@ const waterToleranceOptions = [
   }
 ];
 
-// Smart Default Logic
+/**
+ * 🤓 Smart Default Logic
+ * 
+ * This function provides intelligent recommendations for airflow and water tolerance
+ * based on the selected application type. It helps guide users toward appropriate
+ * choices while still allowing them to override if needed.
+ * 
+ * For example, mission-critical applications like data centers automatically
+ * suggest maximum airflow (for cooling) and zero water tolerance (for equipment protection).
+ * 
+ * @param applicationId - The selected application type ID
+ * @returns Object containing recommended airflow, water tolerance, and reasoning
+ */
 const getIntelligentDefaults = (applicationId: string) => {
   const defaultMap: Record<string, { airflow: string; water: string; reasoning: string }> = {
     'mission-critical': {
@@ -161,7 +241,15 @@ const getIntelligentDefaults = (applicationId: string) => {
   };
 };
 
-// Memoized Option Card Components for performance optimization
+/**
+ * 🗨️ Memoized Option Card Components for performance optimization
+ * 
+ * These components are memoized to prevent unnecessary re-renders when
+ * other parts of the form change. This improves performance, especially
+ * when there are many options displayed simultaneously.
+ * 
+ * The ApplicationCard component renders a selectable card for each louver application type.
+ */
 const ApplicationCard = memo(({ 
   app, 
   selected, 
@@ -193,6 +281,14 @@ const ApplicationCard = memo(({
   </div>
 ));
 
+/**
+ * 🗲 Selection Option Card Component
+ * 
+ * This component renders a selectable card for airflow and water tolerance options.
+ * It includes visual indicators for the currently selected option and recommended options.
+ * 
+ * The component is memoized to prevent unnecessary re-renders when other parts of the form change.
+ */
 const SelectionOptionCard = memo(({ 
   option, 
   selected, 
@@ -287,7 +383,15 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
     updateFormData('waterTolerance', waterToleranceId);
   }, [updateFormData]);
 
-  // Get recommended options based on application selection
+    /**
+   * Retrieves recommended airflow and water tolerance options
+   * 
+   * This helper function gets the intelligent defaults based on the
+   * currently selected application type. These recommendations are used
+   * to visually highlight the suggested options in the UI.
+   * 
+   * @returns Object containing recommended airflow and water tolerance IDs
+   */
   const getRecommendedOptions = () => {
     if (!formData.louverApplication) return { airflow: null, water: null };
     const defaults = getIntelligentDefaults(formData.louverApplication);

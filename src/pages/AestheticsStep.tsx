@@ -1,7 +1,36 @@
 import * as React from 'react';
 import { StepProps } from '@/types';
 
-// Helper function to adjust color brightness
+/**
+ * 🎨 AestheticsStep Component
+ * 
+ * This step allows users to customize the visual appearance of their louvers.
+ * Users can select design preferences such as:
+ * - Mullion visibility (visible or hidden structural elements)
+ * - Blade orientation (horizontal or vertical slats)
+ * - Color selection (using a color picker)
+ * - Additional customization notes (via text input)
+ * 
+ * The component includes an interactive preview that updates in real-time
+ * as users make selections, helping them visualize their choices.
+ * 
+ * These aesthetic choices affect both the appearance and some functional
+ * aspects of the recommended louver models.
+ */
+
+/**
+ * 🌈 Helper function to adjust color brightness
+ * 
+ * This utility function takes a hex color and adjusts its brightness
+ * by the specified percentage. It's used to create gradient effects
+ * in the louver preview visualization.
+ * 
+ * @param hex - The hex color code to adjust (e.g., '#10b981')
+ * @param percent - Percentage to adjust brightness (-100 to 100)
+ * @returns A new hex color code with adjusted brightness
+ * 
+ * Example: adjustColor('#10b981', -20) → darker version of the color
+ */
 function adjustColor(hex: string, percent: number): string {
   const num = parseInt(hex.replace('#', ''), 16);
   const amt = Math.round(2.55 * percent);
@@ -16,13 +45,24 @@ function adjustColor(hex: string, percent: number): string {
   ).toString(16).slice(1);
 }
 
+/**
+ * Main AestheticsStep component implementation
+ * 
+ * This component is structured in three columns:
+ * 1. Left: Controls for mullion visibility and blade orientation
+ * 2. Middle: Interactive louver visualization that updates based on selections
+ * 3. Right: Color picker and customization text input
+ * 
+ * All user selections are stored in formData and updated via updateFormData.
+ */
 export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   return (
     <div className="app-container fixed-height-page aesthetics-step">
       <h1 className="page-title">Design Aesthetics</h1>
       
       <div className="aesthetics-container">
-        {/* Left column - Controls */}
+        {/* Left column - Controls for structural elements */}
+        {/* These toggle buttons let users select key structural features */}
         <div className="aesthetics-controls">
           {/* Mullion visibility */}
           <div className="aesthetics-group">
@@ -73,7 +113,8 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
           </div>
         </div>
         
-        {/* Middle column - Visualization */}
+        {/* Middle column - Interactive louver visualization */}
+        {/* This preview updates in real-time to show how selections affect appearance */}
         <div className="aesthetics-visualization">
           <div className="louver-preview">
             <div 
@@ -106,7 +147,8 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
           </p>
         </div>
         
-        {/* Right column - Inputs */}
+        {/* Right column - Color and custom inputs */}
+        {/* These controls allow for color selection and additional customization notes */}
         <div className="aesthetics-inputs">
           {/* Color picker */}
           <div className="aesthetics-input-group">

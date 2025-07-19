@@ -1,14 +1,53 @@
 import React from 'react';
-import { SelectOption } from '@/types';
 
-// Text Input Component
-interface TextInputProps {
-  label: string;
-  placeholder: string;
+/**
+ * SelectOption Interface
+ * Defines the structure for dropdown option items
+ */
+interface SelectOption {
+  /** Unique identifier or value for the option */
   value: string;
+  /** Display text shown to the user */
+  label: string;
+}
+
+/**
+ * 🎨 Input Components Collection
+ * 
+ * This file contains all the reusable input components used throughout the application.
+ * Each component follows consistent patterns for styling, validation, and user interaction.
+ * 
+ * Components include:
+ * - TextInput: For single-line text entry
+ * - SelectInput: For dropdown selections
+ * - Textarea: For multi-line text entry
+ * - ToggleButton: For toggle button functionality
+ * - ColorInput: For color selection with visual preview
+ * 
+ * All inputs maintain consistent styling with the global design system
+ * and provide proper accessibility attributes.
+ */
+
+/**
+ * TextInput Component 📝
+ * 
+ * A styled text input field with optional icon and error state.
+ * Used for collecting single-line text data from users.
+ */
+interface TextInputProps {
+  /** The label displayed above the input field */
+  label: string;
+  /** Placeholder text shown when the input is empty */
+  placeholder: string;
+  /** Current value of the input field */
+  value: string;
+  /** Handler function called when the input value changes */
   onChange: (value: string) => void;
+  /** Input type - either regular text or email with validation */
   type?: 'text' | 'email';
+  /** Optional icon to display inside the input field */
   icon?: React.ReactNode;
+  /** Error message to display when validation fails */
   error?: string;
 }
 
@@ -53,13 +92,24 @@ export const TextInput: React.FC<TextInputProps> = ({
   );
 };
 
-// Select Input Component
+/**
+ * SelectInput Component 🔽
+ * 
+ * A styled dropdown select component with custom styling and error handling.
+ * Used for selecting from predefined options throughout the application.
+ */
 interface SelectInputProps {
+  /** The label displayed above the select field */
   label: string;
+  /** Text shown when no option is selected */
   placeholder: string;
+  /** Currently selected value */
   value: string;
+  /** Handler function called when selection changes */
   onChange: (value: string) => void;
+  /** Array of options to display in the dropdown */
   options: SelectOption[];
+  /** Error message to display when validation fails */
   error?: string;
 }
 
@@ -110,13 +160,24 @@ export const SelectInput: React.FC<SelectInputProps> = ({
   );
 };
 
-// Textarea Component
+/**
+ * Textarea Component 📝
+ * 
+ * A multi-line text input for longer form responses.
+ * Used for collecting detailed information from users.
+ */
 interface TextareaProps {
+  /** The label displayed above the textarea */
   label: string;
+  /** Placeholder text shown when the textarea is empty */
   placeholder: string;
+  /** Current content of the textarea */
   value: string;
+  /** Handler function called when the content changes */
   onChange: (value: string) => void;
+  /** Number of visible text rows (default: 6) */
   rows?: number;
+  /** Error message to display when validation fails */
   error?: string;
 }
 
@@ -155,12 +216,22 @@ export const Textarea: React.FC<TextareaProps> = ({
   );
 };
 
-// Toggle Button Component
+/**
+ * ToggleButton Component 🔊
+ * 
+ * A button that can be toggled between active and inactive states.
+ * Used for binary selections throughout the application.
+ */
 interface ToggleButtonProps {
+  /** Whether the toggle is currently in active state */
   isActive: boolean;
+  /** Handler function called when the button is clicked */
   onClick: () => void;
+  /** Content to display inside the button */
   children: React.ReactNode;
+  /** Additional CSS classes to apply to the button */
   className?: string;
+  /** Accessible label for screen readers (important for a11y) */
   label?: string;
 }
 
@@ -183,12 +254,22 @@ export const ToggleButton: React.FC<ToggleButtonProps> = ({
   );
 };
 
-// Color Input Component
+/**
+ * ColorInput Component 🎨
+ * 
+ * A specialized input for color selection with a visual color preview.
+ * Used for selecting colors for louver customization.
+ */
 interface ColorInputProps {
+  /** The label displayed above the color input */
   label: string;
+  /** Placeholder text shown when no color is selected */
   placeholder: string;
+  /** Current color value (hex code or color name) */
   value: string;
+  /** Handler function called when the color changes */
   onChange: (value: string) => void;
+  /** Error message to display when validation fails */
   error?: string;
 }
 
