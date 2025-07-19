@@ -69,7 +69,14 @@ export interface LouverModel {
 // Enhanced Recommendation Result
 export interface LouverRecommendation {
   louver: LouverModel;
-  confidence: number; // 0-100
+  model: string;
+  type: string;
+  confidence: number; // 0-1 scale
+  confidenceScore: number; // 0-1 scale
+  airflowRating: number; // 0-10 scale
+  waterResistanceRating: number; // 0-10 scale
+  durabilityRating: number; // 0-10 scale
+  aestheticsRating: number; // 0-10 scale
   matchReasons: MatchReason[];
   alternatives?: LouverModel[];
   weatherCompatibility?: WeatherCompatibility;

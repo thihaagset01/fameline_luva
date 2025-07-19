@@ -172,9 +172,26 @@ class RecommendationEngine {
       .slice(1, 4)
       .map(scored => scored.louver);
 
+    // Calculate individual rating values from the scores (0-10 scale)
+    const airflowReason = bestMatch.reasons.find(r => r.category === 'Airflow Performance');
+    const waterReason = bestMatch.reasons.find(r => r.category === 'Water Protection');
+    const durabilityReason = bestMatch.reasons.find(r => r.category === 'Environment');
+    
+    const airflowRating = airflowReason ? Math.round(airflowReason.score / 10) : 0;
+    const waterResistanceRating = waterReason ? Math.round(waterReason.score / 10) : 0;
+    const durabilityRating = durabilityReason ? Math.round(durabilityReason.score / 10) : 0;
+    const aestheticsRating = Math.round(bestMatch.totalScore / 10) || 0;
+
     return {
       louver: bestMatch.louver,
-      confidence: Math.min(Math.round(bestMatch.totalScore), 100), // Already normalized 0-100
+      model: bestMatch.louver.model,
+      type: bestMatch.louver.type,
+      confidence: Math.min(Math.round(bestMatch.totalScore) / 100, 1), // 0-1 scale
+      confidenceScore: Math.min(bestMatch.totalScore / 100, 1), // 0-1 scale
+      airflowRating,
+      waterResistanceRating,
+      durabilityRating,
+      aestheticsRating,
       matchReasons: bestMatch.reasons,
       alternatives
     };
