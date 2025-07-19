@@ -170,7 +170,7 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
   };
 
   return (
-    <div className="app-container fixed-height-page">
+    <div className="app-container scrollable-page">
       <div className="content-card">
         <div className="form-side">
           {/* Welcome Message */}
@@ -182,73 +182,71 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
               Location and environment details help us recommend the perfect louver solution.
             </p>
           </div>
-          
-          {/* Form Container */}
-          <div className="form-container">
-            {/* Location Input */}
-            <div className="input-group">
-              <label className="input-label">
-                <MapPin size={20} className="inline mr-2" />
-                Where is your project?
-              </label>
-              <div className="input-wrapper">
-                <input
-                  type="text"
-                  className={`input-field ${getLocationInputStatus()}`}
-                  placeholder="E.g. Singapore, New York, London"
-                  value={formData.location || ''}
-                  onChange={(e) => handleLocationChange(e.target.value)}
-                />
-                <div className="input-indicator">
-                  {formData.location && locationValid && (
-                    <div className="input-active-dot"></div>
-                  )}
-                </div>
+        
+          {/* Location Input */}
+          <div className="input-group">
+            <label className="input-label">
+              <MapPin size={20} className="inline mr-2" />
+              Where is your project?
+            </label>
+            <div className="input-wrapper">
+              <input
+                type="text"
+                className={`input-field ${getLocationInputStatus()}`}
+                placeholder="E.g. Singapore, New York, London"
+                value={formData.location || ''}
+                onChange={(e) => handleLocationChange(e.target.value)}
+              />
+              <div className="input-indicator">
+                {formData.location && locationValid && (
+                  <div className="input-active-dot"></div>
+                )}
               </div>
-              
-              {/* Location Status */}
-              {renderLocationStatus()}
             </div>
-
-            {/* Environment Selection - Auto-populated but user can override */}
-            {locationValid && (
-              <div className="input-group environment-selection">
-                <label className="input-label">
-                  What type of environment? 
-                  <span className="auto-detected">(Auto-detected)</span>
-                </label>
-                <div className="environment-options">
-                  {ENVIRONMENT_OPTIONS.map((option) => (
-                    <button
-                      key={option.value}
-                      type="button"
-                      className={`environment-option ${formData.environment === option.value ? 'selected' : ''}`}
-                      onClick={() => updateFormData('environment', option.value)}
-                    >
-                      <span className="option-label">{option.label}</span>
-                      {formData.environment === option.value && (
-                        <CheckCircle size={16} className="option-check" />
-                      )}
-                    </button>
-                  ))}
-                </div>
-                <p className="environment-help">
-                  We've suggested an environment based on your location. You can change it if needed.
-                </p>
-              </div>
-            )}
-
-            {/* Location Tips */}
-            <div className="location-tips">
-              <h4>💡 Location Tips</h4>
-              <ul>
-                <li>Enter city name, address, or landmark</li>
-                <li>Include country for better accuracy</li>
-                <li>We'll automatically detect environment type</li>
-                <li>Weather data helps optimize recommendations</li>
-              </ul>
-            </div>
+            
+            {/* Location Status */}
+            {renderLocationStatus()}
           </div>
+
+          {/* Environment Selection - Auto-populated but user can override */}
+          {locationValid && (
+            <div className="input-group environment-selection">
+              <label className="input-label">
+                What type of environment? 
+                <span className="auto-detected">(Auto-detected)</span>
+              </label>
+              <div className="environment-options">
+                {ENVIRONMENT_OPTIONS.map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    className={`environment-option ${formData.environment === option.value ? 'selected' : ''}`}
+                    onClick={() => updateFormData('environment', option.value)}
+                  >
+                    <span className="option-label">{option.label}</span>
+                    {formData.environment === option.value && (
+                      <CheckCircle size={16} className="option-check" />
+                    )}
+                  </button>
+                ))}
+              </div>
+              <p className="environment-help">
+                We've suggested an environment based on your location. You can change it if needed.
+              </p>
+            </div>
+          )}
+
+          {/* Location Tips */}
+          <div className="location-tips">
+            <h4>💡 Location Tips</h4>
+            <ul>
+              <li>Enter city name, address, or landmark</li>
+              <li>Include country for better accuracy</li>
+              <li>We'll automatically detect environment type</li>
+              <li>Weather data helps optimize recommendations</li>
+            </ul>
+          </div>
+        
         </div>
       </div>
 
@@ -327,7 +325,6 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
         }
         
         .environment-selection {
-          margin-top: 1.5rem;
           padding-top: 1.5rem;
           border-top: 1px solid rgba(255, 255, 255, 0.1);
         }

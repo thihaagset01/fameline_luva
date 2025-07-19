@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Download, Star, TrendingUp } from 'lucide-react';
+import { Download, Star, TrendingUp, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FormData } from '@/types';
 import { recommendationEngine } from '@/engine/recommendationEngine';
 
@@ -32,6 +32,7 @@ interface EnhancedLouverRecommendation {
   }[];
 }
 
+// Props interface for the RecommendationStep component
 interface RecommendationStepProps {
   formData: FormData;
   onPrevStep: () => void;
@@ -49,33 +50,18 @@ function getLouverTypeDescription(louver: any): string {
 }
 
 function getDetailedDescription(louver: any, formData: FormData): string {
-  const acoustic = louver.model.startsWith('AC-') ? 'acoustic ' : '';
-  const orientation = louver.frontBlade?.toLowerCase() || 'standard';
-  const mullion = formData.mullionVisibility === 'hidden' ? 'hidden mullion ' : '';
+  // Add null checks to prevent errors
+  const acoustic = louver?.model ? (louver.model.startsWith('AC-') ? 'acoustic ' : '') : '';
+  const orientation = louver?.frontBlade?.toLowerCase() || 'standard';
+  const mullion = formData?.mullionVisibility === 'hidden' ? 'hidden mullion ' : '';
+  const louverType = louver?.type?.toLowerCase() || 'standard';
+  const purpose = formData?.purpose || 'general';
+  const environment = formData?.environment || 'standard';
   
-  return `This ${acoustic}louver features ${orientation} blades in a ${louver.type.toLowerCase()} bank configuration with ${mullion}design. Optimized for ${formData.purpose} applications in ${formData.environment} environments.`;
+  return `This ${acoustic}louver features ${orientation} blades in a ${louverType} bank configuration with ${mullion}design. Optimized for ${purpose} applications in ${environment} environments.`;
 }
 
-function getLouverColor(model: string): string {
-  const colorMap: Record<string, string> = {
-    'PL-1050': '#ef4444', 'PL-2050': '#ef4444', 'PL-3050': '#ef4444',
-    'PL-1075': '#f97316', 'PL-2075': '#f97316', 'PL-3075': '#f97316', 
-    'PL-2170': '#eab308', 'PL-2150V': '#22c55e',
-    'PL-2250': '#06b6d4', 'PL-2250V': '#3b82f6',
-    'AC-150': '#8b5cf6', 'AC-300': '#ec4899'
-  };
-  return colorMap[model] || '#10b981';
-}
-
-function adjustLouverColor(model: string): string {
-  const base = getLouverColor(model);
-  // Darken the color for gradient effect
-  const num = parseInt(base.replace('#', ''), 16);
-  const r = Math.max(0, (num >> 16) - 40);
-  const g = Math.max(0, ((num >> 8) & 0x00FF) - 40);
-  const b = Math.max(0, (num & 0x0000FF) - 40);
-  return `#${(r << 16 | g << 8 | b).toString(16).padStart(6, '0')}`;
-}
+// Function removed as it's no longer needed with global CSS classes
 
 // Loading component
 const LoadingState: React.FC = () => (
@@ -120,30 +106,68 @@ const ErrorState: React.FC<{ error: string; onRetry: () => void }> = ({ error, o
 
 // Main component
 export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData, onPrevStep, onNextStep }) => {
+  
   const [recommendation, setRecommendation] = useState<EnhancedLouverRecommendation | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeModelIndex, setActiveModelIndex] = useState(0); // Track which model is active (0 = primary, 1 = first alt, 2 = second alt)
+  const [allModels, setAllModels] = useState<EnhancedLouverRecommendation[]>([]);
 
-  useEffect(() => {
-    generateRecommendation();
-  }, []);
-
-  const generateRecommendation = async () => {
+  // Track previous formData to avoid unnecessary rerenders
+  const prevFormDataRef = React.useRef<FormData | null>(null);
+  
+  // Function to fetch recommendation data
+  const fetchRecommendation = async () => {
     try {
       setLoading(true);
-      setError(null);
+      // Reset active model index when fetching new data
+      setActiveModelIndex(0);
       
-      // Simulate AI processing time for better UX
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Cast the result to our enhanced type to satisfy TypeScript
+      // Use the recommendationEngine directly without getInstance
       const result = await recommendationEngine.getRecommendation(formData);
-      setRecommendation(result as unknown as EnhancedLouverRecommendation);
+      const enhancedResult = result as unknown as EnhancedLouverRecommendation;
+      setRecommendation(enhancedResult);
+      
+      // Prepare all models array with primary recommendation and alternatives
+      const models = [enhancedResult];
+      if (result.alternatives && result.alternatives.length > 0) {
+        // Create enhanced alternatives with the same structure as the main recommendation
+        const enhancedAlternatives = result.alternatives.map((alt: any) => {
+          return {
+            ...enhancedResult,
+            louver: alt,
+            model: alt.model,
+            type: alt.type,
+            confidenceScore: enhancedResult.confidenceScore * 0.9, // Slightly lower confidence for alternatives
+          } as EnhancedLouverRecommendation;
+        });
+        models.push(...enhancedAlternatives);
+      }
+      setAllModels(models);
     } catch (err) {
-      setError('Failed to generate recommendation. Please try again.');
-      console.error('Recommendation error:', err);
+      console.error('Error getting recommendation:', err);
+      setError('Failed to get recommendation. Please try again.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    // Check if formData has changed
+    const formDataChanged = JSON.stringify(formData) !== JSON.stringify(prevFormDataRef.current);
+    
+    // Only fetch if formData has changed or this is the initial mount
+    if (formDataChanged) {
+      prevFormDataRef.current = {...formData};
+      fetchRecommendation();
+    }
+  }, [formData]); // Depend on formData changes
+  
+  // Function to handle model selection
+  const handleModelSelect = (index: number) => {
+    if (index >= 0 && index < allModels.length) {
+      setActiveModelIndex(index);
+      setRecommendation(allModels[index]);
     }
   };
 
@@ -152,147 +176,169 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   }
 
   if (error) {
-    return <ErrorState error={error} onRetry={generateRecommendation} />;
+    return <ErrorState error={error} onRetry={() => {
+      setLoading(true);
+      setError(null);
+      // Re-fetch recommendation
+      recommendationEngine.getRecommendation(formData)
+        .then(result => {
+          setRecommendation(result as unknown as EnhancedLouverRecommendation);
+        })
+        .catch(err => {
+          console.error('Error getting recommendation:', err);
+          setError('Failed to get recommendation. Please try again.');
+        })
+        .finally(() => setLoading(false));
+    }} />;
   }
 
   if (!recommendation) {
-    return <ErrorState error="No recommendation available" onRetry={generateRecommendation} />;
+    return <LoadingState />;
   }
   
   // Main recommendation display
   return (
-    <div className="recommendation-step scrollable-page">
+    <div className="recommendations-step">
       <div className="recommendations-content">
-        {/* Recommendation header */}
-        <div className="recommendations-info">
-          <div>
-            <span className="confidence-badge">
-              {Math.round(recommendation.confidenceScore * 100)}% Match
-            </span>
-            <div className="flex items-center text-yellow-400">
-              {[...Array(5)].map((_, i) => (
-                <Star 
-                  key={i} 
-                  size={16} 
-                  fill={i < Math.round(recommendation.confidence * 5) ? "currentColor" : "none"} 
-                  className="mr-0.5" 
-                />
-              ))}
-            </div>
-          </div>
-          <h1 className="recommendations-title">{recommendation.model}</h1>
-          <p className="recommendations-description">
-            {getLouverTypeDescription(recommendation)}
-          </p>
-        </div>
-
-        {/* Description section */}
-        <div className="mb-8">
-          <p className="text-white/80 mb-4">{getDetailedDescription(recommendation, formData)}</p>
-          {/* Specs grid */}
-          <div className="recommendations-specs">
-            <div className="spec-item">
-              <div className="spec-label">Airflow</div>
-              <div className="spec-value flex items-center">
-                <TrendingUp size={18} className="mr-1 text-emerald-400" />
-                {recommendation.airflowRating}/10
-              </div>
-            </div>
-            <div className="spec-item">
-              <div className="spec-label">Water Resistance</div>
-              <div className="spec-value">{recommendation.waterResistanceRating}/10</div>
-            </div>
-            <div className="spec-item">
-              <div className="spec-label">Durability</div>
-              <div className="spec-value">{recommendation.durabilityRating}/10</div>
-            </div>
-            <div className="spec-item">
-              <div className="spec-label">Aesthetics</div>
-              <div className="spec-value">{recommendation.aestheticsRating}/10</div>
-            </div>
-          </div>
-
-          {/* Detailed description */}
-          <div className="bg-white/5 p-6 rounded-xl mb-8">
-            <h3 className="text-white text-xl font-medium mb-4">Why This Louver</h3>
-            <ul className="space-y-2">
-              {recommendation.matchReasons.map((reason, index) => (
-                <li key={index} className="flex items-start">
-                  <span className="text-emerald-400 mr-2">•</span>
-                  <span className="text-white/80">{reason.explanation || reason.category}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-
-        {/* Louver visualization */}
-        <div className="recommendations-visualization">
-          <div className="louver-3d-container">
-            <div 
-              className="louver-3d-panel primary"
-              style={{
-                background: `linear-gradient(135deg, ${getLouverColor(recommendation.model)}, ${adjustLouverColor(recommendation.model)})`
-              }}
-            >
-              {/* Model badge */}
-              <div className="absolute bottom-4 right-4 bg-black/30 backdrop-blur-sm px-4 py-2 rounded-lg">
-                <div className="text-white font-medium">{recommendation.model}</div>
-                <div className="text-white/70 text-sm">{recommendation.type} Bank</div>
-              </div>
-            </div>
-
-            {/* Alternative options */}
-            {recommendation.alternatives && recommendation.alternatives.length > 0 && recommendation.alternatives.slice(0, 2).map((alternative, index) => (
-              <div 
-                key={index} 
-                className={`louver-3d-panel ${index === 0 ? 'secondary' : 'tertiary'}`}
-                style={{
-                  background: `linear-gradient(135deg, ${getLouverColor(alternative.model)}, ${adjustLouverColor(alternative.model)})`
-                }}
-              >
-                <div className="absolute bottom-4 right-4 bg-black/30 backdrop-blur-sm px-3 py-1 rounded-lg">
-                  <div className="text-white font-medium text-sm">{alternative.model}</div>
-                  <div className="text-white/70 text-xs">{alternative.type} Bank</div>
+        {/* Two-column layout for better space utilization */}
+        <div className="recommendations-grid">
+          {/* Left column: Information */}
+          <div className="recommendations-info-column">
+            {/* Recommendation header */}
+            <div className="recommendations-info">
+              <div className="recommendation-header">
+                <span className="confidence-badge">
+                  {!isNaN(recommendation.confidenceScore) ? Math.round(recommendation.confidenceScore * 100) : '--'}% Match
+                </span>
+                <div className="rating-stars">
+                  {[...Array(5)].map((_, i) => (
+                    <Star 
+                      key={i} 
+                      size={16} 
+                      fill={i < Math.round(recommendation.confidence * 5) ? "currentColor" : "none"} 
+                    />
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Download section */}
-        <div className="bg-white/5 rounded-lg p-4 mb-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-xl font-medium text-white mb-1">Download Specification</h3>
-              <p className="text-white/70 text-sm">Get the complete technical details</p>
+              <h1 className="recommendations-title">{recommendation.model || recommendation.louver?.model}</h1>
+              <p className="recommendations-description">
+                {getLouverTypeDescription(recommendation)}
+              </p>
+              <p className="recommendations-description">
+                {getDetailedDescription(recommendation, formData)}
+              </p>
             </div>
-            <button className="recommendations-button">
-              <Download size={20} />
-            </button>
+
+            {/* Specs grid section */}
+            <div className="recommendations-specs">
+              <div className="spec-item">
+                <div className="spec-label">Airflow</div>
+                <div className="spec-value">
+                  <TrendingUp size={18} className="spec-icon" />
+                  <span>{!isNaN(recommendation.airflowRating) && recommendation.airflowRating !== undefined ? recommendation.airflowRating : '-'}</span>
+                  <span className="spec-unit">/10</span>
+                </div>
+              </div>
+              <div className="spec-item">
+                <div className="spec-label">Water Resistance</div>
+                <div className="spec-value">
+                  <span>{!isNaN(recommendation.waterResistanceRating) && recommendation.waterResistanceRating !== undefined ? recommendation.waterResistanceRating : '-'}</span>
+                  <span className="spec-unit">/10</span>
+                </div>
+              </div>
+              <div className="spec-item">
+                <div className="spec-label">Durability</div>
+                <div className="spec-value">
+                  <span>{!isNaN(recommendation.durabilityRating) && recommendation.durabilityRating !== undefined ? recommendation.durabilityRating : '-'}</span>
+                  <span className="spec-unit">/10</span>
+                </div>
+              </div>
+              <div className="spec-item">
+                <div className="spec-label">Aesthetics</div>
+                <div className="spec-value">
+                  <span>{!isNaN(recommendation.aestheticsRating) && recommendation.aestheticsRating !== undefined ? recommendation.aestheticsRating : '-'}</span>
+                  <span className="spec-unit">/10</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Detailed description */}
+            <div className="reason-section">
+              <h3 className="reason-title">Why This Louver</h3>
+              <ul className="reason-list">
+                {recommendation.matchReasons && recommendation.matchReasons.map((reason, index) => (
+                  <li key={index} className="reason-item">
+                    <span className="reason-bullet">•</span>
+                    <span className="reason-text">{reason.explanation || reason.category}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Download section */}
+            <div className="download-section">
+              <div className="download-content">
+                <div className="download-info">
+                  <h3 className="download-title">Download Specification</h3>
+                  <p className="download-description">Get the complete technical details</p>
+                </div>
+                <button className="recommendations-button">
+                  <Download size={20} />
+                </button>
+              </div>  
+            </div>
+          </div>
+
+          {/* Right column: Visualization */}
+          <div className="recommendations-visual-column">
+            {/* Louver visualization */}
+            <div className="recommendations-visualization">
+              <div className="louver-3d-container">
+                {/* Primary panel */}
+                <div 
+                  className={`louver-3d-panel primary ${activeModelIndex === 0 ? 'active' : ''}`}
+                  onClick={() => handleModelSelect(0)}
+                  title="Primary recommendation"
+                >
+                  {/* Model badge */}
+                  <div className="louver-model-badge">
+                    <div className="louver-model-name">{allModels[0]?.model || recommendation.model}</div>
+                    <div className="louver-model-type">{allModels[0]?.type || recommendation.type} Bank</div>
+                  </div>
+                  {activeModelIndex === 0 && <div className="active-model-indicator">Current Selection</div>}
+                </div>
+
+                {/* Alternative options */}
+                {allModels.length > 1 && allModels.slice(1, 3).map((altModel, index) => (
+                  <div 
+                    key={index} 
+                    className={`louver-3d-panel ${index === 0 ? 'secondary' : 'tertiary'} ${activeModelIndex === index + 1 ? 'active' : ''}`}
+                    onClick={() => handleModelSelect(index + 1)}
+                    title={`View ${altModel.model} details`}
+                  >
+                    <div className="louver-model-badge">
+                      <div className="louver-model-name">{altModel.model}</div>
+                      <div className="louver-model-type">{altModel.type} Bank</div>
+                    </div>
+                    {activeModelIndex === index + 1 && <div className="active-model-indicator">Current Selection</div>}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        
-        {/* Navigation buttons */}
-        <div className="flex justify-between items-center mt-8">
-          <button 
-            onClick={onPrevStep} 
-            className="recommendations-button"
-          >
-            Previous
-          </button>
-          <div className="text-center">
-            <p className="text-white/50 text-sm">
-              Step 5 of 6 • AI Recommendation
-            </p>
-          </div>
-          <button 
-            onClick={onNextStep} 
-            className="recommendations-button"
-          >
-            Next
-          </button>
-        </div>
+      </div>
+      
+      {/* Navigation buttons */}
+      <div className="navigation-buttons">
+        <button className="nav-button prev" onClick={onPrevStep}>
+          <ChevronLeft size={20} />
+          Previous
+        </button>
+        <button className="nav-button next" onClick={onNextStep}>
+          Next
+          <ChevronRight size={20} />
+        </button>
       </div>
     </div>
   );

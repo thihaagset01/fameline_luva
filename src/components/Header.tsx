@@ -14,12 +14,19 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
     }
   };
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between" style={{ position: 'fixed', top: 0, left: 0, right: 0 }}>
-      {/* Empty left side to balance the layout */}
-      <div className="p-5"></div>
+    <header className="fixed top-0 left-0 right-0 z-[100] flex flex-col items-center justify-center bg-gradient-to-b from-gray-900 to-transparent py-4">
+      <div className="w-full flex items-center justify-between px-5">
+        {/* Empty left side to balance the layout */}
+        <div className="w-6 h-6"></div>
+        
+        {/* Home icon in top right */}
+        <a href="/" className="home-icon-link inline-flex items-center justify-center w-6 h-6">
+          <Home className="w-6 h-6 text-white" />
+        </a>
+      </div>
       
-      {/* Progress dots */}
-      <div className="progress-dots">
+      {/* Progress dots - now in a separate row below the header top section */}
+      <div className="progress-dots mt-4 flex gap-4">
         {Array.from({ length: totalSteps }).map((_, index) => (
           <div 
             key={index}
@@ -36,13 +43,6 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
             {index < currentStep ? '' : (index + 1)}
           </div>
         ))}
-      </div>
-      
-      {/* Home icon in top right */}
-      <div className="p-5">
-        <a href="/" className="home-icon-link inline-flex items-center justify-center w-6 h-6">
-          <Home className="w-6 h-6 text-white" />
-        </a>
       </div>
     </header>
   );

@@ -31,7 +31,7 @@ class LouverDatabase {
         console.warn('CSV parsing warnings:', parsedData.errors);
       }
 
-      this.louvers = parsedData.data.map(this.transformCsvToLouver);
+      this.louvers = parsedData.data.map(csvRow => this.transformCsvToLouver(csvRow));
       this.isLoaded = true;
       console.log(`✅ Loaded ${this.louvers.length} louver models`);
     } catch (error) {

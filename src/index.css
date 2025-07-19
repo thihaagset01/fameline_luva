@@ -46,15 +46,14 @@ body.has-scrollable-page {
   height: auto;
   min-height: 100%;
 }
-
-/* App container */
+/* 
 .app-container {
   width: 100%;
   position: relative;
   padding: 1rem 2rem;
   padding-top: 5rem;
   box-sizing: border-box;
-}
+} */
 
 /* Gradient background - defined in @layer components */
 
@@ -1040,24 +1039,55 @@ body.has-scrollable-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   min-height: 100vh;
-  padding: 2rem;
+  padding: 6rem 1rem 1rem 1rem; /* Added top padding to prevent header overlap */
 }
 
 .recommendations-content {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   max-width: 1200px;
   width: 100%;
   align-items: center;
 }
 
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: 60% 40%;
+  gap: 1.5rem;
+  width: 100%;
+  align-items: start;
+}
+
+.recommendations-info-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.recommendations-visual-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  padding-top: 2rem;
+}
+
 .recommendations-info {
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   gap: 1.5rem;
+}
+
+.recommendation-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .confidence-badge {
@@ -1068,8 +1098,14 @@ body.has-scrollable-page {
   border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 500;
-  margin-bottom: 1rem;
   font-family: 'Poppins', sans-serif;
+}
+
+.rating-stars {
+  display: flex;
+  align-items: center;
+  color: #eab308;
+  gap: 0.25rem;
 }
 
 .recommendations-title {
@@ -1084,7 +1120,7 @@ body.has-scrollable-page {
 .recommendations-description {
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.125rem;
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;
   line-height: 1.5;
   font-family: 'Poppins', sans-serif;
 }
@@ -1093,31 +1129,88 @@ body.has-scrollable-page {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin: 1.5rem 0;
+  width: 100%;
 }
 
 .spec-item {
-  background: rgba(255, 255, 255, 0.1);
-  padding: 1rem;
+  padding: 1.25rem;
   border-radius: 0.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
 }
 
 .spec-label {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.5rem;
   font-family: 'Poppins', sans-serif;
+  display: block;
 }
 
 .spec-value {
   color: white;
-  font-size: 1.125rem;
+  font-size: 1.25rem;
   font-weight: 600;
   font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spec-icon {
+  color: #10b981;
+  margin-right: 0.25rem;
+}
+
+.spec-unit {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 400;
+  margin-left: 0.125rem;
+}
+
+.reason-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  margin-top: 1rem;
+}
+
+.reason-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.reason-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.reason-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.reason-bullet {
+  color: #10b981;
+  margin-right: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.reason-text {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.5;
 }
 
 .recommendations-button {
@@ -1142,43 +1235,140 @@ body.has-scrollable-page {
 .recommendations-visualization {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   perspective: 1000px;
+  margin-top: 0;
+  height: 100%;
 }
 
 .louver-3d-container {
   display: flex;
-  gap: 2rem;
-  align-items: center;
+  position: relative;
+  height: 400px;
+  width: 100%;
+  justify-content: center;
 }
 
 .louver-3d-panel {
-  width: 160px;
-  height: 240px;
-  border-radius: 0.75rem;
-  position: relative;
-  transition: all 0.6s ease;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  position: absolute;
+  width: 200px;
+  height: 300px;
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
 }
 
+.louver-3d-panel:hover {
+  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
+}
+
+.louver-3d-panel.active {
+  border: 2px solid #4CAF50;
+  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+}
+
+/* Base panel styles - these apply to all panels regardless of position */
+.louver-3d-panel {
+  transition: all 0.4s ease-in-out;
+}
+
+/* Primary position styles - front and center */
 .louver-3d-panel.primary {
-  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
-  transform: rotateY(-15deg) scale(1.1);
+  top: 20px;
+  left: calc(50% - 100px); /* Center the panel */
   z-index: 3;
+  transform: scale(1);
 }
 
+/* Secondary position styles - slightly back and to the right */
 .louver-3d-panel.secondary {
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-  transform: rotateY(15deg) rotateX(5deg) scale(0.9);
-  opacity: 0.7;
+  top: 40px;
+  left: calc(50% - 60px); /* Offset to the right */
   z-index: 2;
+  transform: scale(0.9) rotate(5deg);
+  opacity: 0.8;
+  background: linear-gradient(135deg, #065f46, #047857);
 }
 
+/* Tertiary position styles - furthest back and to the right */
 .louver-3d-panel.tertiary {
-  background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
-  transform: rotateY(30deg) rotateX(10deg) scale(0.7);
-  opacity: 0.5;
+  top: 60px;
+  left: calc(50% - 20px); /* Offset further to the right */
+  background: linear-gradient(135deg, #065f46, #047857);
+  transform: scale(0.8) rotate(10deg);
+  opacity: 0.6;
   z-index: 1;
+}
+
+/* Active panel styles - always bring to front position regardless of class */
+.louver-3d-panel.active {
+  top: 20px !important;
+  left: calc(50% - 100px) !important;
+  z-index: 10 !important;
+  transform: scale(1.02) !important;
+  opacity: 1 !important;
+  border: 2px solid #4CAF50;
+  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+  background: linear-gradient(135deg, #064e3b, #065f46) !important;
+}
+
+.louver-model-badge {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  padding: 0.75rem 1.25rem;
+  border-radius: 0.5rem;
+  text-align: center;
+  width: 70%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.louver-model-name {
+  color: white;
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+}
+
+.louver-model-type {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.875rem;
+}
+
+.download-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.download-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.download-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.download-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
 }
 
 .louver-3d-panel::before {
@@ -1196,6 +1386,21 @@ body.has-scrollable-page {
     rgba(0, 0, 0, 0.2) 14px
   );
   border-radius: 0.75rem;
+}
+
+.active-model-indicator {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  background: #4CAF50;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
 }
 
 /* Recommendation Error Styles */
@@ -1822,16 +2027,15 @@ body.has-scrollable-page {
   transform: translateY(-2px);
 }
 
-/* Progress dots for header - ensure they work with existing system */
+/* Progress dots styling - used by Header component */
 .progress-dots {
   display: flex;
   gap: 2rem;
   align-items: center;
-  position: fixed !important;
-  top: 4rem !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  z-index: 1000 !important;
+  position: absolute;  
+  top:5rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .progress-dots .progress-dot {
