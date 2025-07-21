@@ -28,7 +28,7 @@
  * - 2xl: 3rem (48px) - Page-level spacing
  *
  * TYPOGRAPHY:
- * - Font Family: Inter (sans-serif) - Clean, modern, highly readable
+ * - Font Family: Poppins
  * - Base Size: 16px (1rem)
  * - Scale: 1.25 ratio (major third)
  * - Weights: 300 (light), 400 (regular), 500 (medium), 600 (semibold), 700 (bold)
@@ -177,7 +177,7 @@
 /* 3. Global Base Styles */
 /* Core styles that apply to the entire application */
 html, body {
-  font-family: 'Inter', sans-serif; /* Primary font family */
+  font-family: 'Poppins', sans-serif; /* Primary font family */
   color: white; /* Default text color */
   margin: 0;
   padding: 0;
@@ -415,12 +415,7 @@ body.has-scrollable-page {
     overflow: hidden;
     z-index: 0;
   }
-  
-  @keyframes subtleShimmer {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
+
   
   .gradient-bg::after {
     content: '';
@@ -708,8 +703,26 @@ body.has-scrollable-page {
    * Usage: 
    * <input class="input-pill" type="text" placeholder="Enter your name">
    */
-  .input-pill {
-    @apply w-full px-6 py-4 rounded-full bg-white text-gray-800 placeholder-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all duration-200;
+ 
+
+   .input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  .input-label {
+    display: block;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
   }
   
   .input-field {

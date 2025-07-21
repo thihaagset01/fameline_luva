@@ -154,7 +154,7 @@ function App() {
         
         {/* Next step button - shown on all steps except the last one */}
         {/* The button is disabled if the current step's data is invalid */}
-        {!isLastStep && currentStep !== 4 && (
+        {!isLastStep && currentStep !== 5 && (
           <NavigationButton 
             onClick={nextStep} 
             disabled={!canProceed}
