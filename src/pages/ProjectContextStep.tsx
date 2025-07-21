@@ -420,7 +420,7 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
           
           {/* Step 1: Application Selection */}
           <div className={`substep-container ${currentSubStep >= 1 ? 'substep-fade-in' : ''}`}>
-            <h3 className="input-label">What is your louver application?</h3>
+            <h3 className="input-label">1. What is your louver application?</h3>
             <div className="application-grid">
               {louverApplications.map((app) => (
                 <ApplicationCard
@@ -436,7 +436,7 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
           {/* Step 2: Airflow Requirements */}
           {formData.louverApplication && (
             <div className={`substep-container ${currentSubStep >= 2 ? 'substep-fade-in' : ''}`}>
-              <h3 className="input-label">Select airflow requirements:</h3>
+              <h3 className="input-label">2. What are your airflow requirements?</h3>
               <div className="selection-option-row">
                 {airflowOptions.map((option) => (
                   <SelectionOptionCard
@@ -454,7 +454,7 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
           {/* Step 3: Water Tolerance */}
           {formData.airflowRequirement && (
             <div className={`substep-container ${currentSubStep >= 3 ? 'substep-fade-in' : ''}`}>
-              <h3 className="input-label">Select water tolerance level:</h3>
+              <h3 className="input-label">3. What is your water tolerance level?</h3>
               <div className="selection-option-row">
                 {waterToleranceOptions.map((option) => (
                   <SelectionOptionCard

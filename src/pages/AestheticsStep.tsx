@@ -142,8 +142,7 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
             </div>
           </div>
           <p className="louver-preview-note">
-            This is a drafted visual of your aesthetic and design needs, and is
-            not a final representation of your louver.
+            This is a drafted visual and is not a final representation of your louver.
           </p>
         </div>
         

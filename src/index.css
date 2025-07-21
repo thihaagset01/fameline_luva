@@ -1170,14 +1170,14 @@ body.has-scrollable-page {
 }
 
 /* Page 4: Aesthetics - Toggle buttons and visualization */
-.aesthetics-step {
+/* .aesthetics-step {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 100vh;
   padding: 2rem;
-}
+} */
 
 .aesthetics-step .page-title {
   font-size: 4rem;
@@ -1199,13 +1199,14 @@ body.has-scrollable-page {
   gap: 3rem;
   max-width: 1200px;
   width: 100%;
-  align-items: center;
+  align-items: start;
 }
 
 .aesthetics-controls {
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  margin-left: 10rem;
 }
 
 .aesthetics-group {
@@ -1305,8 +1306,9 @@ body.has-scrollable-page {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.875rem;
   text-align: center;
-  max-width: 300px;
+  max-width: 1000px;
   line-height: 1.4;
+  margin-top: -1rem;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -1325,26 +1327,67 @@ body.has-scrollable-page {
   color: white;
   font-size: 1.125rem;
   font-weight: 400;
-  margin-bottom: 0.75rem;
+  margin-top: 1.3rem;
+  margin-bottom: 1rem;
   font-family: 'Poppins', sans-serif;
 }
 
 .aesthetics-input {
-  padding: 0.75rem 1.25rem;
-  border-radius: 9999px;
-  background-color: white;
+  padding: 0.5rem 0.5rem;
+  border-radius: 12px;
+  background-color: rgba(52, 211, 153, 0.8);
   color: #1f2937;
   font-size: 1rem;
   font-weight: 400;
   font-family: 'Poppins', sans-serif;
-  border: none;
+  border: 2px solid rgba(52, 211, 153, 0.3);;
   outline: none;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  transition: all 0.2s ease;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 50px;
+  height: 50px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.aesthetics-input:hover {
+  background-color: rgba(52, 211, 153, 0.9);
+  border-color: rgba(52, 211, 153, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
 }
 
 .aesthetics-input:focus {
-  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5), 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.4);
+  border-color: rgba(52, 211, 153, 0.6);
+}
+
+.aesthetics-input:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(52, 211, 153, 0.2);
+}
+
+/* For color input type specifically */
+.aesthetics-input[type="color"] {
+  overflow: hidden;
+}
+
+.aesthetics-input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+}
+
+.aesthetics-input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.aesthetics-input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 10px;
 }
 
 .aesthetics-input::placeholder {
@@ -1365,7 +1408,8 @@ body.has-scrollable-page {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.2s ease;
   resize: vertical;
-  min-height: 120px;
+  min-height: 100px;
+  width: 250px;
 }
 
 .aesthetics-textarea:focus {
@@ -2120,11 +2164,13 @@ body.has-scrollable-page {
 
 /* Selection Options Row */
 .selection-option-row {
-  display: flex;
-  gap: 0.75rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, auto);
+  gap: 1rem;
   margin: 1rem 0;
   justify-content: center;
-  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
 .selection-option-card {
