@@ -60,6 +60,15 @@ geolocator = Nominatim(user_agent="louvre_selector", timeout=10)
 
 # Try to initialize Earth Engine, but provide fallback if it fails
 EE_INITIALIZED = False
+
+# Check if Earth Engine authentication has been completed
+EE_CREDENTIALS_PATH = os.path.expanduser('~\.config\earthengine\credentials')
+EE_AUTHENTICATED = os.path.exists(EE_CREDENTIALS_PATH)
+if not EE_AUTHENTICATED:
+    ee.Authenticate()
+else:
+    print(f"Earth Engine credentials {'found' if EE_AUTHENTICATED else 'not found'} at {EE_CREDENTIALS_PATH}")
+
 try:
     # Use the project ID from environment variables
     ee_project_id = os.getenv('EE_PROJECT_ID')
@@ -84,6 +93,7 @@ try:
         print("Earth Engine appears to be initialized but may not be fully functional.")
         EE_INITIALIZED = False
 except Exception as e:
+    
     print(f"Warning: Could not initialize Google Earth Engine: {e}")
 
 def get_rain_class(mean_rain_fall, mean_wind_speed, mean_wind_dir, exposure_type, exposure_dir=0):
@@ -354,7 +364,8 @@ def health_check():
     """Simple endpoint to check if the API is running"""
     return jsonify({
         'status': 'ok',
-        'earth_engine_initialized': EE_INITIALIZED
+        'earth_engine_initialized': EE_INITIALIZED,
+        'earth_engine_authenticated': EE_AUTHENTICATED
     })
 
 # Start the Flask server
