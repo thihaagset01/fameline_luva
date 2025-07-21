@@ -346,7 +346,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                 <span className="confidence-badge">
                   {!isNaN(recommendation.confidenceScore) ? Math.round(recommendation.confidenceScore * 100) : '--'}% Match
                 </span>
-                <div className="rating-stars">
+                {/* <div className="rating-stars">
                   {[...Array(5)].map((_, i) => (
                     <Star 
                       key={i} 
@@ -354,7 +354,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                       fill={i < Math.round(recommendation.confidence * 5) ? "currentColor" : "none"} 
                     />
                   ))}
-                </div>
+                </div> */}
               </div>
               <h1 className="recommendations-title">{recommendation.model || recommendation.louver?.model}</h1>
               <p className="recommendations-description">
