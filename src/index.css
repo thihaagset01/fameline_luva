@@ -1475,13 +1475,6 @@ body.has-scrollable-page {
   font-family: 'Poppins', sans-serif;
 }
 
-/* .rating-stars {
-  display: flex;
-  align-items: center;
-  color: #eab308;
-  gap: 0.25rem;
-} */
-
 .recommendations-title {
   font-size: 4rem;
   font-weight: 700;
@@ -1504,6 +1497,7 @@ body.has-scrollable-page {
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   width: 100%;
+  margin-bottom: 2rem;
 }
 
 .spec-item {
@@ -1620,12 +1614,13 @@ body.has-scrollable-page {
   height: 400px;
   width: 100%;
   justify-content: center;
+  margin-right: 3rem;
 }
 
 .louver-3d-panel {
   position: absolute;
-  width: 200px;
-  height: 300px;
+  width: 400px;
+  height: 500px;
   background: linear-gradient(135deg, #064e3b, #065f46);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
@@ -1687,7 +1682,7 @@ body.has-scrollable-page {
   box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
   background: linear-gradient(135deg, #064e3b, #065f46) !important;
 }
-
+/* 
 .louver-model-badge {
   position: absolute;
   bottom: 1rem;
@@ -1712,14 +1707,17 @@ body.has-scrollable-page {
 .louver-model-type {
   color: rgba(255, 255, 255, 0.9);
   font-size: 0.875rem;
-}
+} */
 
 .download-section {
   background: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 400px;
   padding: 1.5rem;
   margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+  margin-left: 10rem;
+  margin-bottom: 7rem;
 }
 
 .download-content {

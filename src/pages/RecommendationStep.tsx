@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Download, Star } from 'lucide-react';
 import { FormData } from '@/types';
 import { recommendationEngine } from '@/engine/recommendationEngine';
+import { StepProps } from '@/types';
 
 /**
  * Comprehensive interface for louver recommendations 📋
@@ -206,6 +207,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   const [error, setError] = useState<string | null>(null);
   const [activeModelIndex, setActiveModelIndex] = useState(0);  // Tracks which model is currently selected (0 = primary recommendation, 1-2 = alternative options)
   const [allModels, setAllModels] = useState<EnhancedLouverRecommendation[]>([]);
+  const [currentSubStep, setCurrentSubStep] = useState<1 | 2>(1); // or more if needed
 
   // Stores previous formData to compare and prevent unnecessary API calls when formData hasn't changed
   const prevFormDataRef = React.useRef<FormData | null>(null);
@@ -411,20 +413,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                 ))}
               </ul>
             </div>
-
-            {/* Option to download detailed technical specifications - Allows users to get complete documentation */}
-            {/* This feature allows users to download a PDF with complete technical specifications for the selected louver */}
-            <div className="download-section">
-              <div className="download-content">
-                <div className="download-info">
-                  <h3 className="download-title">Download Specification</h3>
-                  <p className="download-description">Get the complete technical details</p>
-                </div>
-                <button className="recommendations-button">
-                  <Download size={20} />
-                </button>
-              </div>  
-            </div>
           </div>
 
           {/* Right column: Interactive 3D louver visualization - Shows 3D panels that users can click to select */}
@@ -440,10 +428,10 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                   title="Primary recommendation"
                 >
                   {/* Model information badge showing model name and type - Helps users identify each panel */}
-                  <div className="louver-model-badge">
+                  {/* <div className="louver-model-badge">
                     <div className="louver-model-name">{allModels[0]?.model || recommendation.model}</div>
                     <div className="louver-model-type">{allModels[0]?.type || recommendation.type} Bank</div>
-                  </div>
+                  </div> */}
                   {activeModelIndex === 0 && <div className="active-model-indicator">Current Selection</div>}
                 </div>
 
@@ -455,14 +443,27 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                     onClick={() => handleModelSelect(index + 1)}
                     title={`View ${altModel.model} details`}
                   >
-                    <div className="louver-model-badge">
+                    {/* <div className="louver-model-badge">
                       <div className="louver-model-name">{altModel.model}</div>
                       <div className="louver-model-type">{altModel.type} Bank</div>
-                    </div>
+                    </div> */}
                     {activeModelIndex === index + 1 && <div className="active-model-indicator">Current Selection</div>}
                   </div>
                 ))}
               </div>
+            </div>
+            {/* Option to download detailed technical specifications - Allows users to get complete documentation */}
+              {/* This feature allows users to download a PDF with complete technical specifications for the selected louver */}
+            <div className="download-section">
+              <div className="download-content">
+                <div className="download-info">
+                  <h3 className="download-title">Download Specification</h3>
+                  <p className="download-description">Get the complete technical details</p>
+                </div>
+                <button className="recommendations-button">
+                  <Download size={20} />
+                </button>
+              </div>  
             </div>
           </div>
         </div>

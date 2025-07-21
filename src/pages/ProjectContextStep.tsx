@@ -56,50 +56,38 @@ const louverApplications = [
   {
     id: 'mission-critical',
     name: 'Mission Critical',
-    description: 'Data centers, hospitals, critical infrastructure',
     icon: '🏥',
     examples: ['Data centers', 'Server rooms', 'Medical facilities', 'Clean rooms'],
-    colorClass: 'application-card-critical'
   },
   {
     id: 'commercial-general',
     name: 'Commercial General', 
-    description: 'Office buildings, retail, standard commercial',
     icon: '🏢',
     examples: ['Office buildings', 'Retail spaces', 'Shopping centers', 'Hotels'],
-    colorClass: 'application-card-commercial'
   },
   {
     id: 'industrial-warehouse',
     name: 'Industrial & Warehouse',
-    description: 'Manufacturing, storage, industrial facilities', 
     icon: '🏭',
     examples: ['Manufacturing plants', 'Warehouses', 'Distribution centers', 'Factories'],
-    colorClass: 'application-card-industrial'
   },
   {
     id: 'infrastructure',
     name: 'Infrastructure',
-    description: 'Transportation, utilities, public facilities',
     icon: '🚇',
     examples: ['MRT stations', 'Airports', 'Utility buildings', 'Public facilities'],
-    colorClass: 'application-card-infrastructure'
   },
   {
     id: 'screening-aesthetic',
     name: 'Screening & Aesthetic',
-    description: 'Equipment screening, architectural features',
     icon: '🎨',
     examples: ['Equipment screening', 'Architectural features', 'Facade elements', 'Privacy screens'],
-    colorClass: 'application-card-aesthetic'
   },
   {
     id: 'specialized-acoustic',
     name: 'Specialized Acoustic',
-    description: 'Sound-sensitive environments requiring noise control',
     icon: '🔇',
     examples: ['Recording studios', 'Libraries', 'Residential areas', 'Schools'],
-    colorClass: 'application-card-acoustic'
   }
 ];
 
@@ -122,7 +110,6 @@ const airflowOptions = [
   {
     id: 'basic',
     name: 'Basic Airflow',
-    description: 'Minimal ventilation needs',
     technicalNote: 'Lower airflow coefficient, cost-effective solution',
     icon: '💨',
     performance: 'Low'
@@ -130,7 +117,6 @@ const airflowOptions = [
   {
     id: 'good', 
     name: 'Good Airflow',
-    description: 'Standard ventilation requirements',
     technicalNote: 'Balanced airflow performance for most applications',
     icon: '🌬️',
     performance: 'Medium'
@@ -138,7 +124,6 @@ const airflowOptions = [
   {
     id: 'maximum',
     name: 'Maximum Airflow',
-    description: 'High ventilation/cooling needs',
     technicalNote: 'High airflow coefficient, premium performance',
     icon: '🌪️',
     performance: 'High'
@@ -164,7 +149,6 @@ const waterToleranceOptions = [
   {
     id: 'zero',
     name: 'Zero Tolerance',
-    description: 'Mission critical equipment protection',
     technicalNote: 'Class A rain defense, maximum water resistance',
     icon: '🛡️',
     protection: 'Maximum'
@@ -172,7 +156,6 @@ const waterToleranceOptions = [
   {
     id: 'minimal',
     name: 'Minimal Water',
-    description: 'Light spray/mist acceptable',
     technicalNote: 'Class B rain defense, good water resistance',
     icon: '☔',
     protection: 'Good'
@@ -180,7 +163,6 @@ const waterToleranceOptions = [
   {
     id: 'moderate',
     name: 'Moderate Protection',
-    description: 'Light rain acceptable',
     technicalNote: 'Class C/D rain defense, standard protection',
     icon: '🌧️',
     protection: 'Standard'
@@ -260,7 +242,7 @@ const ApplicationCard = memo(({
   onClick: () => void;
 }) => (
   <div
-    className={`application-card ${app.colorClass} ${selected ? 'selected' : ''}`}
+    className={`application-card ${selected ? 'selected' : ''}`}
     onClick={onClick}
     tabIndex={0}
     role="button"
@@ -274,9 +256,8 @@ const ApplicationCard = memo(({
   >
     <span className="application-icon" aria-hidden="true">{app.icon}</span>
     <h4 className="application-name">{app.name}</h4>
-    <p className="application-description">{app.description}</p>
     <p className="application-examples">
-      Examples: {app.examples.join(', ')}
+      {app.examples.join(', ')}
     </p>
   </div>
 ));
