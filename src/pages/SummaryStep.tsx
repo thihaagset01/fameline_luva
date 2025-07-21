@@ -129,15 +129,8 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
   return (
     <div className="summary-step scrollable-page">
       <div className="summary-completion">
-        {/* Success Icon */}
-        <div className="success-icon-container">
-          <div className="success-icon">
-            <CheckCircle size={48} />
-          </div>
-        </div>
-
         {/* Main Message */}
-        <h2 className="summary-title">You're ready to go.</h2>
+        <h2 className="welcome-title">You're ready to go.</h2>
         
         <p className="summary-description">
           Our technical team will contact you within <span className="highlight">2-5 business days</span> to discuss your project in more detail and provide comprehensive specifications.

@@ -60,6 +60,7 @@ interface EnhancedLouverRecommendation {
  */
 interface RecommendationStepProps {
   formData: FormData;
+  goToNextStep: () => void;
 }
 
 /**
@@ -199,7 +200,7 @@ const ErrorState: React.FC<{ error: string; onRetry: () => void }> = ({ error, o
  * for different recommended models. The left side shows detailed information about
  * the currently selected model.
  */
-export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData }) => {
+export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData, goToNextStep }) => {
   
   // State variables to store the current recommendation, loading status, error messages, and active model index
   const [recommendation, setRecommendation] = useState<EnhancedLouverRecommendation | null>(null);
@@ -207,7 +208,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   const [error, setError] = useState<string | null>(null);
   const [activeModelIndex, setActiveModelIndex] = useState(0);  // Tracks which model is currently selected (0 = primary recommendation, 1-2 = alternative options)
   const [allModels, setAllModels] = useState<EnhancedLouverRecommendation[]>([]);
-  const [currentSubStep, setCurrentSubStep] = useState<1 | 2>(1); // or more if needed
 
   // Stores previous formData to compare and prevent unnecessary API calls when formData hasn't changed
   const prevFormDataRef = React.useRef<FormData | null>(null);

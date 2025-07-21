@@ -117,7 +117,7 @@ function App() {
       case 4:
         return <RecommendationStep formData={formData} />;
       case 5:
-        return <SummaryStep formData={formData} onReset={resetFormData} />;
+        return <SummaryStep formData={formData} />;
       default:
         return null;
     }
@@ -154,7 +154,7 @@ function App() {
         
         {/* Next step button - shown on all steps except the last one */}
         {/* The button is disabled if the current step's data is invalid */}
-        {!isLastStep && currentStep !== 4 && (
+        {!isLastStep && (
           <NavigationButton 
             onClick={nextStep} 
             disabled={!canProceed}

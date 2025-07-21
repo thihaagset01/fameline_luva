@@ -1825,33 +1825,6 @@ body.has-scrollable-page {
   width: 100%;
 }
 
-.success-icon-container {
-  margin-bottom: 2rem;
-}
-
-.success-icon {
-  width: 8rem;
-  height: 8rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(16, 185, 129, 0.2);
-  color: #10b981;
-  font-size: 3rem;
-  border: 2px solid #10b981;
-  border-radius: 50%;
-  margin: 0 auto;
-}
-
-.summary-title {
-  font-size: 3rem;
-  font-weight: 500;
-  color: white;
-  margin-bottom: 2rem;
-  font-family: 'Poppins', sans-serif;
-  line-height: 1.2;
-}
-
 .summary-description {
   color: rgba(255, 255, 255, 0.8);
   font-size: 1.125rem;
@@ -1880,6 +1853,7 @@ body.has-scrollable-page {
   font-weight: 500;
   font-size: 1.25rem;
   margin-bottom: 1.5rem;
+  margin-top: -0.3rem;
   text-align: center;
   font-family: 'Poppins', sans-serif;
 }
@@ -1968,7 +1942,7 @@ body.has-scrollable-page {
 
 .summary-step-item {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 1rem;
 }
 
@@ -2001,6 +1975,7 @@ body.has-scrollable-page {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.875rem;
   line-height: 1.5;
+  margin-top: -0.2rem;
   font-family: 'Poppins', sans-serif;
 }
 
