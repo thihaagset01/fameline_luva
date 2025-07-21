@@ -26,12 +26,12 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
           {/* Welcome Message */}
           <div className="welcome-message">
             <h1 className="welcome-title">
-              I'm <span className="welcome-name">Luva</span>,
+              I'm Luva,
             </h1>
           </div>
           
           {/* Form Fields */}
-          <div className="form-fields">
+          <div className="form-fields space-y-4">
             {/* Name Input */}
             <TextInput
               label="What is your name?"
@@ -39,7 +39,7 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
               value={formData.name}
               onChange={(value) => updateFormData('name', value)}
             />
-            
+      
             {/* Email Input */}
             <TextInput
               label="What is your email?"
@@ -50,6 +50,7 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
             />
           </div>
         </div>
+        
         
         {/* Orb side */}
         <div className="orb-side">

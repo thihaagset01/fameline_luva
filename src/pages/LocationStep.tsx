@@ -295,7 +295,7 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
           {/* Welcome Message */}
           <div className="welcome-message">
             <h1 className="welcome-title">
-              Tell us about your <span className="welcome-name">project location</span>
+              Project Location
             </h1>
             <p className="welcome-subtitle">
               Location and environment details help us recommend the perfect louver solution.
@@ -305,14 +305,13 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
           {/* Location Input */}
           <div className="input-group">
             <label className="input-label">
-              <MapPin size={20} className="inline mr-2" />
               Where is your project?
             </label>
             <div className="input-wrapper">
               <input
                 type="text"
                 className={`input-field ${getLocationInputStatus()}`}
-                placeholder="E.g. Singapore, New York, London"
+                placeholder="E.g. Hanoi, Vietnam"
                 value={formData.location || ''}
                 onChange={(e) => handleLocationChange(e.target.value)}
               />
@@ -500,7 +499,7 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
         }
         
         .location-tips {
-          margin-top: 2rem;
+          margin-top: 0.5rem;
           padding: 1rem;
           background: rgba(255, 255, 255, 0.05);
           border-radius: 0.5rem;

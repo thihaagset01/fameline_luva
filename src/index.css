@@ -177,7 +177,7 @@
 /* 3. Global Base Styles */
 /* Core styles that apply to the entire application */
 html, body {
-  font-family: 'Inter', sans-serif; /* Primary font family */
+  font-family: 'Poppins', sans-serif; /* Primary font family */
   color: white; /* Default text color */
   margin: 0;
   padding: 0;
@@ -541,18 +541,23 @@ body.has-scrollable-page {
   
   /* Welcome message */
   .welcome-message {
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
     text-align: center;
     padding: 0 1rem;
   }
-  
+
   .welcome-title {
-    font-size: 3rem;
-    font-weight: 500;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    line-height: 1.2;
-  }
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
+}
   
   .welcome-name {
     color: #34d399;
@@ -561,7 +566,8 @@ body.has-scrollable-page {
   
   .welcome-subtitle {
     color: rgba(255, 255, 255, 0.8);
-    font-size: 1.25rem;
+    font-size: 1rem;
+    margin-bottom: 20px;
   }
   
   /* Progress hint */
@@ -708,9 +714,6 @@ body.has-scrollable-page {
    * Usage: 
    * <input class="input-pill" type="text" placeholder="Enter your name">
    */
-  .input-pill {
-    @apply w-full px-6 py-4 rounded-full bg-white text-gray-800 placeholder-gray-400 text-lg focus:outline-none focus:ring-2 focus:ring-emerald-400 transition-all duration-200;
-  }
   
   .input-field {
     width: 100%;
@@ -761,6 +764,27 @@ body.has-scrollable-page {
     outline: none;
     box-shadow: 0 0 0 2px #34d399, 0 4px 12px rgba(0, 0, 0, 0.1); /* focus:ring-2 focus:ring-emerald-400 */
   }
+
+  /* Input styling */
+  .input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  .input-label {
+    display: block;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+}
 
   /**
    * ACTION COMPONENTS
@@ -882,7 +906,7 @@ body.has-scrollable-page {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
+    padding: 1.5rem;
   }
   
   .home-icon-link:hover {
@@ -976,8 +1000,8 @@ body.has-scrollable-page {
   }
 }
 
-.welcome-title {
-  font-size: 2.75rem;
+/* .welcome-title {
+  font-size: 4rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
   background: linear-gradient(90deg, #ffffff, #10b981);
@@ -985,8 +1009,8 @@ body.has-scrollable-page {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   color: transparent;
-  letter-spacing: -0.5px;
-}
+  letter-spacing: -0.7px;
+} */
 
 /* Custom utilities */
 @layer utilities {
@@ -1156,10 +1180,15 @@ body.has-scrollable-page {
 }
 
 .aesthetics-step .page-title {
-  font-size: 3rem;
-  font-weight: 500;
-  color: white;
-  margin-bottom: 3rem;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
   text-align: center;
   font-family: 'Poppins', sans-serif;
 }
@@ -2374,7 +2403,7 @@ body.has-scrollable-page {
   gap: 2rem;
   align-items: center;
   position: absolute;  
-  top:5rem;
+  top:6rem;
   left: 50%;
   transform: translate(-50%, -50%);
 }

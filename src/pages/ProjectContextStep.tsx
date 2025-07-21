@@ -409,8 +409,9 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
         <div className="form-side">
           {/* Welcome Message */}
           <div className="welcome-message">
+            
             <h1 className="welcome-title">
-              Project <span className="welcome-name">Context</span>
+              Project Context
             </h1>
             <p className="welcome-subtitle">
               Tell us about your louver application requirements.
@@ -470,7 +471,7 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
 
           {/* Show recommendation reasoning if available */}
           {showRecommendation && (
-            <div className="recommendation-reasoning">
+            <div className="welcome-subtitle">
               <p><strong>Why we recommend these options:</strong> {recommendationReasoning}</p>
             </div>
           )}
