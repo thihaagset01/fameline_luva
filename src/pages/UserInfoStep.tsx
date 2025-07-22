@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StepProps } from '@/types';
 import { TextInput } from '@/components/inputs';
 
@@ -19,13 +19,50 @@ import { TextInput } from '@/components/inputs';
  */
 
 export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
+  const [floatingText, setFloatingText] = useState("Hello there!");
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const messages = [
+      "Built to louver. Made to last.",
+      "Serious about airflow? We’ve got you louvered.",
+      "You had me at louver.",
+      "Keep calm and louver on.",
+      "Let your building breathe with style.",
+      "Our louvers don’t just perform — they swooosh past the competition."
+    ];
+
+    const showMessage = (text: string, duration = 5000) => {
+      setVisible(false);
+      setTimeout(() => {
+        setFloatingText(text);
+        setVisible(true);
+      }, 500);
+
+      setTimeout(() => {
+        setVisible(false);
+      }, duration);
+    };
+
+    showMessage("Hello there! My name is Luva.", 5000);
+
+    const interval = setTimeout(() => {
+      setInterval(() => {
+        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+        showMessage(randomMsg);
+      }, 7800);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="app-container fixed-height-page">
       <div className="content-card">
         <div className="form-side">
           {/* Welcome Message */}
           <div className="welcome-message">
-            <h1 className="welcome-title">
+            <h1 className="welcome-name">
               I'm Luva,
             </h1>
           </div>
@@ -54,13 +91,16 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
         
         {/* Orb side */}
         <div className="orb-side">
-          <div className="orb-container">
-            <div className="orb">
-              <div className="orb-inner"></div>
-              <div className="orb-highlight"></div>
-              <div className="orb-glow"></div>
-              <div className="orb-reflection"></div>
-            </div>
+          <div className="orb startup">
+            <div className="orb-pulse"></div>
+            <div className="orb-ping"></div>
+            <div className="orb-highlight"></div>
+            <div className="orb-glow"></div>
+            <div className="lava startup"></div>
+          {/* <div className="text-container">
+            <div className="floating-text" style={{ opacity: visible ? 1 : 0 }}>
+              {floatingText} </div>
+            </div> */}
           </div>
         </div>
       </div>

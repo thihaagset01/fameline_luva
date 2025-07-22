@@ -294,7 +294,7 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
         <div className="form-side">
           {/* Welcome Message */}
           <div className="welcome-message">
-            <h1 className="welcome-title">
+            <h1 className="welcome-name">
               Project Location
             </h1>
             <p className="welcome-subtitle">
