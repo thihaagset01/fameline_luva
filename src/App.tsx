@@ -117,7 +117,7 @@ function App() {
       case 4:
         return <RecommendationStep formData={formData} />;
       case 5:
-        return <SummaryStep formData={formData} />;
+        return <SummaryStep formData={formData} onReset={resetFormData}/>;
       default:
         return null;
     }

@@ -563,7 +563,7 @@ body.has-scrollable-page {
   font-size: 4rem;
   font-weight: 700;
   margin-bottom: 0.75rem;
-  margin-top: -0.5rem;
+  margin-top: 0.5rem;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(90deg, #ffffff, #10b981);
   -webkit-background-clip: text;
