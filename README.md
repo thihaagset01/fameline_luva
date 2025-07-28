@@ -180,17 +180,4 @@ import { type } from '@/types'
 - **Lighthouse Score**: 95+ (Performance, Accessibility, Best Practices, SEO)
 - **Mobile Responsive**: Fully optimized for mobile devices
 
-## 🤝 Contributing
-
-This is a proprietary project for Fameline APSG. For technical support or feature requests, contact the development team.
-
-## 📞 Support
-
-**Fameline APSG**
-- Website: [fameline-apsg.com](https://fameline-apsg.com)
-- Email: info@fameline-apsg.com
-- Phone: +65 6797 2500
-
 ---
-
-Built with ❤️ for the architectural community by Fameline APSG
