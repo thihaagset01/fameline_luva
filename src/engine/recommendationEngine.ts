@@ -85,7 +85,7 @@ class RecommendationEngine {
     },
     'PL-1075': { 
       'mission-critical': 60, 
-      'commercial-general': 80, 
+      'commercial-general': 88, 
       'industrial-warehouse': 65,
       'infrastructure': 70,
       'screening-aesthetic': 95,
@@ -94,7 +94,7 @@ class RecommendationEngine {
     'PL-3075': { 
       'mission-critical': 85, 
       'commercial-general': 75, 
-      'industrial-warehouse': 90,
+      'industrial-warehouse': 95,
       'infrastructure': 80,
       'screening-aesthetic': 60,
       'specialized-acoustic': 50
