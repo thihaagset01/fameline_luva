@@ -65,11 +65,6 @@ EE_INITIALIZED = False
 EE_CREDENTIALS_PATH = os.path.expanduser('~/.config/earthengine/credentials')
 EE_GCLD_PATH = os.path.expanduser('~/.config/gcloud/application_default_credentials.json')
 EE_AUTHENTICATED = os.path.exists(EE_CREDENTIALS_PATH) and os.path.exists(EE_GCLD_PATH)
-
-
-# If not authenticated, set error message but continue startup
-if not EE_AUTHENTICATED:
-    ee.Authenticate()
     
 print(f"Earth Engine credentials {'found' if EE_AUTHENTICATED else 'not found'} at {EE_CREDENTIALS_PATH}")
 print(f"Google Cloud credentials {'found' if EE_AUTHENTICATED else 'not found'} at {EE_GCLD_PATH}")

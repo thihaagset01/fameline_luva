@@ -2,11 +2,12 @@
 
 AI-powered louver selection and specification system for architects, consultants, and engineers.
 
-**From months to hours** - streamline your louver specification process with intelligent recommendations from Fameline APSG's comprehensive product database.
+**From months to hours** - streamline your louver specification process with intelligent recommendations from Fameline APSG's comprehensive product database and location-specific weather data.
 
 ## ✨ Features
 
 - **🤖 AI-Powered Recommendations** - Smart matching algorithm analyzes your project requirements
+- **🌦️ Weather Data Integration** - Location-specific climate analysis for optimal louver selection
 - **📱 Modern Interface** - Beautiful, responsive design matching Figma specifications
 - **⚡ 6-Step Wizard** - Guided workflow from user info to final specifications
 - **🎨 Real-time Visualization** - Dynamic louver previews with aesthetic customization
@@ -17,54 +18,65 @@ AI-powered louver selection and specification system for architects, consultants
 ## 🚀 Quick Start
 
 ```bash
-# Install dependencies
+# Install frontend dependencies
 npm install
 
-# Start development server
+# Start frontend development server
 npm run dev
 
-# Build for production
+# Build frontend for production
 npm run build
 
-# Preview production build
+# Preview frontend production build
 npm run preview
+
+# Install backend dependencies
+pip install -r requirements.txt
+
+# Start weather API server
+python weather_api.py
 ```
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18 + TypeScript
+- **Backend**: Flask API for weather data processing
 - **Styling**: Tailwind CSS with custom design system
 - **Build Tool**: Vite
 - **Icons**: Lucide React
 - **Data Processing**: PapaParse for CSV handling
 - **AI Engine**: Custom recommendation algorithm
+- **Weather Data**: Google Earth Engine integration
 
 ## 📁 Project Structure
 
 ```
-src/
-├── components/          # Reusable UI components
-│   ├── Header.tsx      # Navigation and progress
-│   ├── NavigationButton.tsx
-│   └── inputs/         # Form input components
-├── pages/              # Wizard step components
-│   ├── UserInfoStep.tsx
-│   ├── LocationStep.tsx
-│   ├── ProjectContextStep.tsx
-│   ├── AestheticsStep.tsx
-│   ├── RecommendationStep.tsx
-│   └── SummaryStep.tsx
-├── hooks/              # Custom React hooks
-│   └── useFormData.ts  # Form state management
-├── data/               # Data layer
-│   ├── louverdata.csv  # Product database
-│   └── louverDatabase.ts # Data processing
-├── engine/             # AI recommendation engine
-│   ├── recommendationEngine.ts
-│   └── calculator.ts
-├── types/              # TypeScript definitions
-├── utils/              # Constants and utilities
-└── App.tsx             # Main application
+├── src/                # Frontend React application
+│   ├── components/     # Reusable UI components
+│   │   ├── Header.tsx  # Navigation and progress
+│   │   ├── NavigationButton.tsx
+│   │   └── inputs/     # Form input components
+│   ├── pages/          # Wizard step components
+│   │   ├── UserInfoStep.tsx
+│   │   ├── LocationStep.tsx
+│   │   ├── ProjectContextStep.tsx
+│   │   ├── AestheticsStep.tsx
+│   │   ├── RecommendationStep.tsx
+│   │   └── SummaryStep.tsx
+│   ├── hooks/          # Custom React hooks
+│   │   └── useFormData.ts  # Form state management
+│   ├── data/           # Data layer
+│   │   ├── louverdata.csv  # Product database
+│   │   └── louverDatabase.ts # Data processing
+│   ├── engine/         # AI recommendation engine
+│   │   ├── recommendationEngine.ts
+│   │   └── calculator.ts
+│   ├── types/          # TypeScript definitions
+│   ├── utils/          # Constants and utilities
+│   └── App.tsx         # Main application
+├── weather_api.py      # Flask API for weather data
+├── requirements.txt    # Python dependencies
+└── .env               # Environment variables
 ```
 
 ## 🧠 How It Works
@@ -81,15 +93,17 @@ The recommendation engine analyzes:
 - Building requirements (type, height, exposure)
 - Performance needs (ventilation, weather protection, acoustics)
 - Aesthetic preferences (mullion visibility, blade orientation)
+- Location-specific weather data (temperature, rainfall, wind speed/direction)
 
 ### 3. Smart Matching
 Weighted scoring algorithm considers:
 - **Environment compatibility** (15% weight)
-- **Purpose alignment** (25% weight) 
+- **Purpose alignment** (20% weight) 
 - **Building type suitability** (15% weight)
 - **Height requirements** (10% weight)
 - **Rain defense performance** (20% weight)
 - **Airflow efficiency** (15% weight)
+- **Weather data analysis** (5% weight)
 
 ### 4. Results & Follow-up (Step 6)
 - AI confidence score and reasoning
@@ -160,9 +174,16 @@ npm run build
 
 ### Environment Variables
 ```env
-# Optional: Analytics, error tracking, etc.
+# Frontend (Optional)
 VITE_ANALYTICS_ID=your_analytics_id
 VITE_SENTRY_DSN=your_sentry_dsn
+
+# Backend (Weather API)
+FLASK_PORT=5000
+FLASK_HOST=0.0.0.0
+FLASK_DEBUG=1
+ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001
+EE_PROJECT_ID=your_earth_engine_project_id
 ```
 
 ### Vite Configuration
@@ -179,18 +200,3 @@ import { type } from '@/types'
 - **First Contentful Paint**: <1.5s
 - **Lighthouse Score**: 95+ (Performance, Accessibility, Best Practices, SEO)
 - **Mobile Responsive**: Fully optimized for mobile devices
-
-## 🤝 Contributing
-
-This is a proprietary project for Fameline APSG. For technical support or feature requests, contact the development team.
-
-## 📞 Support
-
-**Fameline APSG**
-- Website: [fameline-apsg.com](https://fameline-apsg.com)
-- Email: info@fameline-apsg.com
-- Phone: +65 6797 2500
-
----
-
-Built with ❤️ for the architectural community by Fameline APSG
