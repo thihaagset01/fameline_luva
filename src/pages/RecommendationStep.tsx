@@ -243,7 +243,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
       const enhancedResult = result as unknown as EnhancedLouverRecommendation;
       setRecommendation(enhancedResult);
       
-      // Create an array containing both the primary recommendation and alternatives for the 3D visualization
+      // Create an array containing both the primary recommendation and up to 2 alternatives for the 3D visualization
       const models = [enhancedResult];
       if (result.alternatives && result.alternatives.length > 0) {
         // Format alternative models to match the structure of the primary recommendation
@@ -258,7 +258,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
         });
         models.push(...enhancedAlternatives);
       }
-      setAllModels(models);
+      setAllModels(models.slice(0, 3));
     } catch (err) {
       console.error('Error getting recommendation:', err);
       setError('Failed to get recommendation. Please try again.');
@@ -347,15 +347,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                 <span className="confidence-badge">
                   {!isNaN(recommendation.confidenceScore) ? Math.round(recommendation.confidenceScore * 100) : '--'}% Match
                 </span>
-                {/* <div className="rating-stars">
-                  {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={16} 
-                      fill={i < Math.round(recommendation.confidence * 5) ? "currentColor" : "none"} 
-                    />
-                  ))}
-                </div> */}
               </div>
               <h1 className="recommendations-title">{recommendation.model || recommendation.louver?.model}</h1>
               <p className="recommendations-description">
@@ -419,36 +410,30 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
           <div className="recommendations-visual-column">
             {/* Interactive 3D louver panel visualization */}
             <div className="recommendations-visualization">
-              <div className="louver-3d-container">
-                {/* Primary (recommended) louver panel - The best match based on user requirements */}
-                <div 
-                  className={`louver-3d-panel primary ${activeModelIndex === 0 ? 'active' : ''}`}
-                  onClick={() => handleModelSelect(0)}
-                  title="Primary recommendation"
-                >
-                  {/* Model information badge showing model name and type - Helps users identify each panel */}
-                  {/* <div className="louver-model-badge">
-                    <div className="louver-model-name">{allModels[0]?.model || recommendation.model}</div>
-                    <div className="louver-model-type">{allModels[0]?.type || recommendation.type} Bank</div>
-                  </div> */}
-                  {activeModelIndex === 0 && <div className="active-model-indicator">Current Selection</div>}
-                </div>
-
-                {/* Alternative louver options the user can select - Shows other good matches the user might prefer */}
-                {allModels.length > 1 && allModels.slice(1, 3).map((altModel, index) => (
-                  <div 
-                    key={index} 
-                    className={`louver-3d-panel ${index === 0 ? 'secondary' : 'tertiary'} ${activeModelIndex === index + 1 ? 'active' : ''}`}
-                    onClick={() => handleModelSelect(index + 1)}
-                    title={`View ${altModel.model} details`}
+              <div className="louver-3d-container" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                {/* Only the selected model is shown */}
+                {allModels.map((model, index) => (
+                  <div
+                    key={index}
+                    className={`louver-3d-panel ${activeModelIndex === index ? 'active' : 'hidden'}`}
+                    onClick={() => handleModelSelect(index)}
+                    title={`View ${model.model} details`}
                   >
-                    {/* <div className="louver-model-badge">
-                      <div className="louver-model-name">{altModel.model}</div>
-                      <div className="louver-model-type">{altModel.type} Bank</div>
-                    </div> */}
-                    {activeModelIndex === index + 1 && <div className="active-model-indicator">Current Selection</div>}
+                    {activeModelIndex === index && <div className="active-model-indicator">Current Selection</div>}
                   </div>
                 ))}
+
+                {/* Vertical carousel dots aligned right */}
+                <div className="louver-carousel-dots">
+                  {allModels.map((_, index) => (
+                    <div
+                      key={index}
+                      className={`louver-carousel-dot ${activeModelIndex === index ? 'active' : ''}`}
+                      onClick={() => handleModelSelect(index)}
+                      title={`Select Louver ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
             {/* Option to download detailed technical specifications - Allows users to get complete documentation */}

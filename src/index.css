@@ -805,7 +805,7 @@ body.has-scrollable-page {
 }
 /* Startup animations */
 .orb.startup {
-  animation: startupSphere 2s ease-out;
+  animation: startupOrb 2s ease-out;
   opacity: 0;
   animation-fill-mode: forwards;
 }
@@ -814,7 +814,7 @@ body.has-scrollable-page {
   opacity: 0;
   animation-fill-mode: forwards;
 }
-@keyframes startupSphere {
+@keyframes startupOrb {
   0% {
     opacity: 0;
     transform: translate(-50%, -50%) scale(0.8);
@@ -846,125 +846,6 @@ body.has-scrollable-page {
     transform: translate(-50%, -50%) scale(1);
   }
 }
-/* Floating text + text-container */
-/* .text-container {
-  position: absolute;
-  width: 100%;
-  text-align: center;
-  z-index: 100;
-}
-.floating-text {
-  color: rgba(255, 255, 255, 0.8);
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.8em;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-}
-@keyframes textFade {
-  0%, 100% { opacity: 0; }
-  10%, 90% { opacity: 1; }
-} */
-  
-  /* .orb {
-    width: 18rem;
-    height: 18rem;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
-    box-shadow: 0 0 60px rgba(16, 185, 129, 0.6);
-    position: relative;
-    animation: float 6s ease-in-out infinite;
-    overflow: hidden;
-  }
-  
-  .orb-pulse {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: linear-gradient(135deg, rgba(52, 211, 153, 0.3) 0%, transparent 50%, rgba(5, 150, 105, 0.3) 100%);
-    animation: pulse 3s ease-in-out infinite;
-  }
-  
-  .orb-ping {
-    position: absolute;
-    inset: -1rem;
-    border-radius: 50%;
-    background-color: rgba(52, 211, 153, 0.2);
-    opacity: 0.3;
-    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-  }
-  
-  .orb-highlight {
-    position: absolute;
-    inset: 0;
-    border-radius: 50%;
-    background: linear-gradient(315deg, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-  }
-  
-  .orb-glow {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.2);
-    filter: blur(1rem);
-  }
-  
-  @keyframes pulse {
-    0% {
-      opacity: 0.5;
-    }
-    50% {
-      opacity: 0.8;
-    }
-    100% {
-      opacity: 0.5;
-    }
-  }
-  
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0) rotateX(10deg) rotateY(10deg);
-    }
-    25% {
-      transform: translateY(-10px) rotateX(5deg) rotateY(15deg);
-    }
-    50% {
-      transform: translateY(-15px) rotateX(0deg) rotateY(10deg);
-    }
-    75% {
-      transform: translateY(-5px) rotateX(-5deg) rotateY(5deg);
-    }
-  }
-  
-  @keyframes rotate {
-    from {
-      transform: translateZ(-30px) rotate(0deg);
-    }
-    to {
-      transform: translateZ(-30px) rotate(360deg);
-    }
-  }
-  
-  @keyframes shimmer {
-    0% {
-      opacity: 0.3;
-      transform: translateX(-100%) translateZ(10px);
-    }
-    100% {
-      opacity: 0;
-      transform: translateX(100%) translateZ(10px);
-    }
-  }
-  
-  @keyframes ping {
-    75%, 100% {
-      transform: scale(1.2);
-      opacity: 0;
-    }
-  } */
 
   /**
    * INPUT COMPONENTS
@@ -1176,6 +1057,29 @@ body.has-scrollable-page {
   
   .next-button-disabled::before {
     display: none;
+  }
+
+  /* Louver Next Button Styles */
+  .louver-next-button {
+    margin-top: 2rem;
+    background: rgba(16, 185, 129, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .louver-next-button:hover {
+    background: rgba(16, 185, 129, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
   }
   
   /* Home icon styling */
@@ -1887,14 +1791,15 @@ body.has-scrollable-page {
 
 .louver-3d-container {
   display: flex;
-  position: relative;
-  height: 400px;
-  width: 100%;
   justify-content: center;
-  margin-right: 3rem;
+  align-items: center;
+  position: relative;
+  height: 500px;
+  width: 100%;
 }
 
 .louver-3d-panel {
+  display: none;
   position: absolute;
   width: 400px;
   height: 500px;
@@ -1902,89 +1807,17 @@ body.has-scrollable-page {
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
-  cursor: pointer;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-}
-
-.louver-3d-panel:hover {
-  box-shadow: 0 15px 20px rgba(0, 0, 0, 0.15);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .louver-3d-panel.active {
+  display: block;
+  z-index: 10;
+  transform: scale(1.02);
   border: 2px solid #4CAF50;
   box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+  background: linear-gradient(135deg, #064e3b, #065f46);
 }
-
-/* Base panel styles - these apply to all panels regardless of position */
-.louver-3d-panel {
-  transition: all 0.4s ease-in-out;
-}
-
-/* Primary position styles - front and center */
-.louver-3d-panel.primary {
-  top: 20px;
-  left: calc(50% - 100px); /* Center the panel */
-  z-index: 3;
-  transform: scale(1);
-}
-
-/* Secondary position styles - slightly back and to the right */
-.louver-3d-panel.secondary {
-  top: 40px;
-  left: calc(50% - 60px); /* Offset to the right */
-  z-index: 2;
-  transform: scale(0.9) rotate(5deg);
-  opacity: 0.8;
-  background: linear-gradient(135deg, #065f46, #047857);
-}
-
-/* Tertiary position styles - furthest back and to the right */
-.louver-3d-panel.tertiary {
-  top: 60px;
-  left: calc(50% - 20px); /* Offset further to the right */
-  background: linear-gradient(135deg, #065f46, #047857);
-  transform: scale(0.8) rotate(10deg);
-  opacity: 0.6;
-  z-index: 1;
-}
-
-/* Active panel styles - always bring to front position regardless of class */
-.louver-3d-panel.active {
-  top: 20px !important;
-  left: calc(50% - 100px) !important;
-  z-index: 10 !important;
-  transform: scale(1.02) !important;
-  opacity: 1 !important;
-  border: 2px solid #4CAF50;
-  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
-  background: linear-gradient(135deg, #064e3b, #065f46) !important;
-}
-/* 
-.louver-model-badge {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(4px);
-  padding: 0.75rem 1.25rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  width: 70%;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-}
-
-.louver-model-name {
-  color: white;
-  font-weight: 600;
-  font-size: 1.125rem;
-  margin-bottom: 0.25rem;
-}
-
-.louver-model-type {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 0.875rem;
-} */
 
 .download-section {
   background: rgba(255, 255, 255, 0.05);
@@ -2798,4 +2631,35 @@ body.has-scrollable-page {
 .home-button:hover {
   background: rgba(255, 255, 255, 0.2);
   border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Carousel dots for louver 3D */
+.louver-carousel-dots {
+  position: absolute;
+  top: 50%;
+  right: -20rem; /* adjust spacing as needed */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  z-index: 30; /* ensure it's above louver panel */
+}
+
+.louver-carousel-dot {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.louver-carousel-dot:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.louver-carousel-dot.active {
+  background-color: #34d399;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
 }

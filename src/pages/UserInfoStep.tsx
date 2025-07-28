@@ -19,42 +19,42 @@ import { TextInput } from '@/components/inputs';
  */
 
 export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
-  const [floatingText, setFloatingText] = useState("Hello there!");
-  const [visible, setVisible] = useState(false);
+  // const [floatingText, setFloatingText] = useState("Hello there!");
+  // const [visible, setVisible] = useState(false);
 
-  useEffect(() => {
-    const messages = [
-      "Built to louver. Made to last.",
-      "Serious about airflow? We’ve got you louvered.",
-      "You had me at louver.",
-      "Keep calm and louver on.",
-      "Let your building breathe with style.",
-      "Our louvers don’t just perform — they swooosh past the competition."
-    ];
+  // useEffect(() => {
+  //   const messages = [
+  //     "Built to louver. Made to last.",
+  //     "Serious about airflow? We’ve got you louvered.",
+  //     "You had me at louver.",
+  //     "Keep calm and louver on.",
+  //     "Let your building breathe with style.",
+  //     "Our louvers don’t just perform — they swooosh past the competition."
+  //   ];
 
-    const showMessage = (text: string, duration = 5000) => {
-      setVisible(false);
-      setTimeout(() => {
-        setFloatingText(text);
-        setVisible(true);
-      }, 500);
+  //   const showMessage = (text: string, duration = 5000) => {
+  //     setVisible(false);
+  //     setTimeout(() => {
+  //       setFloatingText(text);
+  //       setVisible(true);
+  //     }, 500);
 
-      setTimeout(() => {
-        setVisible(false);
-      }, duration);
-    };
+  //     setTimeout(() => {
+  //       setVisible(false);
+  //     }, duration);
+  //   };
 
-    showMessage("Hello there! My name is Luva.", 5000);
+  //   showMessage("Hello there! My name is Luva.", 5000);
 
-    const interval = setTimeout(() => {
-      setInterval(() => {
-        const randomMsg = messages[Math.floor(Math.random() * messages.length)];
-        showMessage(randomMsg);
-      }, 7800);
-    }, 5000);
+  //   const interval = setTimeout(() => {
+  //     setInterval(() => {
+  //       const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+  //       showMessage(randomMsg);
+  //     }, 7800);
+  //   }, 5000);
 
-    return () => clearInterval(interval);
-  }, []);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return (
     <div className="app-container fixed-height-page">
