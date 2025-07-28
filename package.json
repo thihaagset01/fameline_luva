@@ -10,10 +10,14 @@
         "start-flask": "python weather_api.py"
     },
     "dependencies": {
+        "@react-three/drei": "^9.88.0",
+        "@react-three/fiber": "^8.15.0",
         "lucide-react": "^0.263.1",
         "papaparse": "^5.4.1",
         "react": "^18.2.0",
-        "react-dom": "^18.2.0"
+        "react-dom": "^18.2.0",
+        "react-router-dom": "^7.7.1",
+        "three": "^0.158.0"
     },
     "devDependencies": {
         "@babel/plugin-transform-react-jsx": "^7.27.1",

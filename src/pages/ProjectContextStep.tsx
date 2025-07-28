@@ -406,7 +406,7 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
   return (
     <div className="app-container scrollable-page">
       <div className="content-card">
-        <div className="form-side">
+        <div>
           {/* Welcome Message */}
           <div className="welcome-message">
             <h1 className="welcome-title">

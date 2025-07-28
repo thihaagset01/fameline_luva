@@ -13,6 +13,7 @@ import { TextInput } from '@/components/inputs';
  * - Simple, welcoming interface with animated orb visual
  * - Collects user's name and email address
  * - Introduces "Luva", our virtual assistant character
+ * - Fixed height page that prevents scrolling
  * 
  * This step establishes the friendly, conversational tone of the entire wizard
  * and begins building a relationship with the user.
@@ -28,10 +29,13 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
             <h1 className="welcome-title">
               I'm <span className="welcome-name">Luva</span>,
             </h1>
+            <p className="welcome-subtitle">
+              your louver selection assistant
+            </p>
           </div>
           
-          {/* Form Fields */}
-          <div className="form-fields">
+          {/* Form Container - remove the extra wrapper */}
+          <div className="space-y-6">
             {/* Name Input */}
             <TextInput
               label="What is your name?"
@@ -51,14 +55,14 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
           </div>
         </div>
         
-        {/* Orb side */}
+        {/* Orb side with correct structure */}
         <div className="orb-side">
           <div className="orb-container">
             <div className="orb">
-              <div className="orb-inner"></div>
+              <div className="orb-pulse"></div>
+              <div className="orb-ping"></div>
               <div className="orb-highlight"></div>
               <div className="orb-glow"></div>
-              <div className="orb-reflection"></div>
             </div>
           </div>
         </div>
