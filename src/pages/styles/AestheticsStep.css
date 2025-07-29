@@ -21,23 +21,55 @@
 }
 
 .aesthetics-container {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  background-color: var(--bg-dark-alt);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  box-shadow: var(--shadow-md);
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto 1fr; /* Add row for title */
+    gap: 0.5rem;
+    width: 100%;
+    max-width: 1000px;
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+    box-shadow: var(--shadow-md);
+    
+    /* Glass morphism blur effect */
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.2),
+      0 0 0 1px rgba(255, 255, 255, 0.05),
+      inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Title spans all columns at the top */
+  .aesthetics-title {
+    grid-column: 1 / -1; /* Spans all 3 columns */
+    grid-row: 1;
+    text-align: center;
+    font-size: 3rem;
+    font-weight: 500;
+    color: white;
+    margin: 0 0 1rem 0;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  /* Content areas positioned in second row */
+  .aesthetics-left-controls {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  
+  .aesthetics-visualization {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  
+  .aesthetics-right-inputs {
+    grid-column: 3;
+    grid-row: 2;
 }
 
-/* Left column - Controls */
-.aesthetics-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
 
 .aesthetics-group {
   display: flex;

@@ -104,21 +104,6 @@ const louverApplications = [
   }
 ];
 
-/**
- * 💨 Airflow Options (Step 2)
- * 
- * These options define how much air needs to flow through the louvers.
- * The selection affects which louver models are recommended based on their
- * airflow coefficient ratings.
- * 
- * Each option includes:
- * - id: Unique identifier used in form data
- * - name: User-friendly option name
- * - description: Simple explanation for non-technical users
- * - technicalNote: More detailed information for technical understanding
- * - icon: Visual indicator
- * - performance: Rating category for comparison
- */
 const airflowOptions = [
   {
     id: 'basic',
@@ -146,21 +131,6 @@ const airflowOptions = [
   }
 ];
 
-/**
- * 🌧️ Water Tolerance Options (Step 3)
- * 
- * These options define how water-resistant the louvers need to be.
- * The selection affects which louver models are recommended based on their
- * rain defense ratings and water penetration resistance.
- * 
- * Each option includes:
- * - id: Unique identifier used in form data
- * - name: User-friendly option name
- * - description: Simple explanation for non-technical users
- * - technicalNote: Technical classification and performance details
- * - icon: Visual indicator
- * - protection: Rating category for comparison
- */
 const waterToleranceOptions = [
   {
     id: 'zero',
@@ -188,19 +158,6 @@ const waterToleranceOptions = [
   }
 ];
 
-/**
- * 🤓 Smart Default Logic
- * 
- * This function provides intelligent recommendations for airflow and water tolerance
- * based on the selected application type. It helps guide users toward appropriate
- * choices while still allowing them to override if needed.
- * 
- * For example, mission-critical applications like data centers automatically
- * suggest maximum airflow (for cooling) and zero water tolerance (for equipment protection).
- * 
- * @param applicationId - The selected application type ID
- * @returns Object containing recommended airflow, water tolerance, and reasoning
- */
 const getIntelligentDefaults = (applicationId: string) => {
   const defaultMap: Record<string, { airflow: string; water: string; reasoning: string }> = {
     'mission-critical': {
@@ -242,15 +199,6 @@ const getIntelligentDefaults = (applicationId: string) => {
   };
 };
 
-/**
- * 🗨️ Memoized Option Card Components for performance optimization
- * 
- * These components are memoized to prevent unnecessary re-renders when
- * other parts of the form change. This improves performance, especially
- * when there are many options displayed simultaneously.
- * 
- * The ApplicationCard component renders a selectable card for each louver application type.
- */
 const ApplicationCard = memo(({ 
   app, 
   selected, 
@@ -282,14 +230,6 @@ const ApplicationCard = memo(({
   </div>
 ));
 
-/**
- * 🗲 Selection Option Card Component
- * 
- * This component renders a selectable card for airflow and water tolerance options.
- * It includes visual indicators for the currently selected option and recommended options.
- * 
- * The component is memoized to prevent unnecessary re-renders when other parts of the form change.
- */
 const SelectionOptionCard = memo(({ 
   option, 
   selected, 
@@ -384,15 +324,6 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
     updateFormData('waterTolerance', waterToleranceId);
   }, [updateFormData]);
 
-    /**
-   * Retrieves recommended airflow and water tolerance options
-   * 
-   * This helper function gets the intelligent defaults based on the
-   * currently selected application type. These recommendations are used
-   * to visually highlight the suggested options in the UI.
-   * 
-   * @returns Object containing recommended airflow and water tolerance IDs
-   */
   const getRecommendedOptions = () => {
     if (!formData.louverApplication) return { airflow: null, water: null };
     const defaults = getIntelligentDefaults(formData.louverApplication);
@@ -405,78 +336,67 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
   const recommendedOptions = getRecommendedOptions();
 
   return (
-    <div className="app-container scrollable-page">
-      <div className="content-card">
-        <div>
-          {/* Welcome Message */}
-          <div className="welcome-message">
-            <h1 className="welcome-title">
-              Project <span className="welcome-name">Context</span>
-            </h1>
-            <p className="welcome-subtitle">
-              Tell us about your louver application requirements.
-            </p>
-          </div>
-          
-          {/* Step 1: Application Selection */}
-          <div className={`substep-container ${currentSubStep >= 1 ? 'substep-fade-in' : ''}`}>
-            <h3 className="input-label">What is your louver application?</h3>
-            <div className="application-grid">
-              {louverApplications.map((app) => (
-                <ApplicationCard
-                  key={app.id}
-                  app={app}
-                  selected={formData.louverApplication === app.id}
-                  onClick={() => handleApplicationSelect(app.id)}
-                />
-              ))}
-            </div>
-          </div>
+    <div className="project-context-step">
+      {/* Page title and description */}
+      <h1 className="page-title">Project Context</h1>
+      <p className="page-subtitle">Tell us about your louver application requirements.</p>
 
-          {/* Step 2: Airflow Requirements */}
-          {formData.louverApplication && (
-            <div className={`substep-container ${currentSubStep >= 2 ? 'substep-fade-in' : ''}`}>
-              <h3 className="input-label">Select airflow requirements:</h3>
-              <div className="selection-option-row">
-                {airflowOptions.map((option) => (
-                  <SelectionOptionCard
-                    key={option.id}
-                    option={option}
-                    selected={formData.airflowRequirement === option.id}
-                    recommended={recommendedOptions.airflow === option.id}
-                    onClick={() => handleAirflowChange(option.id)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Step 3: Water Tolerance */}
-          {formData.airflowRequirement && (
-            <div className={`substep-container ${currentSubStep >= 3 ? 'substep-fade-in' : ''}`}>
-              <h3 className="input-label">Select water tolerance level:</h3>
-              <div className="selection-option-row">
-                {waterToleranceOptions.map((option) => (
-                  <SelectionOptionCard
-                    key={option.id}
-                    option={option}
-                    selected={formData.waterTolerance === option.id}
-                    recommended={recommendedOptions.water === option.id}
-                    onClick={() => handleWaterToleranceChange(option.id)}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Show recommendation reasoning if available */}
-          {showRecommendation && (
-            <div className="recommendation-reasoning">
-              <p><strong>Why we recommend these options:</strong> {recommendationReasoning}</p>
-            </div>
-          )}
+      {/* Step 1: Application Selection */}
+      <div className={`substep-container ${currentSubStep >= 1 ? 'substep-fade-in' : ''}`}>
+        <h3 className="input-label">What is your louver application?</h3>
+        <div className="application-grid">
+          {louverApplications.map((app) => (
+            <ApplicationCard
+              key={app.id}
+              app={app}
+              selected={formData.louverApplication === app.id}
+              onClick={() => handleApplicationSelect(app.id)}
+            />
+          ))}
         </div>
+        
+        {showRecommendation && (
+          <div className="reasoning-text">
+            <strong>💡 Smart Recommendation:</strong> {recommendationReasoning}
+          </div>
+        )}
       </div>
+
+      {/* Step 2: Airflow Requirements */}
+      {formData.louverApplication && (
+        <div className={`substep-container ${currentSubStep >= 2 ? 'substep-fade-in' : ''}`}>
+          <h3 className="input-label">Select airflow requirements:</h3>
+          <div className="selection-option-row">
+            {airflowOptions.map((option) => (
+              <SelectionOptionCard
+                key={option.id}
+                option={option}
+                selected={formData.airflowRequirement === option.id}
+                recommended={recommendedOptions.airflow === option.id}
+                onClick={() => handleAirflowChange(option.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Step 3: Water Tolerance */}
+      {formData.airflowRequirement && (
+        <div className={`substep-container ${currentSubStep >= 3 ? 'substep-fade-in' : ''}`}>
+          <h3 className="input-label">Select water tolerance level:</h3>
+          <div className="selection-option-row">
+            {waterToleranceOptions.map((option) => (
+              <SelectionOptionCard
+                key={option.id}
+                option={option}
+                selected={formData.waterTolerance === option.id}
+                recommended={recommendedOptions.water === option.id}
+                onClick={() => handleWaterToleranceChange(option.id)}
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

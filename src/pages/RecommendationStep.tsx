@@ -233,33 +233,86 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
    * 
    * @private Internal component method
    */
+  // Fix for limiting to exactly 3 recommendations total
+
+// In your fetchRecommendation function, limit alternatives to 2:
   const fetchRecommendation = async () => {
     try {
       setLoading(true);
-      // Always reset to the primary recommendation when fetching new data
       setActiveModelIndex(0);
       
-      // Call the recommendation engine with the current form data
       const result = await recommendationEngine.getRecommendation(formData);
       const enhancedResult = result as unknown as EnhancedLouverRecommendation;
       setRecommendation(enhancedResult);
       
-      // Create an array containing both the primary recommendation and alternatives for the 3D visualization
+      // Create models array with EXACTLY 3 models max (1 primary + 2 alternatives)
       const models = [enhancedResult];
+      
       if (result.alternatives && result.alternatives.length > 0) {
-        // Format alternative models to match the structure of the primary recommendation
-        const enhancedAlternatives = result.alternatives.map((alt: any) => {
+        // LIMIT to only 2 alternatives
+        const limitedAlternatives = result.alternatives.slice(0, 2);
+        
+        const enhancedAlternatives = limitedAlternatives.map((alt: any, index: number) => {
+          const generateAlternativeRatings = (primaryRating: number, altIndex: number) => {
+            const variation = (altIndex + 1) * 0.5;
+            const isAcoustic = alt.model?.startsWith('AC-');
+            
+            if (isAcoustic) {
+              return {
+                airflow: Math.max(1, Math.min(10, primaryRating - 1)),
+                water: Math.max(1, Math.min(10, primaryRating + 1)),
+                durability: Math.max(1, Math.min(10, primaryRating + 2)),
+                aesthetics: Math.max(1, Math.min(10, primaryRating + 1))
+              };
+            } else {
+              return {
+                airflow: Math.max(1, Math.min(10, primaryRating + variation)),
+                water: Math.max(1, Math.min(10, primaryRating - variation)),
+                durability: Math.max(1, Math.min(10, primaryRating + (variation * 0.5))),
+                aesthetics: Math.max(1, Math.min(10, primaryRating - (variation * 0.5)))
+              };
+            }
+          };
+          
+          const altRatings = generateAlternativeRatings(enhancedResult.airflowRating || 8, index);
+          
           return {
             ...enhancedResult,
             louver: alt,
             model: alt.model,
             type: alt.type,
-            confidenceScore: enhancedResult.confidenceScore * 0.9, // Slightly lower confidence for alternatives
+            confidenceScore: enhancedResult.confidenceScore * (0.9 - (index * 0.1)),
+            airflowRating: altRatings.airflow,
+            waterResistanceRating: altRatings.water,
+            durabilityRating: altRatings.durability,
+            aestheticsRating: altRatings.aesthetics,
+            matchReasons: [
+              { 
+                category: 'Alternative Option', 
+                score: 0.8 - (index * 0.1), 
+                explanation: `Alternative choice with ${alt.model} specifications`,
+                weight: 1.0 
+              },
+              ...enhancedResult.matchReasons.slice(1)
+            ]
           } as EnhancedLouverRecommendation;
         });
+        
         models.push(...enhancedAlternatives);
       }
-      setAllModels(models);
+      
+      // Ensure we never have more than 3 models total
+      const finalModels = models.slice(0, 3);
+      
+      console.log('🏗️ Created exactly 3 models:', finalModels.map(m => ({
+        model: m.model,
+        airflow: m.airflowRating,
+        water: m.waterResistanceRating,
+        durability: m.durabilityRating,
+        aesthetics: m.aestheticsRating
+      })));
+      
+      setAllModels(finalModels);
     } catch (err) {
       console.error('Error getting recommendation:', err);
       setError('Failed to get recommendation. Please try again.');
@@ -267,6 +320,103 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
       setLoading(false);
     }
   };
+
+  // In your JSX rendering, also add a safety check:
+  <div className="louver-3d-container">
+    {/* Only render first 3 models maximum */}
+    {allModels.slice(0, 3).map((model, index) => {
+      let panelClass = 'louver-3d-panel';
+      if (index === 0) panelClass += ' primary';
+      else if (index === 1) panelClass += ' secondary';
+      else if (index === 2) panelClass += ' tertiary';
+      
+      if (activeModelIndex === index) panelClass += ' active';
+      
+      const getModelColor = (modelName: string, index: number) => {
+        if (modelName?.startsWith('AC-')) return 'acoustic';
+        if (modelName?.includes('2250')) return 'premium';
+        if (modelName?.includes('3')) return 'triple';
+        return index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary';
+      };
+      
+      const colorClass = getModelColor(model.model, index);
+      
+      return (
+        <div 
+          key={`${model.model}-${index}`}
+          className={`${panelClass} color-${colorClass}`}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            handleModelSelect(index);
+          }}
+          style={{ 
+            cursor: 'pointer',
+            userSelect: 'none',
+            animationDelay: `${index * 0.2}s`
+          }}
+          title={`Click to view ${model.model} specifications`}
+          role="button"
+          tabIndex={0}
+          aria-label={`Select ${model.model} louver model`}
+        >
+          {/* Model badge */}
+          <div className="louver-model-badge">
+            <div className="louver-model-name">{model.model}</div>
+            <div className="louver-model-type">
+              {model.type} Bank{model.model?.startsWith('AC-') ? ' • Acoustic' : ''}
+            </div>
+          </div>
+          
+          {/* Active indicator */}
+          {activeModelIndex === index && (
+            <div className="active-model-indicator">
+              {index === 0 ? 'Primary' : `Alt ${index}`}
+            </div>
+          )}
+          
+          {/* Confidence indicator for alternatives */}
+          {index > 0 && (
+            <div className="confidence-indicator">
+              {Math.round((model.confidenceScore || 0.8) * 100)}% Match
+            </div>
+          )}
+          
+          {/* Quick specs overlay */}
+          <div className="panel-overlay">
+            <div className="quick-specs">
+              <div className="spec-item">
+                <span className="spec-icon">🌬️</span>
+                <span>{model.airflowRating}/10</span>
+              </div>
+              <div className="spec-item">
+                <span className="spec-icon">💧</span>
+                <span>{model.waterResistanceRating}/10</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    })}
+    
+    {/* Background elements */}
+    <div className="visualization-background">
+      <div className="bg-grid"></div>
+      <div className="bg-glow"></div>
+    </div>
+  </div>
+
+  {/* Navigation dots - also limit to 3 */}
+  <div className="model-navigation">
+    {allModels.slice(0, 3).map((_, index) => (
+      <button
+        key={index}
+        className={`nav-dot ${activeModelIndex === index ? 'active' : ''}`}
+        onClick={() => handleModelSelect(index)}
+        aria-label={`Select model ${index + 1}`}
+      />
+    ))}
+  </div>
 
   useEffect(() => {
     // Compare current and previous formData to determine if we need to fetch new recommendations
@@ -297,9 +447,23 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
    * @private Internal component method
    */
   const handleModelSelect = (index: number) => {
+    console.log('🖱️ Panel clicked:', index);
+    console.log('📊 All models:', allModels);
+    console.log('📋 Current recommendation before:', recommendation?.model);
+    
     if (index >= 0 && index < allModels.length) {
       setActiveModelIndex(index);
-      setRecommendation(allModels[index]);
+      const selectedModel = allModels[index];
+      setRecommendation(selectedModel);
+      
+      console.log('✅ Updated to model:', selectedModel?.model);
+      console.log('📈 New ratings:', {
+        airflow: selectedModel?.airflowRating,
+        water: selectedModel?.waterResistanceRating,
+        durability: selectedModel?.durabilityRating
+      });
+    } else {
+      console.warn('❌ Invalid index:', index, 'Models length:', allModels.length);
     }
   };
 
@@ -434,37 +598,108 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
           {/* Right column: Interactive 3D louver visualization - Shows 3D panels that users can click to select */}
           {/* This interactive visualization helps users understand the physical differences between louver options */}
           <div className="recommendations-visual-column">
-            {/* Interactive 3D louver panel visualization */}
             <div className="recommendations-visualization">
               <div className="louver-3d-container">
-                {/* Primary (recommended) louver panel - The best match based on user requirements */}
-                <div 
-                  className={`louver-3d-panel primary ${activeModelIndex === 0 ? 'active' : ''}`}
-                  onClick={() => handleModelSelect(0)}
-                  title="Primary recommendation"
-                >
-                  {/* Model information badge showing model name and type - Helps users identify each panel */}
-                  <div className="louver-model-badge">
-                    <div className="louver-model-name">{allModels[0]?.model || recommendation.model}</div>
-                    <div className="louver-model-type">{allModels[0]?.type || recommendation.type} Bank</div>
-                  </div>
-                  {activeModelIndex === 0 && <div className="active-model-indicator">Current Selection</div>}
-                </div>
-
-                {/* Alternative louver options the user can select - Shows other good matches the user might prefer */}
-                {allModels.length > 1 && allModels.slice(1, 3).map((altModel, index) => (
-                  <div 
-                    key={index} 
-                    className={`louver-3d-panel ${index === 0 ? 'secondary' : 'tertiary'} ${activeModelIndex === index + 1 ? 'active' : ''}`}
-                    onClick={() => handleModelSelect(index + 1)}
-                    title={`View ${altModel.model} details`}
-                  >
-                    <div className="louver-model-badge">
-                      <div className="louver-model-name">{altModel.model}</div>
-                      <div className="louver-model-type">{altModel.type} Bank</div>
+                {/* Render all models with enhanced animations and styling */}
+                {allModels.map((model, index) => {
+                  // Determine panel class based on position
+                  let panelClass = 'louver-3d-panel';
+                  if (index === 0) panelClass += ' primary';
+                  else if (index === 1) panelClass += ' secondary';
+                  else if (index === 2) panelClass += ' tertiary';
+                  
+                  // Add active class for selected panel
+                  if (activeModelIndex === index) panelClass += ' active';
+                  
+                  // Generate unique colors based on model type
+                  const getModelColor = (modelName: string, index: number) => {
+                    if (modelName?.startsWith('AC-')) return 'acoustic'; // Purple for acoustic
+                    if (modelName?.includes('2250')) return 'premium'; // Gold for premium
+                    if (modelName?.includes('3')) return 'triple'; // Blue for triple bank
+                    return index === 0 ? 'primary' : index === 1 ? 'secondary' : 'tertiary';
+                  };
+                  
+                  const colorClass = getModelColor(model.model, index);
+                  
+                  return (
+                    <div 
+                      key={`${model.model}-${index}`}
+                      className={`${panelClass} color-${colorClass}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        handleModelSelect(index);
+                      }}
+                      onMouseEnter={() => {
+                        // Optional: Add preview on hover
+                        console.log(`Hovering over ${model.model}`);
+                      }}
+                      style={{ 
+                        cursor: 'pointer',
+                        userSelect: 'none',
+                        // Add slight delay for staggered animations
+                        animationDelay: `${index * 0.2}s`
+                      }}
+                      title={`Click to view ${model.model} specifications`}
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Select ${model.model} louver model`}
+                    >
+                      {/* Model information badge */}
+                      <div className="louver-model-badge">
+                        <div className="louver-model-name">{model.model}</div>
+                        <div className="louver-model-type">
+                          {model.type} Bank{model.model?.startsWith('AC-') ? ' • Acoustic' : ''}
+                        </div>
+                      </div>
+                      
+                      {/* Active selection indicator */}
+                      {activeModelIndex === index && (
+                        <div className="active-model-indicator">
+                          Selected
+                        </div>
+                      )}
+                      
+                      {/* Confidence indicator for alternatives */}
+                      {index > 0 && (
+                        <div className="confidence-indicator">
+                          {Math.round((model.confidenceScore || 0.8) * 100)}% Match
+                        </div>
+                      )}
+                      
+                      {/* Hover overlay with quick specs */}
+                      <div className="panel-overlay">
+                        <div className="quick-specs">
+                          <div className="spec-item">
+                            <span className="spec-icon">🌬️</span>
+                            <span>{model.airflowRating}/10</span>
+                          </div>
+                          <div className="spec-item">
+                            <span className="spec-icon">💧</span>
+                            <span>{model.waterResistanceRating}/10</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                    {activeModelIndex === index + 1 && <div className="active-model-indicator">Current Selection</div>}
-                  </div>
+                  );
+                })}
+                
+                {/* Optional: Add background elements for depth */}
+                <div className="visualization-background">
+                  <div className="bg-grid"></div>
+                  <div className="bg-glow"></div>
+                </div>
+              </div>
+              
+              {/* Optional: Add controls for manual navigation */}
+              <div className="model-navigation">
+                {allModels.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`nav-dot ${activeModelIndex === index ? 'active' : ''}`}
+                    onClick={() => handleModelSelect(index)}
+                    aria-label={`Select model ${index + 1}`}
+                  />
                 ))}
               </div>
             </div>

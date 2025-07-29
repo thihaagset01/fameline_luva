@@ -59,12 +59,12 @@ function adjustColor(hex: string, percent: number): string {
 export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   return (
     <div className="app-container fixed-height-page aesthetics-step">
-      <h1 className="page-title">Design Aesthetics</h1>
       
       <div className="aesthetics-container">
+      <h1 className="aesthetics-title">Design Aesthetics</h1>
         {/* Left column - Controls for structural elements */}
         {/* These toggle buttons let users select key structural features */}
-        <div className="aesthetics-controls">
+        <div className="aesthetics-left-controls">
           {/* Mullion visibility */}
           <div className="aesthetics-group">
             <h3>Mullion visibility</h3>
@@ -150,7 +150,7 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
         
         {/* Right column - Color and custom inputs */}
         {/* These controls allow for color selection and additional customization notes */}
-        <div className="aesthetics-inputs">
+        <div className="aesthetics-right-inputs">
           {/* Color picker */}
           <div className="aesthetics-input-group">
             <label>Color</label>

@@ -1,0 +1,97 @@
+/**
+ * NavigationContainer Component Styles 🧭
+ * 
+ * This stylesheet provides consistent alignment and positioning for navigation buttons
+ * throughout the wizard, replacing the old guided-navigation pattern.
+ */
+
+/* Base container for navigation buttons */
+.navigation-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin-top: 2rem;
+    padding: 0 1rem;
+  }
+  
+  /* Remove the individual container divs since we're handling alignment at the parent level */
+  .navigation-container .nav-button-container {
+    position: static;
+    margin: 0;
+    display: contents; /* This makes the container "disappear" layoutwise */
+  }
+  
+  /* Different alignment patterns */
+  .nav-spaced {
+    justify-content: space-between;
+  }
+  
+  .nav-center {
+    justify-content: center;
+    gap: 2rem;
+  }
+  
+  .nav-right {
+    justify-content: flex-end;
+    gap: 1rem;
+  }
+  
+  .nav-left {
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  
+  /* Spacer for single button scenarios */
+  .nav-spacer {
+    flex: 1;
+  }
+  
+  /* Fixed positioning (floating buttons) */
+  .nav-button-fixed {
+    position: fixed;
+    z-index: 50;
+  }
+  
+  .nav-button-fixed-next {
+    bottom: 2rem;
+    right: 2rem;
+  }
+  
+  .nav-button-fixed-prev {
+    bottom: 2rem;
+    left: 2rem;
+  }
+  
+  /* Override the individual button container positioning when inside NavigationContainer */
+  .navigation-container .next-container,
+  .navigation-container .prev-container {
+    position: static;
+    display: contents;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .navigation-container {
+      padding: 0 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .nav-center {
+      gap: 1rem;
+    }
+    
+    .nav-right,
+    .nav-left {
+      gap: 0.5rem;
+    }
+    
+    .nav-button-fixed-next {
+      bottom: 1rem;
+      right: 1rem;
+    }
+    
+    .nav-button-fixed-prev {
+      bottom: 1rem;
+      left: 1rem;
+    }
+  }

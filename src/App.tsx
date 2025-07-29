@@ -10,7 +10,7 @@
 import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { NavigationButton } from '@/components/NavigationButton';
-
+import { NavigationContainer } from '@/components/NavigationContainer';
 // Step components for the wizard flow
 import { UserInfoStep } from '@/pages/UserInfoStep';
 import { LocationStep } from '@/pages/LocationStep';
@@ -144,22 +144,15 @@ function App() {
           {renderStep()}
         </main>
         
-        {/* Previous step button - only shown if not on the first step */}
-        {currentStep > 0 && (
-          <NavigationButton 
-            onClick={prevStep} 
-            direction="prev"
-          />
-        )}
-        
-        {/* Next step button - shown on all steps except the last one */}
-        {/* The button is disabled if the current step's data is invalid */}
-        {!isLastStep && currentStep !== 5 && (
-          <NavigationButton 
-            onClick={nextStep} 
-            disabled={!canProceed}
-          />
-        )}
+        {/* NavigationContainer handles all navigation scenarios */}
+        <NavigationContainer
+          onPrevious={currentStep > 0 ? prevStep : undefined}
+          onNext={!isLastStep && currentStep !== 5 ? nextStep : undefined}
+          nextDisabled={!canProceed}
+          showPrevious={currentStep > 0}
+          showNext={!isLastStep && currentStep !== 5}
+          alignment="fixed" // Keep your current floating button style
+        />
       </div>
     </div>
   );
