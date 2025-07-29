@@ -24,19 +24,17 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
   return (
     <div className="app-container fixed-height-page">
       <div className="content-card">
-        <div className="form-side">
+        <div className="form-side"> 
           {/* Welcome Message */}
           <div className="welcome-message">
-            <h1 className="welcome-title">
-              I'm <span className="welcome-name">Luva</span>,
+            <h1  className="welcome-name"> I'm Luva,
             </h1>
-            <p className="welcome-subtitle">
-              your louver selection assistant
-            </p>
           </div>
           
           {/* Form Container - remove the extra wrapper */}
-          <div className="space-y-6">
+          <div className="space-y-6" style={{
+    marginLeft: '16rem'
+}}>
             {/* Name Input */}
             <TextInput
               label="What is your name?"

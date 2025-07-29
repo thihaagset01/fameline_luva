@@ -27,6 +27,7 @@ header {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0.5rem;
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
@@ -39,9 +40,16 @@ header {
 }
 
 .home-icon-link:hover {
-  background: rgba(255, 255, 255, 0.2);
-  border-color: rgba(255, 255, 255, 0.3);
-  transform: translateY(-2px);
+  transform: scale(1.1);
+}
+
+.home-icon-link svg {
+  filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+  transition: all 0.2s ease;
+  stroke:white;
+}
+.home-icon-link:hover svg {
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
 }
 
 /* Progress dots styling - used by Header component */
