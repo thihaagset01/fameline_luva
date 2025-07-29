@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { StepProps } from '@/types';
+import './styles/AestheticsStep.css';
 
 /**
  * 🎨 AestheticsStep Component

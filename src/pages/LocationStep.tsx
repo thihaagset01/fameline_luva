@@ -4,6 +4,7 @@ import { MapPin, CheckCircle, AlertCircle, Cloud } from 'lucide-react';
 import { StepProps } from '@/types';
 import { weatherService } from '@/services/weatherService';
 import { ENVIRONMENT_OPTIONS } from '@/utils/constants';
+import './styles/LocationStep.css';
 
 /**
  * 📍 LocationStep Component - FIXED VERSION

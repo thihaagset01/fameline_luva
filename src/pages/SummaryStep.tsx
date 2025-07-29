@@ -1,4 +1,5 @@
-import React from 'react';
+import * as React from 'react';
+import './styles/SummaryStep.css';
 import { Download, Share2, RotateCcw, CheckCircle } from 'lucide-react';
 import { FormData, WeatherData } from '@/types';
 import { WeatherSummary } from '@/components/WeatherSummary';

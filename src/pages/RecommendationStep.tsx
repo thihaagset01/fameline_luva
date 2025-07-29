@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import * as React from 'react';
+import { useState, useEffect } from 'react';
+import './styles/RecommendationStep.css';
 import { Download, Star } from 'lucide-react';
 import { FormData } from '@/types';
 import { recommendationEngine } from '@/engine/recommendationEngine';
@@ -300,6 +302,8 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
       setRecommendation(allModels[index]);
     }
   };
+
+    // Note: handleModelSelect is used for all model selection interactions
 
   // Conditional rendering based on component state
   // The component renders different UI based on three possible states:

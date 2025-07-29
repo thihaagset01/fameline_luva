@@ -12,6 +12,7 @@
 import * as React from 'react';
 import { Home } from 'lucide-react';
 import { HeaderProps } from '@/types';
+import './Header.css';
 
 /**
  * Renders the application header with navigation and progress indicators

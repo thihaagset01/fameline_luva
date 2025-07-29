@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './styles/UserInfoStep.css';
 import { StepProps } from '@/types';
 import { TextInput } from '@/components/inputs';
 

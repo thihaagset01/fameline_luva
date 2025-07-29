@@ -1,0 +1,169 @@
+/**
+ * ProjectContextStep.css
+ * Styles specific to the Project Context step
+ */
+
+/* Project context page container */
+.project-context-container {
+  padding: 2rem;
+  padding-top: 10rem; /* Added top padding to account for fixed header */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Project context title styles */
+.project-context-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.project-context-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Project context form */
+.project-context-form {
+  max-width: 700px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Selection options */
+.selection-option-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.selection-option {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all var(--transition-normal);
+  border: 1px solid transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.selection-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+}
+
+.selection-option.selected {
+  border-color: var(--primary);
+  background-color: rgba(16, 185, 129, 0.1);
+}
+
+.selection-option-icon {
+  width: 48px;
+  height: 48px;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.selection-option-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.selection-option-desc {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.recommended-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: var(--primary);
+  color: white;
+  font-size: 0.7rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-weight: 500;
+}
+
+/* Substep container */
+.substep-container {
+  margin-bottom: 2rem;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.substep-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.input-label {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+/* Recommendation reasoning */
+.recommendation-reasoning {
+  margin-top: 2rem;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem;
+  background-color: rgba(16, 185, 129, 0.1);
+  border-left: 3px solid var(--primary);
+}
+
+.recommendation-reasoning p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.recommendation-reasoning strong {
+  color: var(--primary);
+}

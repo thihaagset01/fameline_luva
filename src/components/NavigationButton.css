@@ -1,0 +1,85 @@
+/**
+ * Navigation Button Component Styles 🧭
+ * 
+ * This stylesheet contains all styles for the circular navigation buttons used
+ * throughout the wizard to move between steps.
+ */
+
+/* Container positioning for navigation buttons */
+.nav-button-container {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.next-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.prev-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* Circular navigation button styling */
+.circular-nav-button {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.circular-nav-button:hover {
+  background: rgba(16, 185, 129, 1);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.circular-nav-button:active {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.nav-button-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.nav-button-icon {
+  color: white;
+  transition: transform 0.2s ease;
+}
+
+.circular-nav-button:hover .nav-button-icon {
+  transform: scale(1.1);
+}
+
+.next-button-icon {
+  transform: translateX(3px);
+}
+
+.prev-button-icon {
+  transform: translateX(-3px);
+}
+
+.next-button-disabled {
+  background: #94a3b8;
+  box-shadow: none;
+}
+
+/* Guided navigation container */
+.guided-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding: 0 1rem;
+  width: 100%;
+}

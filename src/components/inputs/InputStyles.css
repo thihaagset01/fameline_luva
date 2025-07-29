@@ -1,0 +1,153 @@
+/**
+ * Input Components Shared Styles 📝
+ * 
+ * This stylesheet contains all styles for the various input components including:
+ * - TextInput
+ * - SelectInput
+ * - Textarea
+ * - ToggleButton
+ * 
+ * These styles are based on the original design system from index_old.css
+ */
+
+/* Input group container */
+.input-group {
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+/* Input label styling */
+.input-label {
+  display: block;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Input wrapper for positioning elements */
+.input-wrapper {
+  position: relative;
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+/* Base input field styling */
+.input-field {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  color: #1f2937;
+  font-size: 1.125rem;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Focus state for input fields */
+.input-field:focus {
+  background-color: white;
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Placeholder styling */
+.input-field::placeholder {
+  color: #9ca3af;
+  opacity: 0.7;
+  font-weight: 300;
+}
+
+
+/* Textarea specific styling */
+textarea.input-field {
+  border-radius: 1rem;
+  min-height: 8rem;
+  resize: vertical;
+  padding: 1.25rem 1.5rem;
+}
+
+/* Select input specific styling */
+select.input-field {
+  appearance: none;
+  padding-right: 2.5rem;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2310b981'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1.25rem;
+}
+
+/* Toggle button styling */
+.toggle-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.toggle-button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.toggle-button.active {
+  background-color: #10b981;
+  border-color: #10b981;
+  color: white;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+/* Color input specific styling */
+.color-input-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.color-option {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 9999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.color-option:hover {
+  transform: scale(1.05);
+}
+
+.color-option.selected {
+  border-color: white;
+  box-shadow: 0 0 0 2px #10b981, 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.color-option.selected::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 1.25rem;
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Animation for active elements */
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}

@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './styles/ProjectContextStep.css';
 import { useState, useEffect, useCallback, memo } from 'react';
 import { StepProps } from '@/types';
 

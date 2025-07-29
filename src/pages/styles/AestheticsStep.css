@@ -1,0 +1,202 @@
+/**
+ * AestheticsStep.css
+ * Styles specific to the Aesthetics selection step
+ */
+
+/* Aesthetics page container */
+.app-container.aesthetics-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  padding-top: 10rem; /* Added top padding to account for fixed header */
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.aesthetics-container {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+  background-color: var(--bg-dark-alt);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* Left column - Controls */
+.aesthetics-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.aesthetics-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.aesthetics-group h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Toggle button group */
+.aesthetics-toggle-group {
+  display: flex;
+  gap: 1rem;
+}
+
+/* Aesthetics toggle button */
+.aesthetics-toggle {
+  width: 60px;
+  height: 60px;
+  border-radius: 0.75rem;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  color: var(--text-secondary);
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.aesthetics-toggle:hover {
+  transform: scale(1.05);
+  border-color: var(--primary);
+}
+
+.aesthetics-toggle.active {
+  border-color: var(--primary);
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--primary);
+}
+
+.aesthetics-toggle.inactive {
+  opacity: 0.7;
+}
+
+/* Middle column - Louver visualization */
+.aesthetics-visualization {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.louver-preview {
+  width: 100%;
+  aspect-ratio: 4/3;
+  max-width: 400px;
+  margin-bottom: 1rem;
+}
+
+.louver-frame {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+
+.louver-slats {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.mullion-indicator {
+  position: absolute;
+  inset: 1rem;
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  pointer-events: none;
+}
+
+.louver-preview-note {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  max-width: 300px;
+  margin-top: 1rem;
+}
+
+/* Right column - Inputs */
+.aesthetics-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.aesthetics-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.aesthetics-input-group label {
+  font-weight: 500;
+}
+
+.aesthetics-input {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.aesthetics-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--text-primary);
+  resize: vertical;
+  min-height: 100px;
+}
+
+.aesthetics-textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* Preview section */
+.aesthetics-preview {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  text-align: center;
+}
+
+.preview-title {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.preview-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  box-shadow: var(--shadow-md);
+}

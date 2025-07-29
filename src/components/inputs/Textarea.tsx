@@ -1,4 +1,5 @@
 import * as React from 'react';
+import './InputStyles.css';
 
 interface TextareaProps {
   label: string;

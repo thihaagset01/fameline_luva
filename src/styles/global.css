@@ -1,0 +1,308 @@
+/**
+ * 🎨 LouverBoy Design System & Global Stylesheet
+ *
+ * This is the comprehensive design system for the LouverBoy application.
+ * It contains global styles, design tokens, and base component styles.
+ */
+
+/* Font Imports */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 2. Design Tokens & Variables */
+:root {
+  /* Color Palette - Primary */
+  --primary: #10B981;         /* Emerald-500: Primary brand color */
+  --primary-light: #34D399;   /* Emerald-400: Lighter variant for hover states */
+  --primary-dark: #059669;    /* Emerald-600: Darker variant for active states */
+  
+  /* Color Palette - Background */
+  --bg-dark: #0F172A;         /* Slate-900: Dark background base */
+  --bg-dark-alt: #1E293B;     /* Slate-800: Slightly lighter background for cards */
+  --bg-accent: #064E3B;       /* Emerald-900: Accent background for sections */
+  
+  /* Color Palette - Text */
+  --text-primary: #FFFFFF;    /* White: Primary text color */
+  --text-secondary: #E2E8F0;  /* Slate-200: Secondary text for less emphasis */
+  --text-tertiary: #94A3B8;   /* Slate-400: Tertiary text for captions/hints */
+  
+  /* Color Palette - Feedback */
+  --success: #34D399;         /* Emerald-400: Success messages and indicators */
+  --warning: #FBBF24;         /* Amber-400: Warning messages and indicators */
+  --error: #F87171;           /* Red-400: Error messages and indicators */
+  --info: #60A5FA;            /* Blue-400: Informational messages */
+  
+  /* Spacing Scale (based on 8px grid) */
+  --space-xs: 0.25rem;        /* 4px: Minimal spacing */
+  --space-sm: 0.5rem;         /* 8px: Tight spacing */
+  --space-md: 1rem;           /* 16px: Standard spacing */
+  --space-lg: 1.5rem;         /* 24px: Generous spacing */
+  --space-xl: 2rem;           /* 32px: Section spacing */
+  --space-2xl: 3rem;          /* 48px: Page spacing */
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;       /* 4px: Subtle rounding */
+  --radius-md: 0.5rem;        /* 8px: Standard rounding */
+  --radius-lg: 1rem;          /* 16px: Prominent rounding */
+  --radius-xl: 1.5rem;        /* 24px: Major rounding */
+  --radius-full: 9999px;      /* Full rounding (pills, circles) */
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 15px rgba(16, 185, 129, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+  
+  /* Z-index layers */
+  --z-base: 1;
+  --z-above: 10;
+  --z-header: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
+
+/* 3. Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px; /* Thin scrollbar for a modern look */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /* Subtle track background */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3); /* Slightly more opaque on hover */
+}
+
+/* 4. Global Base Styles */
+html, body {
+  font-family: 'Poppins', sans-serif; /* Primary font family */
+  color: white; /* Default text color */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow-y: auto; /* Default scrolling enabled */
+}
+
+/* Root container styling */
+#root {
+  min-height: 100%;
+  height: auto;
+  overflow-y: auto; /* Default scrolling enabled */
+}
+
+/* Page height control */
+.fixed-height-page {
+  height: 100vh;
+  max-height: 100vh;
+  overflow: hidden; /* Only fixed-height pages prevent scrolling */
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Default page style - all pages are scrollable by default */
+.page {
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+/* Guided navigation buttons */
+.guided-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+/* Progress hint */
+.progress-hint {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.guided-nav-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.prev-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.prev-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.next-button {
+  background-color: #10b981;
+  color: white;
+}
+
+.next-button:hover {
+  background-color: #059669;
+}
+
+/* 5. Animation Keyframes */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.5); }
+  100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 6. Tailwind Base Layer */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #0f172a;
+    color: #f8fafc;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* 7. Common Component Styles */
+@layer components {
+  /* Gradient Background */
+  .gradient-bg {
+    background: linear-gradient(135deg, #0f172a 0%, #064e3b 30%, #0f172a 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    width: 100%;
+    background-size: 300% 300%;
+    animation: subtleShimmer 20s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  
+  .gradient-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  
+  @keyframes subtleShimmer {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+  }
+
+  .glass-effect {
+    background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
+    backdrop-filter: blur(12px); /* backdrop-blur-md */
+    border-radius: 0.75rem; /* rounded-xl */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* border border-white/20 */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Button styles */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    color: white;
+    font-weight: 500;
+    font-size: 1.125rem;
+    transition: all 0.2s ease;
+  }
+  
+  .btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.5);
+  }
+  
+  .btn-emerald {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .btn-emerald:hover {
+    background-color: #059669;
+  }
+  
+  .btn-outline {
+    border: 2px solid #10b981;
+    color: #10b981;
+  }
+  
+  .btn-outline:hover {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  .btn-ghost {
+    background-color: transparent;
+    color: white;
+  }
+  
+  .btn-ghost:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+}

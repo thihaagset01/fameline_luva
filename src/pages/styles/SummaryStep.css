@@ -1,0 +1,232 @@
+/**
+ * SummaryStep.css
+ * Styles specific to the Summary step
+ */
+
+/* Summary page container */
+.summary-step {
+  padding: 2rem;
+  padding-top: 10rem; /* Added top padding to account for fixed header */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.summary-completion {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Success icon */
+.success-icon-container {
+  margin-bottom: 2rem;
+}
+
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: rgba(var(--primary-rgb), 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--primary);
+}
+
+/* Summary title styles */
+.summary-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.summary-description {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 2.5rem;
+  max-width: 600px;
+}
+
+/* Summary card */
+.summary-card {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+}
+
+.summary-card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  color: var(--text-primary);
+}
+
+/* Summary grid */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.summary-grid-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin-bottom: 0.5rem;
+}
+
+.summary-value {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  color: var(--text-primary);
+}
+
+.summary-subvalue {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.capitalize {
+  text-transform: capitalize;
+}
+
+/* Summary steps */
+.summary-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summary-step-item {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.summary-step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.summary-step-content {
+  flex: 1;
+}
+
+.summary-step-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.summary-step-description {
+  color: var(--text-secondary);
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+/* Highlight text */
+.highlight {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* Summary prompt */
+.summary-prompt {
+  margin: 2rem 0 1rem;
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* Summary actions */
+.summary-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.summary-download-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.summary-download-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.summary-download-icon {
+  color: var(--primary);
+}
+
+/* Summary navigation */
+.summary-navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Summary footer */
+.summary-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.summary-footer-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.summary-footer-text {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.summary-footer-locations {
+  font-size: 0.85rem;
+  color: var(--text-tertiary);
+  margin-bottom: 1rem;
+}
+
+.summary-footer-weather {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
