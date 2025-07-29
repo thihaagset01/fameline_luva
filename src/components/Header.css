@@ -9,7 +9,7 @@
 
 /* Header container with fixed positioning and gradient background */
 header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -31,8 +31,6 @@ header {
   width: 3rem;
   height: 3rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);

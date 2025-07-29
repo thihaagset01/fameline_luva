@@ -21,16 +21,18 @@
 
 /* Recommendation title styles */
 .recommendations-title {
-  font-size: 1.75rem;
+  font-size: 4rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
+  color: white;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.1;
 }
+
 
 .recommendations-description {
   font-size: 1rem;
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
   line-height: 1.5;
 }
 
@@ -43,41 +45,37 @@
 }
 
 /* Info column */
-.recommendations-info-column {
+.recommendations-visual-column {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+  padding-top: 2rem;
 }
 
 .recommendations-info {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 1rem;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 .recommendation-header {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .confidence-badge {
-  background-color: var(--primary);
-  color: white;
-  padding: 0.25rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.85rem;
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
   font-weight: 500;
+  font-family: 'Poppins', sans-serif;
 }
-
-.rating-stars {
-  display: flex;
-  gap: 0.25rem;
-  color: var(--primary);
-}
-
 /* Visual column */
 .recommendations-visual-column {
   display: flex;
@@ -89,16 +87,14 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 1rem;
-  padding: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1.5rem 0;
+  width: 100%;
 }
 
 .spec-item {
   padding: 1rem;
   border-radius: 0.75rem;
-  background-color: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   display: flex;
   flex-direction: column;
 }
@@ -162,9 +158,14 @@
 
 /* Download section */
 .download-section {
-  background-color: rgba(255, 255, 255, 0.05);
-  border-radius: 1rem;
-  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  margin-top:5rem; 
+  width:100%;
+  max-width:500px;
+  
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -187,17 +188,17 @@
 }
 
 .recommendations-button {
-  background-color: var(--primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transition-fast);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-family: 'Poppins', sans-serif;
 }
 
 .recommendations-button:hover {
@@ -215,8 +216,8 @@
 .model-navigation {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin-top: 30px;
+  gap: 32px;
+  margin-top: -90px;
   position: relative;
 }
 
@@ -500,11 +501,10 @@
 
 
 .nav-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: none;
-  background: rgba(255, 255, 255, 0.3);
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.3);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -515,10 +515,11 @@
 }
 
 .nav-dot.active {
-  background: #10b981;
-  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  background-color: #34d399;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+  position: relative;
+  z-index: 1;
 }
-
 /* Animations */
 @keyframes activeGlow {
   0% {

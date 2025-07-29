@@ -254,7 +254,7 @@ const SelectionOptionCard = memo(({
       }
     }}
   >
-    {recommended && <span className="recommendation-badge" aria-label="Recommended">Recommended</span>}
+    {recommended && <span className="recommended-badge" aria-label="Recommended">Recommended</span>}
     <span className="application-icon" aria-hidden="true">{option.icon}</span>
     <h4 className="application-name">{option.name}</h4>
     <p className="application-description">{option.description}</p>

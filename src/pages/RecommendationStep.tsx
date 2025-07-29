@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import './styles/RecommendationStep.css';
-import { Download, Star } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { FormData } from '@/types';
 import { recommendationEngine } from '@/engine/recommendationEngine';
 
@@ -514,15 +514,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                 <span className="confidence-badge">
                   {!isNaN(recommendation.confidenceScore) ? Math.round(recommendation.confidenceScore * 100) : '--'}% Match
                 </span>
-                <div className="rating-stars">
-                  {[...Array(5)].map((_, i) => (
-                    <Star 
-                      key={i} 
-                      size={16} 
-                      fill={i < Math.round(recommendation.confidence * 5) ? "currentColor" : "none"} 
-                    />
-                  ))}
-                </div>
               </div>
               <h1 className="recommendations-title">{recommendation.model || recommendation.louver?.model}</h1>
               <p className="recommendations-description">
@@ -578,20 +569,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* Option to download detailed technical specifications - Allows users to get complete documentation */}
-            {/* This feature allows users to download a PDF with complete technical specifications for the selected louver */}
-            <div className="download-section">
-              <div className="download-content">
-                <div className="download-info">
-                  <h3 className="download-title">Download Specification</h3>
-                  <p className="download-description">Get the complete technical details</p>
-                </div>
-                <button className="recommendations-button">
-                  <Download size={20} />
-                </button>
-              </div>  
             </div>
           </div>
 
@@ -703,6 +680,20 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                 ))}
               </div>
             </div>
+            
+            {/* Option to download detailed technical specifications - Allows users to get complete documentation */}
+            {/* This feature allows users to download a PDF with complete technical specifications for the selected louver */}
+            <div className="download-section">
+              <div className="download-content">
+                <div className="download-info">
+                  <h3 className="download-title">Download Specification</h3>
+                  <p className="download-description">Get the complete technical details</p>
+                </div>
+                <button className="recommendations-button">
+                  <Download size={20} />
+                </button>
+              </div>  
+            </div>  
           </div>
         </div>
       </div>

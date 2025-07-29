@@ -59,9 +59,9 @@ function adjustColor(hex: string, percent: number): string {
 export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
   return (
     <div className="app-container fixed-height-page aesthetics-step">
-      
-      <div className="aesthetics-container">
       <h1 className="aesthetics-title">Design Aesthetics</h1>
+      <div className="aesthetics-container">
+      
         {/* Left column - Controls for structural elements */}
         {/* These toggle buttons let users select key structural features */}
         <div className="aesthetics-left-controls">
@@ -143,8 +143,7 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
             </div>
           </div>
           <p className="louver-preview-note">
-            This is a drafted visual of your aesthetic and design needs, and is
-            not a final representation of your louver.
+          This is a drafted visual and is not a final representation of your louver.
           </p>
         </div>
         

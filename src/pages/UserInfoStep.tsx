@@ -32,9 +32,7 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
           </div>
           
           {/* Form Container - remove the extra wrapper */}
-          <div className="space-y-6" style={{
-    marginLeft: '16rem'
-}}>
+          <div className="space-y-6">
             {/* Name Input */}
             <TextInput
               label="What is your name?"
@@ -62,6 +60,7 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
               <div className="orb-ping"></div>
               <div className="orb-highlight"></div>
               <div className="orb-glow"></div>
+              <div className="lava"></div>
             </div>
           </div>
         </div>

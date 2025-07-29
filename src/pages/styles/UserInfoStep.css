@@ -1,131 +1,205 @@
 /**
- * UserInfoStep.css
+ * UserInfoStep.css - Updated to match legacy design system
  * Styles specific to the User Information step
  */
 
-/* App container */
+/* App container - matches legacy layout */
 .app-container {
-  padding: 2rem;
-  padding-top: 10rem; /* Added top padding to account for fixed header */
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-/* Content card */
-.content-card {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-
-/* Form side */
-.form-side {
-  flex: 1;
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Welcome message */
-.welcome-message {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.welcome-title {
-  font-size: 2.75rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, var(--primary-light), var(--primary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.welcome-subtitle {
-  font-size: 1.25rem;
-  color: var(--text-secondary);
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-/* Orb side */
-.orb-side {
-  flex: 0 0 40%;
+  width: 100%;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
+  overflow-y: hidden;
+  padding: 0;
+  margin: 0 auto;
+  padding-top:2rem;
+  padding-bottom: 6rem; /* Reduced padding for better space utilization */
+}
+
+/* Content card - side by side layout */
+.content-card {
+  display: flex;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+/* Form side - left side of the layout */
+.form-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem 2.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  gap: 1rem;
+}
+
+/* Welcome message section */
+.welcome-message {
+  margin-bottom: 3rem;
+  text-align: center;
+  padding: 0 1rem;
+}
+
+.welcome-title {
+  font-size: 3rem;
+  font-weight: 500;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.2;
+}
+
+.welcome-name {
+  color: #34d399;
+  font-weight: 600;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
+}
+
+.welcome-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.25rem;
+}
+
+/* Orb side - right side of the layout */
+.orb-side {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Orb container */
 .orb-container {
-  position: relative;
-  width: 200px;
-  height: 200px;
-}
-
-/* Orb */
-.orb {
-  position: absolute;
-  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100%;
-  border-radius: 50%;
-  background: radial-gradient(circle, var(--primary) 0%, var(--primary-dark) 100%);
-  box-shadow: var(--shadow-glow);
 }
 
-/* Orb effects */
+/* Main orb styling - matches legacy design */
+.orb {
+  width: 12rem;
+  height: 12rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+  box-shadow: 0 0 60px rgba(16, 185, 129, 0.6);
+  position: relative;
+  animation: float 6s ease-in-out infinite;
+  overflow: hidden;
+}
+
+/* Orb effects and animations */
 .orb-pulse {
   position: absolute;
-  top: -10%;
-  left: -10%;
-  width: 120%;
-  height: 120%;
+  inset: 0;
   border-radius: 50%;
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.2);
-  animation: pulse 2s infinite;
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.3) 0%, transparent 50%, rgba(5, 150, 105, 0.3) 100%);
+  animation: pulse 3s ease-in-out infinite;
 }
 
 .orb-ping {
   position: absolute;
-  top: -20%;
-  left: -20%;
-  width: 140%;
-  height: 140%;
+  inset: -1rem;
   border-radius: 50%;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  animation: pulse 2s infinite 0.5s;
+  background-color: rgba(52, 211, 153, 0.2);
+  opacity: 0.3;
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 .orb-highlight {
   position: absolute;
-  top: 15%;
-  left: 15%;
-  width: 30%;
-  height: 30%;
+  inset: 0;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.3);
-  filter: blur(10px);
+  background: linear-gradient(315deg, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
 }
 
 .orb-glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  top: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 50%;
-  box-shadow: 0 0 40px 20px rgba(16, 185, 129, 0.4);
-  animation: glow 3s infinite alternate;
+  background-color: rgba(255, 255, 255, 0.2);
+  filter: blur(1rem);
 }
+/* Lava */
+.lava {
+  filter: blur(25px);
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+  width: 190px;
+  height: 190px;
+  z-index: 10;
+  opacity: 1;
+  mix-blend-mode: screen;
+  animation: colorShift 20s infinite linear;
+}
+.lava::before {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background:
+    radial-gradient(circle at 30% 30%, #34d399 0%, transparent 45%),
+    radial-gradient(circle at 70% 30%, #10b981 0%, transparent 45%),
+    radial-gradient(circle at 50% 60%, #059669 0%, transparent 45%),
+    radial-gradient(circle at 80% 40%, #064e3b 0%, transparent 45%);
+  filter: blur(8px);
+  opacity: 1;
+  mix-blend-mode: screen;
+}
+.lava::after {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background:
+    radial-gradient(circle at 40% 40%, #34d399 0%, transparent 35%),
+    radial-gradient(circle at 60% 40%, #10b981 0%, transparent 35%),
+    radial-gradient(circle at 50% 70%, #059669 0%, transparent 35%),
+    radial-gradient(circle at 70% 50%, #064e3b 0%, transparent 35%);
+  filter: blur(12px);
+  opacity: 1;
+  mix-blend-mode: screen;
+  animation: pulse 4s ease-in-out infinite alternate;
+}
+@keyframes colorShift {
+  0% {
+    filter: blur(25px) hue-rotate(0deg);
+  }
+  100% {
+    filter: blur(25px) hue-rotate(360deg);
+  }
+}
+.orb-glow {
+  box-shadow: 
+    0 0 60px rgba(52, 211, 153, 0.4),
+    0 0 120px rgba(52, 211, 153, 0.2),
+    inset 0 0 60px rgba(52, 211, 153, 0.1);
+}
+
+/* Eye animation for the orb character */
 .orb::before {
   content: '';
   position: absolute;
@@ -142,6 +216,7 @@
     blink 4s infinite,
     lookAround 10s infinite ease-in-out;
 }
+
 .orb::after {
   content: '';
   position: absolute;
@@ -153,11 +228,48 @@
   box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
   animation: glowPulse 2s ease-in-out infinite;
 }
+
+/* Keyframe animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) rotateX(10deg) rotateY(10deg);
+  }
+  25% {
+    transform: translateY(-10px) rotateX(5deg) rotateY(15deg);
+  }
+  50% {
+    transform: translateY(-15px) rotateX(0deg) rotateY(10deg);
+  }
+  75% {
+    transform: translateY(-5px) rotateX(-5deg) rotateY(5deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
 @keyframes blink {
   0%, 96% { height: 30px; }
   98% { height: 3px; }
   100% { height: 30px; }
 }
+
 @keyframes lookAround {
   0%, 40% {
     left: 47%;
@@ -184,52 +296,33 @@
     box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
   }
 }
-/* Animations */
-@keyframes pulse {
-  0% {
-    transform: scale(0.95);
-    opacity: 0.7;
+
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
   }
   50% {
-    transform: scale(1.05);
-    opacity: 0.3;
-  }
-  100% {
-    transform: scale(0.95);
-    opacity: 0.7;
+    box-shadow: 0 0 40px rgba(52, 211, 153, 0.5);
   }
 }
 
-@keyframes glow {
-  0% {
-    box-shadow: 0 0 20px 10px rgba(16, 185, 129, 0.3);
-  }
-  100% {
-    box-shadow: 0 0 40px 20px rgba(16, 185, 129, 0.5);
-  }
-}
-
-/* Space utility for form spacing */
+/* Form spacing utility */
 .space-y-6 > * + * {
   margin-top: 1.5rem;
 }
 
-/* Welcome name highlight */
-.welcome-name {
-  font-size: 4rem;
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  margin-top: 0.5rem;
-  font-family: 'Poppins', sans-serif;
-  background: linear-gradient(90deg, #ffffff, #10b981);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  color: transparent;
-  letter-spacing: -0.7px;
-  }
+/* Progress hint */
+.progress-hint {
+  text-align: center;
+  padding-top: 1rem;
+}
 
-/* User type selection */
+.progress-hint p {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.875rem;
+}
+
+/* User type selection (if used later) */
 .user-types {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -244,7 +337,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  transition: all var(--transition-normal);
+  transition: all 0.3s ease;
   border: 1px solid transparent;
   cursor: pointer;
 }
@@ -255,7 +348,7 @@
 }
 
 .user-type-option.selected {
-  border-color: var(--primary);
+  border-color: #10b981;
   background-color: rgba(16, 185, 129, 0.1);
 }
 
@@ -263,7 +356,7 @@
   width: 40px;
   height: 40px;
   margin-bottom: 1rem;
-  color: var(--primary);
+  color: #10b981;
 }
 
 .user-type-title {
@@ -273,7 +366,7 @@
 
 .user-type-desc {
   font-size: 0.85rem;
-  color: var(--text-tertiary);
+  color: rgba(148, 163, 184, 1);
   text-align: center;
 }
 
@@ -284,14 +377,14 @@
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
   font-size: 0.9rem;
-  color: var(--text-tertiary);
+  color: rgba(148, 163, 184, 1);
 }
 
 .privacy-notice h4 {
   margin-top: 0;
   margin-bottom: 0.5rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: rgba(226, 232, 240, 1);
 }
 
 /* Start button */
@@ -303,17 +396,17 @@
 .start-button {
   padding: 1rem 2.5rem;
   border-radius: 0.75rem;
-  background-color: var(--primary);
+  background-color: #10b981;
   color: white;
   font-weight: 600;
   font-size: 1.1rem;
-  transition: all var(--transition-normal);
+  transition: all 0.3s ease;
   border: none;
   cursor: pointer;
 }
 
 .start-button:hover {
-  background-color: var(--primary-dark);
+  background-color: #059669;
   transform: translateY(-3px);
-  box-shadow: var(--shadow-glow);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
 }

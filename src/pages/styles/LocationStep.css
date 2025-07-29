@@ -12,7 +12,7 @@
 /* Step container */
 .step-container {
   padding: 2rem;
-  padding-top: 10rem; /* Added top padding to account for fixed header */
+  padding-top: 7rem; /* Added top padding to account for fixed header */
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -122,8 +122,9 @@
   padding: 1rem;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
-  border-color:#a4ead3;
+  border:1px solid rgba(255, 255, 255, 0.2);
   font-size: 0.9rem;
+  color:#10B981;
 }
 
 .location-tips h4 {

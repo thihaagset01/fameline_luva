@@ -36,7 +36,6 @@
 /* Base input field styling */
 .input-field {
   width: 100%;
-  max-width: 400px;
   padding: 1rem 1.5rem;
   border-radius: 9999px;
   color: #1f2937;
