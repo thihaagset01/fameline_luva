@@ -19,3 +19,2633 @@
 @import "./pages/styles/AestheticsStep.css";
 @import "./pages/styles/RecommendationStep.css";
 @import "./pages/styles/SummaryStep.css";
+
+/* 2. Design Tokens & Variables */
+:root {
+  /* Color Palette - Primary */
+  --primary: #10B981;         /* Emerald-500: Primary brand color */
+  --primary-light: #34D399;   /* Emerald-400: Lighter variant for hover states */
+  --primary-dark: #059669;    /* Emerald-600: Darker variant for active states */
+  
+  /* Color Palette - Background */
+  --bg-dark: #0F172A;         /* Slate-900: Dark background base */
+  --bg-dark-alt: #1E293B;     /* Slate-800: Slightly lighter background for cards */
+  --bg-accent: #064E3B;       /* Emerald-900: Accent background for sections */
+  
+  /* Color Palette - Text */
+  --text-primary: #FFFFFF;    /* White: Primary text color */
+  --text-secondary: #E2E8F0;  /* Slate-200: Secondary text for less emphasis */
+  --text-tertiary: #94A3B8;   /* Slate-400: Tertiary text for captions/hints */
+  
+  /* Color Palette - Feedback */
+  --success: #34D399;         /* Emerald-400: Success messages and indicators */
+  --warning: #FBBF24;         /* Amber-400: Warning messages and indicators */
+  --error: #F87171;           /* Red-400: Error messages and indicators */
+  --info: #60A5FA;            /* Blue-400: Informational messages */
+  
+  /* Spacing Scale (based on 8px grid) */
+  --space-xs: 0.25rem;        /* 4px: Minimal spacing */
+  --space-sm: 0.5rem;         /* 8px: Tight spacing */
+  --space-md: 1rem;           /* 16px: Standard spacing */
+  --space-lg: 1.5rem;         /* 24px: Generous spacing */
+  --space-xl: 2rem;           /* 32px: Section spacing */
+  --space-2xl: 3rem;          /* 48px: Page spacing */
+  
+  /* Border Radius */
+  --radius-sm: 0.25rem;       /* 4px: Subtle rounding */
+  --radius-md: 0.5rem;        /* 8px: Standard rounding */
+  --radius-lg: 1rem;          /* 16px: Prominent rounding */
+  --radius-xl: 1.5rem;        /* 24px: Major rounding */
+  --radius-full: 9999px;      /* Full rounding (pills, circles) */
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-glow: 0 0 15px rgba(16, 185, 129, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 350ms ease;
+  
+  /* Z-index layers */
+  --z-base: 1;
+  --z-above: 10;
+  --z-header: 100;
+  --z-modal: 1000;
+  --z-toast: 2000;
+}
+
+/* Design System Usage Examples */
+/* 
+ * How to use our design system tokens:
+ *
+ * 1. Colors: var(--primary), var(--text-secondary), etc.
+ * 2. Spacing: var(--space-md), var(--space-lg), etc.
+ * 3. Border radius: var(--radius-md), var(--radius-full), etc.
+ * 4. Shadows: var(--shadow-sm), var(--shadow-glow), etc.
+ *
+ * Example:
+ * .my-button {
+ *   background-color: var(--primary);
+ *   color: var(--text-primary);
+ *   padding: var(--space-sm) var(--space-md);
+ *   border-radius: var(--radius-full);
+ *   box-shadow: var(--shadow-md);
+ *   transition: all var(--transition-normal);
+ * }
+ *
+ * .my-button:hover {
+ *   background-color: var(--primary-light);
+ *   box-shadow: var(--shadow-glow);
+ * }
+ */
+
+/* 2. Custom Scrollbar Styling */
+/* Creates a sleek, modern scrollbar that matches the application's design language */
+/* 
+ * Scrollbar Styling Guide:
+ * 
+ * We use custom scrollbars throughout the application to maintain visual consistency
+ * with our dark theme. The scrollbar is designed to be subtle yet visible enough for usability.
+ * 
+ * Design Considerations:
+ * - Semi-transparent to blend with various backgrounds
+ * - Rounded corners to match our UI's rounded aesthetic
+ * - Slightly more opaque on hover for better discoverability
+ * - Thin width (8px) for a modern look without taking too much space
+ */
+::-webkit-scrollbar {
+  width: 8px; /* Thin scrollbar for a modern look */
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1); /* Subtle track background */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2); /* Semi-transparent thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3); /* Slightly more opaque on hover */
+}
+
+/* 3. Global Base Styles */
+/* Core styles that apply to the entire application */
+html, body {
+  font-family: 'Poppins', sans-serif; /* Primary font family */
+  color: white; /* Default text color */
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Prevents default scrolling */
+}
+
+/* Special handling for pages that need scrolling */
+html.has-scrollable-page,
+body.has-scrollable-page {
+  overflow: initial; /* Enables scrolling for longer content pages */
+}
+
+/* Root container styling */
+#root {
+  height: 100%;
+  overflow: hidden;
+}
+
+#root.has-scrollable-page {
+  overflow: initial;
+  height: auto;
+  min-height: 100%; /* Ensures full height even with minimal content */
+}
+/* 
+.app-container {
+  width: 100%;
+  position: relative;
+  padding: 1rem 2rem;
+  padding-top: 5rem;
+  box-sizing: border-box;
+} */
+
+/* Gradient background - defined in @layer components */
+
+/* Page height control */
+.fixed-height-page {
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.scrollable-page {
+  min-height: 100vh;
+  overflow-y: auto !important;
+  max-height: none !important;
+}
+
+/* Guided navigation buttons */
+.guided-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding: 0 1rem;
+}
+
+/* Progress hint */
+.progress-hint {
+  margin-top: 2rem;
+  text-align: center;
+  padding: 0.5rem;
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.guided-nav-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border: none;
+  font-family: 'Inter', sans-serif;
+}
+
+.prev-button {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.prev-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.next-button {
+  background-color: #10b981;
+  color: white;
+}
+
+.next-button:hover {
+  background-color: #059669;
+}
+
+/* 6. Animation Keyframes */
+/* Defines all animation sequences used throughout the application */
+
+/**
+ * ANIMATION SYSTEM
+ *
+ * Our animation system creates a cohesive motion language throughout the application.
+ * Animations are designed to be subtle, purposeful, and enhance the user experience
+ * without being distracting.
+ *
+ * ANIMATION PRINCIPLES:
+ * 1. Subtle & Natural - Animations mimic natural physics for a polished feel
+ * 2. Purposeful - Each animation communicates meaning or directs attention
+ * 3. Consistent - Similar elements animate in similar ways for predictability
+ * 4. Performance-Focused - Animations optimize for smooth performance (transform/opacity)
+ *
+ * ANIMATION CATEGORIES:
+ * - Entrance/Exit: How elements appear/disappear (fade, slide, scale)
+ * - State Change: How elements respond to interaction (hover, active, selected)
+ * - Attention: How to draw user's focus (pulse, bounce, glow)
+ * - Loading/Progress: How to indicate processing or progress (spin, pulse)
+ *
+ * TIMING GUIDELINES:
+ * - Ultra Fast: 100-150ms (micro-interactions, clicks)
+ * - Fast: 200-300ms (small UI elements, feedback)
+ * - Medium: 300-500ms (panels, modals)
+ * - Slow: 500-800ms (page transitions, major elements)
+ *
+ * EASING FUNCTIONS:
+ * - ease-in-out: Most natural for general transitions
+ * - ease-out: Best for entrances (quick start, gentle end)
+ * - ease-in: Best for exits (gentle start, quick end)
+ * - cubic-bezier: For custom, specialized motion
+ */
+
+/* Float Animation
+ * Used for subtle hovering effects on decorative elements
+ * Creates a gentle up and down motion that adds life to static elements
+ */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes glow {
+  0% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(16, 185, 129, 0.5); }
+  100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+}
+
+/* Font Imports */
+/* Inter is our primary font family - a clean, modern sans-serif that works well for UI */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* 4. Tailwind Base Layer */
+/* Core HTML element styling using Tailwind's @layer directive */
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+  
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background-color: #0f172a;
+    color: #f8fafc;
+    font-family: 'Poppins', 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    height: 100%;
+    width: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* 5. Component-Specific Styles */
+/* Reusable component styles using Tailwind's @layer components directive */
+
+/**
+ * COMPONENT LIBRARY DOCUMENTATION
+ * 
+ * This section contains our core UI component styles. Each component has been carefully
+ * designed to maintain visual consistency while providing flexibility for different contexts.
+ * 
+ * COMPONENT CATEGORIES:
+ * 1. Layout Components - Containers, grids, sections that structure the UI
+ * 2. Navigation Components - Headers, menus, navigation dots
+ * 3. Input Components - Form controls, selectors, toggles
+ * 4. Content Components - Cards, panels, content blocks
+ * 5. Feedback Components - Alerts, badges, progress indicators
+ * 6. Action Components - Buttons, links, interactive elements
+ * 7. Visual Components - Decorative elements, orbs, gradients
+ * 
+ * COMPONENT NAMING CONVENTION:
+ * We use a consistent naming pattern for all components:
+ * - Base class defines the component type (e.g., 'button', 'card')
+ * - Modifiers describe variations (e.g., 'primary', 'large', 'rounded')
+ * - State classes indicate component state (e.g., 'active', 'disabled')
+ * 
+ * Example: .button.primary.large.active
+ * 
+ * RESPONSIVE APPROACH:
+ * All components are designed with a mobile-first approach and include responsive
+ * variants where appropriate. Use Tailwind's responsive prefixes (sm:, md:, lg:, xl:)
+ * to apply different styles at different breakpoints.
+ */
+
+@layer components {
+  /**
+   * LAYOUT COMPONENTS
+   * 
+   * These components define the structural foundation of our UI.
+   * They provide consistent containers, backgrounds, and spacing.
+   */
+  
+  /* Gradient Background
+   * 
+   * Our signature background gradient creates depth and visual interest.
+   * Used for page backgrounds and large container areas.
+   * 
+   * Usage: <div class="gradient-bg">...</div>
+   */
+  .gradient-bg {
+    background: linear-gradient(135deg, #0f172a 0%, #064e3b 30%, #0f172a 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    width: 100%;
+    background-size: 300% 300%;
+    animation: subtleShimmer 20s ease-in-out infinite;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+  }
+  
+  @keyframes subtleShimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  
+  .gradient-bg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  
+  @keyframes subtleShimmer {
+    0% { background-position: 0% 50% }
+    50% { background-position: 100% 50% }
+    100% { background-position: 0% 50% }
+  }
+
+  .glass-effect {
+    background-color: rgba(255, 255, 255, 0.1); /* bg-white/10 */
+    backdrop-filter: blur(12px); /* backdrop-blur-md */
+    border-radius: 0.75rem; /* rounded-xl */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* border border-white/20 */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+  
+  /**
+   * CONTENT COMPONENTS
+   * 
+   * Components that present and organize content for users.
+   * These maintain consistent styling while adapting to different content types.
+   */
+  
+  /* Card
+   * 
+   * Container for grouped content with consistent styling.
+   * Cards provide visual separation and hierarchy within the UI.
+   * 
+   * Design Principles:
+   * - Semi-transparent background with blur for depth
+   * - Consistent rounded corners (3xl = 1.5rem)
+   * - Subtle border for definition
+   * - Standard internal padding
+   * 
+   * Variations:
+   * - Default: Standard padding and styling
+   * - Interactive: Add hover effects for clickable cards
+   * - Featured: Add highlight border or glow effect
+   * 
+   * Usage: 
+   * <div class="card">Card content goes here</div>
+   * <div class="card card-interactive">Clickable card</div>
+   */
+  .card {
+    @apply bg-slate-800/70 backdrop-blur-sm rounded-3xl p-6 border border-slate-700/50;
+  }
+  
+  /* App container */
+  .app-container {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    padding: 0;
+    margin: 0 auto;
+    padding-bottom: 6rem; /* Reduced padding for better space utilization */
+  }
+  
+  /* Content card */
+  .content-card {
+    display: flex;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  /* Form side */
+  .form-side {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 2rem 2.5rem;
+    max-width: 800px;
+    margin: 0 auto;
+    gap: 1rem;
+  }
+  
+  /* Orb side */
+  .orb-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Form container */
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    margin-top: 1.5rem;
+    width: 100%;
+    max-width: 36rem;
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 75vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #10b981 rgba(255, 255, 255, 0.1);
+    font-family: 'Poppins', 'Inter', sans-serif;
+    padding: 2rem;
+  }
+  
+  /* Welcome message */
+  .welcome-message {
+    margin-bottom: 1rem;
+    text-align: center;
+    padding: 0 1rem;
+  }
+
+  .welcome-title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
+}
+  
+  .welcome-name {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
+  }
+  
+  .welcome-subtitle {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-bottom: 20px;
+  }
+  
+  /* Progress hint */
+  .progress-hint {
+    text-align: center;
+    padding-top: 1rem;
+  }
+  
+  .progress-hint p {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.875rem;
+  }
+  
+  /* Orb styling */
+  .orb-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+
+/* Orb */
+.orb {
+  display: block;
+  position: absolute;
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+  backdrop-filter: blur(5px);
+  box-shadow:
+    0 0 60px rgba(16, 185, 129, 0.6);
+  margin-top: 150px;
+  margin-left: 100px;
+  overflow: hidden;
+  transition: transform 0.2s ease-in-out;
+  animation: float 6s ease-in-out infinite;
+}
+.orb-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+  animation: pulse 3s ease-in-out infinite;
+}
+.orb-ping {
+  position: absolute;
+  inset: -1rem;
+  border-radius: 50%;
+  background-color: rgba(52, 211, 153, 0.2);
+  opacity: 0.3;
+  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.orb:hover .lava::before,
+.orb:hover .lava::after {
+  animation-duration: 3s;
+}
+.orb-highlight {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: linear-gradient(315deg, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+}
+.orb-glow {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  filter: blur(1rem);
+}
+.orb::before {
+  content: '';
+  position: absolute;
+  top: 45%;
+  left: 47%;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 30px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+  box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+  z-index: 60;
+  animation:
+    blink 4s infinite,
+    lookAround 10s infinite ease-in-out;
+}
+.orb::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+  animation: glowPulse 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 96% { height: 30px; }
+  98% { height: 3px; }
+  100% { height: 30px; }
+}
+@keyframes lookAround {
+  0%, 40% {
+    left: 47%;
+    box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+  }
+  45% {
+    left: 40%;
+    box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+  }
+  55% {
+    left: 40%;
+    box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+  }
+  60% {
+    left: 54%;
+    box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+  }
+  70% {
+    left: 54%;
+    box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+  }
+  75% {
+    left: 47%;
+    box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+  }
+}
+@keyframes float {
+  0%, 100% {
+    transform: translate(-50%, -50%);
+  }
+  50% {
+    transform: translate(-50%, calc(-50% - 10px));
+  }
+}
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+  }
+  45% {
+    box-shadow: 0 0 80px rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 70px rgba(255, 255, 255, 0.15);
+  }
+  55% {
+    box-shadow: 0 0 85px rgba(255, 255, 255, 0.2);
+  }
+  60% {
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+@keyframes ping {
+  75%, 100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+/* Lava */
+.lava {
+  filter: blur(25px);
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 100%;
+  transform: translate(-50%, -50%);
+  width: 190px;
+  height: 190px;
+  z-index: 10;
+  opacity: 1;
+  mix-blend-mode: screen;
+  animation: colorShift 20s infinite linear;
+}
+.lava::before {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background:
+    radial-gradient(circle at 30% 30%, #34d399 0%, transparent 45%),
+    radial-gradient(circle at 70% 30%, #10b981 0%, transparent 45%),
+    radial-gradient(circle at 50% 60%, #059669 0%, transparent 45%),
+    radial-gradient(circle at 80% 40%, #064e3b 0%, transparent 45%);
+  filter: blur(8px);
+  opacity: 1;
+  mix-blend-mode: screen;
+}
+.lava::after {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 120%;
+  background:
+    radial-gradient(circle at 40% 40%, #34d399 0%, transparent 35%),
+    radial-gradient(circle at 60% 40%, #10b981 0%, transparent 35%),
+    radial-gradient(circle at 50% 70%, #059669 0%, transparent 35%),
+    radial-gradient(circle at 70% 50%, #064e3b 0%, transparent 35%);
+  filter: blur(12px);
+  opacity: 1;
+  mix-blend-mode: screen;
+  animation: pulse 4s ease-in-out infinite alternate;
+}
+@keyframes colorShift {
+  0% {
+    filter: blur(25px) hue-rotate(0deg);
+  }
+  100% {
+    filter: blur(25px) hue-rotate(360deg);
+  }
+}
+/* Startup animations */
+.orb.startup {
+  animation: startupOrb 2s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+.lava.startup {
+  animation: startupLava 2s ease-out;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+@keyframes startupOrb {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+    filter: brightness(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.1);
+    filter: brightness(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    filter: brightness(1);
+    animation: float 6s ease-in-out infinite;
+  }
+}
+@keyframes startupLava {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+  /**
+   * INPUT COMPONENTS
+   * 
+   * Form controls and input elements with consistent styling and behavior.
+   * All inputs maintain visual consistency while providing clear feedback states.
+   */
+  
+  /* Input Pill
+   * 
+   * Our standard text input style with rounded ends (pill shape).
+   * Used for all text-based form inputs throughout the application.
+   * 
+   * States:
+   * - Default: White background with gray text
+   * - Focus: Emerald ring appears around the input
+   * - Error: Red ring appears (add class 'error' or use with error message)
+   * - Disabled: Reduced opacity and non-interactive
+   * 
+   * Variations:
+   * - With icon: Add padding-left and position icon absolutely
+   * - With validation: Add error message below
+   * 
+   * Usage: 
+   * <input class="input-pill" type="text" placeholder="Enter your name">
+   */
+  
+  .input-field {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    background-color: white;
+    color: #1f2937;
+    font-size: 1.125rem;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-field:focus {
+    background-color: white;
+    box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5), 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .input-field::placeholder {
+    color: #9ca3af;
+    opacity: 0.7;
+    font-weight: 300;
+  }
+  
+  .input-indicator {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+  }
+  
+  .input-active-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 9999px;
+    background-color: #34d399;
+    animation: pulse 2s infinite;
+  }
+  
+  .input-pill:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #34d399, 0 4px 12px rgba(0, 0, 0, 0.1); /* focus:ring-2 focus:ring-emerald-400 */
+  }
+
+  /* Input styling */
+  .input-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+  }
+  
+  .input-label {
+    display: block;
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 0.75rem;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .input-wrapper {
+    position: relative;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+  /**
+   * ACTION COMPONENTS
+   * 
+   * These components enable user interactions and actions.
+   * They follow consistent patterns for states and feedback.
+   */
+  
+  /* Button Base
+   * 
+   * Our primary interactive element with consistent styling across the app.
+   * Buttons have multiple variants and states as documented below.
+   * 
+   * Anatomy:
+   * - Base (.btn): Core button styling shared by all variants
+   * - Variants: .btn-primary, .btn-secondary, .btn-outline, etc.
+   * - Sizes: .btn-sm, .btn-lg
+   * - States: :hover, :active, :disabled
+   * 
+   * Accessibility:
+   * - All buttons have appropriate focus states
+   * - Color contrast meets WCAG AA standards
+   * - Disabled states are visually distinct
+   * 
+   * Usage: <button class="btn btn-primary">Click Me</button>
+   */
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full text-white font-medium text-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-emerald-500;
+  }
+  
+  .btn-emerald {
+    background-color: #10b981; /* bg-emerald-500 */
+    color: black;
+    font-weight: 500; /* font-medium */
+    border-radius: 0.75rem; /* rounded-xl */
+    padding: 0.75rem 1.5rem; /* px-6 py-3 */
+    transition-property: all;
+    transition-duration: 200ms;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+  }
+  
+  /* Navigation button styling */
+  .nav-button-container {
+    position: fixed;
+    z-index: 50;
+  }
+  
+  .next-container {
+    bottom: 2rem;
+    right: 2rem;
+  }
+  
+  .prev-container {
+    bottom: 2rem;
+    left: 2rem;
+  }
+  
+  .circular-nav-button {
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(16, 185, 129, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+  
+  .circular-nav-button:hover {
+    background: rgba(16, 185, 129, 1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  .circular-nav-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .nav-button-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  .nav-button-icon {
+    color: white;
+    transition: transform 0.2s ease;
+  }
+  
+  .circular-nav-button:hover .nav-button-icon {
+    transform: scale(1.1);
+  }
+  
+  .next-button-icon {
+    transform: translateX(3px);
+  }
+  
+  .next-button-disabled {
+    background: #94a3b8;
+    box-shadow: none;
+    opacity: 0.6;
+  }
+  
+  .next-button-disabled:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .next-button-disabled::before {
+    display: none;
+  }
+
+  /* Louver Next Button Styles */
+  .louver-next-button {
+    margin-top: 2rem;
+    background: rgba(16, 185, 129, 0.8);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  .louver-next-button:hover {
+    background: rgba(16, 185, 129, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  }
+  
+  /* Home icon styling */
+  .home-icon-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+  }
+  
+  .home-icon-link:hover {
+    transform: scale(1.1);
+  }
+  
+  .home-icon-link svg {
+    filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.3));
+    transition: all 0.2s ease;
+    stroke:white;
+  }
+  
+  .home-icon-link:hover svg {
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7));
+  }
+  
+  .btn-emerald:hover {
+    background-color: #34d399; /* hover:bg-emerald-400 */
+    transform: scale(1.05); /* hover:scale-105 */
+  }
+  
+  .btn-emerald:active {
+    transform: scale(0.95); /* active:scale-95 */
+  }
+
+  .btn-outline {
+    border: 2px solid #10b981; /* border-2 border-emerald-500 */
+    color: #10b981; /* text-emerald-500 */
+    border-radius: 0.75rem; /* rounded-xl */
+    padding: 0.75rem 1.5rem; /* px-6 py-3 */
+    transition-property: all;
+    transition-duration: 200ms;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); /* shadow-md */
+  }
+  
+  .btn-outline:hover {
+    background-color: #10b981; /* hover:bg-emerald-500 */
+    color: black; /* hover:text-black */
+  }
+
+  .progress-dot {
+    width: 2rem; /* w-8 */
+    height: 2rem; /* h-8 */
+    border-radius: 9999px; /* rounded-full */
+    border-width: 2px; /* border-2 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition-property: all;
+    transition-duration: 300ms;
+  }
+
+  .progress-dot.active {
+    background-color: #34d399; /* bg-emerald-400 */
+    border-color: #34d399; /* border-emerald-400 */
+    color: black;
+  }
+
+  .progress-dot.inactive {
+    border-color: rgba(255, 255, 255, 0.3); /* border-white/30 */
+    color: rgba(255, 255, 255, 0.3); /* text-white/30 */
+  }
+  
+  .progress-dot.completed {
+    background-color: #34d399; /* bg-emerald-400 */
+    border-color: #34d399; /* border-emerald-400 */
+    color: black;
+  }
+
+  .toggle-button {
+    padding: 1rem; /* p-4 */
+    border-radius: 1rem; /* rounded-2xl */
+    transition-property: all;
+    transition-duration: 200ms;
+    cursor: pointer;
+  }
+
+  .toggle-button.active {
+    background-color: #10b981; /* bg-emerald-500 */
+    color: white;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5); /* shadow-glow */
+  }
+
+  .toggle-button.inactive {
+    background-color: rgba(255, 255, 255, 0.2); /* bg-white/20 */
+    color: rgba(255, 255, 255, 0.6); /* text-white/60 */
+  }
+  
+  .toggle-button.inactive:hover {
+    background-color: rgba(255, 255, 255, 0.3); /* hover:bg-white/30 */
+  }
+}
+
+/* .welcome-title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
+} */
+
+/* Custom utilities */
+@layer utilities {
+  .text-gradient {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+
+  .orb-glow {
+    box-shadow: 
+      0 0 60px rgba(52, 211, 153, 0.4),
+      0 0 120px rgba(52, 211, 153, 0.2),
+      inset 0 0 60px rgba(52, 211, 153, 0.1);
+  }
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #1f2937; /* bg-gray-800 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #059669; /* bg-emerald-600 */
+  border-radius: 9999px; /* rounded-full */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #10b981; /* bg-emerald-500 */
+}
+
+/* Selection styles */
+::selection {
+  background-color: #34d399; /* bg-emerald-400 */
+  color: black;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline-width: 2px; /* outline-2 */
+  outline-color: #34d399; /* outline-emerald-400 */
+  outline-offset: 2px; /* outline-offset-2 */
+}
+
+/* Page 2: Location Step - Keep form centered like page 1 */
+.location-step .form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  margin-top: 2.5rem;
+  width: 100%;
+  max-width: 32rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.location-step .input-group {
+  margin-bottom: 1.5rem;
+}
+
+.location-step .input-label {
+  display: block;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Page 3: Project Context - Three column layout */
+.project-context-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.project-context-step .page-title {
+  font-size: 3rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 3rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.project-context-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.project-context-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.project-context-column h3 {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.project-context-select {
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem 1.5rem;
+  border-radius: 9999px;
+  background-color: white;
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right 1rem center;
+  background-repeat: no-repeat;
+  background-size: 16px;
+  padding-right: 3rem;
+}
+
+.project-context-select:focus {
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.project-context-select option {
+  background-color: white;
+  color: #1f2937;
+  padding: 0.5rem;
+}
+
+/* Page 4: Aesthetics - Toggle buttons and visualization */
+/* .aesthetics-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+} */
+
+.aesthetics-step .page-title {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.aesthetics-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 3rem;
+  max-width: 1200px;
+  width: 100%;
+  align-items: start;
+}
+
+.aesthetics-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-left: 10rem;
+}
+
+.aesthetics-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.aesthetics-group h3 {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.aesthetics-toggle-group {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.aesthetics-toggle {
+  width: 80px;
+  height: 80px;
+  border-radius: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.aesthetics-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.aesthetics-toggle.active {
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  border-color: #10b981;
+  color: white;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+.aesthetics-toggle.inactive {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.aesthetics-visualization {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.louver-preview {
+  width: 300px;
+  height: 400px;
+  position: relative;
+  margin-bottom: 2rem;
+}
+
+.louver-frame {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #10b981 0%, #34d399 100%);
+  border-radius: 1rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  transform: perspective(1000px) rotateX(5deg) rotateY(-10deg);
+}
+
+.louver-slats {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 20px,
+    rgba(0, 0, 0, 0.1) 20px,
+    rgba(0, 0, 0, 0.1) 22px
+  );
+}
+
+.louver-preview-note {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  text-align: center;
+  max-width: 1000px;
+  line-height: 1.4;
+  margin-top: -1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.aesthetics-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.aesthetics-input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.aesthetics-input-group label {
+  color: white;
+  font-size: 1.125rem;
+  font-weight: 400;
+  margin-top: 1.3rem;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.aesthetics-input {
+  padding: 0.5rem 0.5rem;
+  border-radius: 12px;
+  background-color: rgba(52, 211, 153, 0.8);
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  border: 2px solid rgba(52, 211, 153, 0.3);;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 50px;
+  height: 50px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.aesthetics-input:hover {
+  background-color: rgba(52, 211, 153, 0.9);
+  border-color: rgba(52, 211, 153, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(52, 211, 153, 0.3);
+}
+
+.aesthetics-input:focus {
+  box-shadow: 0 0 0 3px rgba(52, 211, 153, 0.4);
+  border-color: rgba(52, 211, 153, 0.6);
+}
+
+.aesthetics-input:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 6px rgba(52, 211, 153, 0.2);
+}
+
+/* For color input type specifically */
+.aesthetics-input[type="color"] {
+  overflow: hidden;
+}
+
+.aesthetics-input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+}
+
+.aesthetics-input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+
+.aesthetics-input[type="color"]::-moz-color-swatch {
+  border: none;
+  border-radius: 10px;
+}
+
+.aesthetics-input::placeholder {
+  color: #9ca3af;
+  opacity: 0.7;
+}
+
+.aesthetics-textarea {
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background-color: white;
+  color: #1f2937;
+  font-size: 1rem;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+  border: none;
+  outline: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+  resize: vertical;
+  min-height: 100px;
+  width: 250px;
+}
+
+.aesthetics-textarea:focus {
+  box-shadow: 0 0 0 2px rgba(52, 211, 153, 0.5), 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Page 5: Recommendations - 3D louver display */
+.recommendations-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 6rem 1rem 1rem 1rem; /* Added top padding to prevent header overlap */
+}
+
+.recommendations-content {
+  display: flex;
+  flex-direction: column;
+  max-width: 1200px;
+  width: 100%;
+  align-items: center;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: 50% 50%;
+  width: 100%;
+  align-items: start;
+}
+
+.recommendations-info-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendations-visual-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100%;
+}
+
+.recommendations-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.recommendation-header {
+  display: flex;
+  flex-direction: column;
+}
+
+.confidence-badge {
+  display: inline-block;
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+}
+
+.recommendations-title {
+  font-size: 4rem;
+  font-weight: 700;
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.1;
+}
+
+.recommendations-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  margin-top: -20px;
+  margin-bottom: 30px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.recommendations-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.spec-item {
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.spec-label {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+  display: block;
+}
+
+.spec-value {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.spec-icon {
+  color: #10b981;
+  margin-right: 0.25rem;
+}
+
+.spec-unit {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 1rem;
+  font-weight: 400;
+  margin-left: 0.125rem;
+}
+
+.reason-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  margin-top: 1rem;
+}
+
+.reason-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.reason-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.reason-item {
+  display: flex;
+  align-items: flex-start;
+}
+
+.reason-bullet {
+  color: #10b981;
+  margin-right: 0.75rem;
+  font-size: 1.25rem;
+}
+
+.reason-text {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.recommendations-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-family: 'Poppins', sans-serif;
+}
+
+.recommendations-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.recommendations-visualization {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  perspective: 1000px;
+  margin-top: 0;
+  height: 100%;
+}
+
+.louver-3d-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  height: 500px;
+  width: 100%;
+}
+
+.louver-3d-panel {
+  display: none;
+  position: absolute;
+  width: 400px;
+  height: 500px;
+  background: linear-gradient(135deg, #064e3b, #065f46);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.louver-3d-panel.active {
+  display: block;
+  z-index: 10;
+  transform: scale(1.02);
+  border: 2px solid #4CAF50;
+  box-shadow: 0 10px 20px rgba(76, 175, 80, 0.3);
+  background: linear-gradient(135deg, #064e3b, #065f46);
+}
+
+.download-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 400px;
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+  margin-left: 10rem;
+  margin-bottom: 7rem;
+}
+
+.download-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.download-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.download-title {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: white;
+  margin-bottom: 0.25rem;
+}
+
+.download-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+}
+
+.louver-3d-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 12px,
+    rgba(0, 0, 0, 0.2) 12px,
+    rgba(0, 0, 0, 0.2) 14px
+  );
+  border-radius: 0.75rem;
+}
+
+.active-model-indicator {
+  position: absolute;
+  top: 1rem;
+  left: 0;
+  background: #4CAF50;
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem 1rem;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+}
+
+/* Recommendation Error Styles */
+.recommendations-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.error-icon-container {
+  margin-bottom: 2rem;
+}
+
+.error-icon {
+  width: 8rem;
+  height: 8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  font-size: 3rem;
+  border: 2px solid #ef4444;
+  border-radius: 50%;
+}
+
+/* Page 6: Summary - Completion message */
+.summary-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+  text-align: center;
+}
+
+.summary-completion {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.summary-description {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.125rem;
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  font-family: 'Poppins', sans-serif;
+}
+
+.highlight {
+  color: #10b981;
+  font-weight: 500;
+}
+
+.summary-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
+  text-align: left;
+}
+
+.summary-card-title {
+  color: #10b981;
+  font-weight: 500;
+  font-size: 1.25rem;
+  margin-bottom: 1.5rem;
+  margin-top: -0.3rem;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.summary-grid-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin-bottom: 0.25rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-value {
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-subvalue {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-prompt {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.125rem;
+  margin-bottom: 1.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.summary-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 2rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  font-family: 'Poppins', sans-serif;
+  text-decoration: none;
+}
+
+.summary-download-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.summary-download-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.summary-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.summary-step-item {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.summary-step-number {
+  width: 2rem;
+  height: 2rem;
+  background: #10b981;
+  color: black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+.summary-step-content {
+  flex: 1;
+}
+
+.summary-step-title {
+  color: white;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-step-description {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin-top: -0.2rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-navigation {
+  display: flex;
+  justify-content: space-between;
+  margin: 2rem 0;
+  width: 100%;
+}
+
+.summary-footer {
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  text-align: center;
+}
+
+.summary-footer-title {
+  color: #10b981;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-footer-text {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.summary-footer-locations {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+  margin-top: 0.5rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* ===== GUIDED SELECTION COMPONENT STYLES ===== */
+
+/* Guided selection styles moved to form-container */
+
+/* WebKit scrollbar styling */
+.form-container::-webkit-scrollbar {
+  width: 8px;
+}
+
+.form-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+.form-container::-webkit-scrollbar-thumb {
+  background-color: #10b981;
+  border-radius: 4px;
+}
+
+.guided-step-header {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+/* Application Grid Layout */
+.application-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Application Cards */
+.application-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  color: white;
+}
+
+.application-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.application-card.selected {
+  background: rgba(16, 185, 129, 0.2);
+  border: 2px solid #10b981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
+}
+
+/* Application Card Color Variants */
+.application-card-critical {
+  border-left: 4px solid #ef4444;
+}
+
+.application-card-commercial {
+  border-left: 4px solid #3b82f6;
+}
+
+.application-card-industrial {
+  border-left: 4px solid #6b7280;
+}
+
+.application-card-infrastructure {
+  border-left: 4px solid #10b981;
+}
+
+.application-card-aesthetic {
+  border-left: 4px solid #8b5cf6;
+}
+
+.application-card-acoustic {
+  border-left: 4px solid #4f46e5;
+}
+
+.application-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+  text-align: center;
+}
+
+.application-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.application-description {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+.application-examples {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+}
+
+/* Selection Options Row */
+.selection-option-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, auto);
+  gap: 1rem;
+  margin: 1rem 0;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.selection-option-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.75rem;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  color: white;
+  min-width: 180px;
+  position: relative;
+  font-family: 'Poppins', 'Inter', sans-serif;
+}
+
+.selection-option-card:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.selection-option-card.recommended {
+  border: 2px solid #f59e0b;
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.selection-option-card.selected {
+  background: rgba(16, 185, 129, 0.2);
+  border: 2px solid #10b981;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.3);
+}
+
+.recommendation-badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: #f59e0b;
+  color: white;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1rem;
+  font-weight: 600;
+}
+
+/* Substep Animation */
+.substep-container {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease-out;
+}
+
+.substep-fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reasoning-text {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  color: white;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.technical-note {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+/* Focus States for Accessibility */
+.application-card:focus,
+.selection-option-card:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* High Contrast Mode Support */
+@media (prefers-contrast: high) {
+  .application-card,
+  .selection-option-card {
+    border: 2px solid white;
+  }
+  
+  .application-card.selected,
+  .selection-option-card.selected {
+    background: #10b981;
+    color: black;
+  }
+}
+
+/* Animation for smooth transitions */
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.substep-container.animate {
+  animation: slideInUp 0.5s ease-out;
+}
+
+/* 9. Responsive Design Rules */
+/* Adjustments for different screen sizes */
+
+/**
+ * RESPONSIVE DESIGN SYSTEM
+ *
+ * Our application follows a mobile-first approach with consistent breakpoints.
+ * All components are designed to be fully responsive and provide optimal
+ * experiences across all device sizes.
+ *
+ * BREAKPOINT SYSTEM:
+ * - Default (Mobile): 0-639px
+ * - sm: 640px and up (Small tablets, large phones)
+ * - md: 768px and up (Tablets, small laptops)
+ * - lg: 1024px and up (Laptops, desktops)
+ * - xl: 1280px and up (Large desktops)
+ * - 2xl: 1536px and up (Extra large screens)
+ *
+ * RESPONSIVE STRATEGIES:
+ * 1. Stack Instead of Row: Convert horizontal layouts to vertical on small screens
+ * 2. Reduce Padding/Margins: Use smaller spacing on mobile devices
+ * 3. Simplify UI: Hide secondary elements on smaller screens
+ * 4. Adjust Typography: Use smaller font sizes on mobile
+ * 5. Touch-Friendly: Increase tap target sizes on touch devices
+ *
+ * IMPLEMENTATION APPROACH:
+ * We use Tailwind's responsive prefixes (sm:, md:, lg:, etc.) to apply
+ * different styles at different breakpoints. Always design mobile-first,
+ * then add responsive variants for larger screens.
+ *
+ * Example:
+ * <div class="p-4 sm:p-6 md:p-8 lg:p-10">Content</div>
+ */
+@media (max-width: 1024px) {
+  .project-context-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .aesthetics-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .aesthetics-controls {
+    order: 1;
+  }
+  
+  .aesthetics-visualization {
+    order: 2;
+  }
+  
+  .aesthetics-inputs {
+    order: 3;
+  }
+  
+  .recommendations-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    text-align: center;
+  }
+  
+  .recommendations-specs {
+    grid-template-columns: 1fr;
+  }
+  
+  .louver-3d-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .louver-3d-panel {
+    width: 120px;
+    height: 180px;
+  }
+  
+  .louver-3d-panel.primary,
+  .louver-3d-panel.secondary,
+  .louver-3d-panel.tertiary {
+    transform: none;
+    opacity: 1;
+  }
+  
+  .summary-title {
+    font-size: 2.5rem;
+  }
+  
+  .summary-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .summary-download-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-context-step .page-title,
+  .aesthetics-step .page-title {
+    font-size: 2.5rem;
+  }
+  
+  .recommendations-title {
+    font-size: 3rem;
+  }
+  
+  .summary-title {
+    font-size: 2rem;
+  }
+  
+  .louver-preview {
+    width: 250px;
+    height: 350px;
+  }
+  
+  .project-context-select {
+    max-width: 100%;
+  }
+}
+
+/* Animation for louver panels */
+@keyframes louverFloat {
+  0%, 100% { transform: rotateY(-15deg) scale(1.1) translateY(0); }
+  50% { transform: rotateY(-15deg) scale(1.1) translateY(-5px); }
+}
+
+.louver-3d-panel.primary {
+  animation: louverFloat 4s ease-in-out infinite;
+}
+
+/* Toggle button animations */
+.aesthetics-toggle {
+  position: relative;
+  overflow: hidden;
+}
+
+.aesthetics-toggle::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.aesthetics-toggle.active::before {
+  left: 100%;
+}
+
+/* Spec item hover effects */
+.spec-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Progress dots styling - used by Header component */
+.progress-dots {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  position: absolute;  
+  top:6rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.progress-dots .progress-dot {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 600;
+  font-size: 0.875rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.1);
+}
+
+.progress-dots .progress-dot.completed {
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+  transform: scale(1.05);
+}
+
+.progress-dots .progress-dot.clickable {
+  cursor: pointer;
+}
+
+.progress-dots .progress-dot.clickable:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.7);
+}
+
+.progress-dots .progress-dot.completed::after {
+  content: '✓';
+  font-size: 0.875rem;
+}
+
+.progress-dots .progress-dot.active {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: white;
+  color: white;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+/* Back button for header */
+.back-button {
+  position: fixed;
+  top: 2rem;
+  left: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.back-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Home button for header */
+.home-button {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+}
+
+.home-button:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Carousel dots for louver 3D */
+.louver-carousel-dots {
+  position: absolute;
+  top: 50%;
+  right: -20rem; /* adjust spacing as needed */
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  z-index: 30; /* ensure it's above louver panel */
+}
+
+.louver-carousel-dot {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 9999px;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.louver-carousel-dot:hover {
+  background-color: rgba(255, 255, 255, 0.6);
+  transform: scale(1.1);
+}
+
+.louver-carousel-dot.active {
+  background-color: #34d399;
+  box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
+  position: relative;
+  z-index: 1;
+}
+
+.louver-carousel-dot.active::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: rgba(52, 211, 153, 0.2);
+  border-radius: 9999px;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  animation: expand-ring 0.5s ease-out;
+}
+@keyframes expand-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
