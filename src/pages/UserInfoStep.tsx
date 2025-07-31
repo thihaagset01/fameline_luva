@@ -24,15 +24,11 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
   return (
     <div className="app-container fixed-height-page">
       <div className="content-card">
-        <div className="form-side">
+        <div className="form-side"> 
           {/* Welcome Message */}
           <div className="welcome-message">
-            <h1 className="welcome-title">
-              I'm <span className="welcome-name">Luva</span>,
+            <h1  className="welcome-name"> I'm Luva,
             </h1>
-            <p className="welcome-subtitle">
-              your louver selection assistant
-            </p>
           </div>
           
           {/* Form Container - remove the extra wrapper */}
@@ -64,6 +60,7 @@ export const UserInfoStep: React.FC<StepProps> = ({ formData, updateFormData }) 
               <div className="orb-ping"></div>
               <div className="orb-highlight"></div>
               <div className="orb-glow"></div>
+              <div className="lava"></div>
             </div>
           </div>
         </div>

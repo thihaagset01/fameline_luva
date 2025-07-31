@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { MapPin, CheckCircle, AlertCircle, Cloud } from 'lucide-react';
+import {  CheckCircle, AlertCircle, Cloud } from 'lucide-react';
 import { StepProps } from '@/types';
 import { weatherService } from '@/services/weatherService';
 import { ENVIRONMENT_OPTIONS } from '@/utils/constants';
@@ -253,17 +253,15 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     <div className="step-container">
       <div className="step-content">
         <div className="step-header">
-          <h2 className="step-title">Location</h2>
+          <h2 className="step-title">Project Location</h2>
           <p className="step-description">
-            Tell us where your project is located so we can provide location-specific recommendations
-            and account for local weather conditions.
+          Location and environment details help us recommend the perfect louver solution.
           </p>
         </div>
       
         {/* Location Input */}
         <div className="input-group">
           <label className="input-label">
-            <MapPin size={20} className="inline mr-2" />
             Where is your project?
           </label>
           <div className="input-wrapper">

@@ -3,10 +3,16 @@
  * Styles specific to the Location selection step
  */
 
+ .card {
+  @apply bg-slate-800/70 backdrop-blur-sm rounded-3xl p-6 border border-slate-700/50;
+}
+
+
+
 /* Step container */
 .step-container {
   padding: 2rem;
-  padding-top: 10rem; /* Added top padding to account for fixed header */
+  padding-top: 7rem; /* Added top padding to account for fixed header */
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -16,10 +22,8 @@
 
 /* Step content */
 .step-content {
-  background-color: var(--bg-dark-alt);
   border-radius: var(--radius-lg);
   padding: 2rem;
-  box-shadow: var(--shadow-md);
 }
 
 /* Step header */
@@ -29,17 +33,22 @@
 }
 
 .step-title {
-  font-size: 2rem;
+  font-size: 4rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  color: var(--text-primary);
+  margin-bottom: 0.75rem;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(90deg, #ffffff, #10b981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
 }
 
 .step-description {
-  font-size: 1.1rem;
-  color: var(--text-secondary);
-  max-width: 700px;
-  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 20px;
 }
 
 /* Input group */
@@ -49,10 +58,11 @@
 
 .input-label {
   display: block;
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 400;
   margin-bottom: 0.75rem;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
+  font-family: 'Poppins', sans-serif;  
 }
 
 .input-wrapper {
@@ -112,7 +122,9 @@
   padding: 1rem;
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 0.5rem;
+  border:1px solid rgba(255, 255, 255, 0.2);
   font-size: 0.9rem;
+  color:#10B981;
 }
 
 .location-tips h4 {

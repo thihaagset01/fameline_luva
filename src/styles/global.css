@@ -103,9 +103,9 @@ html, body {
 
 /* Page height control */
 .fixed-height-page {
-  height: 100vh;
-  max-height: 100vh;
-  overflow: hidden; /* Only fixed-height pages prevent scrolling */
+  height: 100vh !important;
+  max-height: 100vh !important;
+  overflow: hidden !important; /* Only fixed-height pages prevent scrolling */
   display: flex;
   flex-direction: column;
   position: relative;

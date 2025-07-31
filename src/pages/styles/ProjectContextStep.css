@@ -12,25 +12,24 @@
 }
 
 .project-context-step .page-title {
-  font-size: 3rem;
-  font-weight: 500;
-  color: white;
-  margin-bottom: 0.5rem;
-  text-align: center;
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  background: linear-gradient(90deg, #ffffff, #10b981);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  color: transparent;
+  letter-spacing: -0.7px;
 }
 
-.project-context-step .page-subtitle {
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 1.25rem;
-  margin-bottom: 3rem;
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-  max-width: 600px;
+.project-context-step .page-subtitle 
+  {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 1rem;
+    margin-bottom: 20px;
+
 }
 
 .project-context-grid {
@@ -137,30 +136,6 @@
   box-shadow: 0 0 20px rgba(16, 185, 129, 0.4);
 }
 
-/* Application Card Color Variants */
-.application-card-critical {
-  border-left: 4px solid #ef4444;
-}
-
-.application-card-commercial {
-  border-left: 4px solid #3b82f6;
-}
-
-.application-card-industrial {
-  border-left: 4px solid #6b7280;
-}
-
-.application-card-infrastructure {
-  border-left: 4px solid #10b981;
-}
-
-.application-card-aesthetic {
-  border-left: 4px solid #8b5cf6;
-}
-
-.application-card-acoustic {
-  border-left: 4px solid #4f46e5;
-}
 
 .application-icon {
   font-size: 2.5rem;

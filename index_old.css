@@ -416,7 +416,6 @@ body.has-scrollable-page {
     z-index: 0;
   }
 
-  
   .gradient-bg::after {
     content: '';
     position: absolute;
@@ -711,12 +710,12 @@ body.has-scrollable-page {
   }
   
   .input-label {
-    display: block;
+  display: block;
     color: white;
     font-size: 1.25rem;
     font-weight: 400;
     margin-bottom: 0.75rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins', sans-serif;  
   }
   
   .input-wrapper {

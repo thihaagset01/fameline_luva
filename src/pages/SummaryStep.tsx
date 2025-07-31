@@ -3,6 +3,8 @@ import './styles/SummaryStep.css';
 import { Download, Share2, RotateCcw, CheckCircle } from 'lucide-react';
 import { FormData, WeatherData } from '@/types';
 import { WeatherSummary } from '@/components/WeatherSummary';
+import { generatePDFSummary } from '@/utils/pdfGenerator';
+import { handleEnhancedShare } from '@/utils/shareHandler';
 
 /**
  * 🎉 SummaryStep Component
@@ -27,10 +29,12 @@ import { WeatherSummary } from '@/components/WeatherSummary';
  * 
  * @property formData - All collected user data from previous steps
  * @property onReset - Function to reset the form and start a new project
+ * @property recommendedModel - Optional recommended louver model from AI
  */
 interface SummaryStepProps {
   formData: FormData;
   onReset: () => void;
+  recommendedModel?: string; // Add recommended model prop
 }
 
 /**
@@ -44,7 +48,14 @@ interface SummaryStepProps {
  * 5. "What's next" process explanation
  * 6. Company information footer
  */
-export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) => {
+export const SummaryStep: React.FC<SummaryStepProps> = ({ 
+  formData, 
+  onReset, 
+  recommendedModel 
+}) => {
+  const [isDownloading, setIsDownloading] = React.useState(false);
+  const [isSharing, setIsSharing] = React.useState(false);
+
   /**
    * Parse stored weather data string back to object if available
    * Weather data enhances the recommendation with climate considerations
@@ -54,39 +65,48 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
     : null;
 
   /**
-   * Handles the "Download Summary" button click
-   * 
-   * In the future, this will generate a PDF with all project details
-   * and the louver recommendation. Currently shows a placeholder alert.
-   * 
-   * 📥 The PDF would include all form data and weather information
-   * for a complete record of the recommendation.
+   * Enhanced PDF download handler
    */
-  const handleDownloadSummary = () => {
-    // Generate PDF with weather data included
-    console.log('Generating PDF summary with weather data...', formData);
-    alert('PDF download would start here. Feature coming soon!');
+  const handleDownloadSummary = async () => {
+    setIsDownloading(true);
+    
+    try {
+      console.log('Generating PDF summary with weather data...', formData);
+      
+      const result = await generatePDFSummary(formData, weatherData, recommendedModel);
+      
+      if (result.success) {
+        // Show success notification
+        alert(`PDF "${result.fileName}" downloaded successfully!`);
+      } else {
+        // Show error notification
+        alert(`PDF generation failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('Download error:', error);
+      alert('Download failed. Please try again.');
+    } finally {
+      setIsDownloading(false);
+    }
   };
 
   /**
-   * Handles the "Share Results" button click
-   * 
-   * Uses the Web Share API if available (mobile devices, modern browsers)
-   * or falls back to copying the URL to clipboard on unsupported browsers.
-   * 
-   * 👥 This allows users to easily share their louver recommendation
-   * with colleagues, contractors, or other stakeholders.
+   * Enhanced share handler with multiple options
    */
-  const handleShare = () => {
-    if (navigator.share) {
-      navigator.share({
-        title: 'Fameline Luva Recommendation',
-        text: 'Check out my louver specification from Fameline Luva AI',
-        url: window.location.href
-      });
-    } else {
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+  const handleShare = async () => {
+    setIsSharing(true);
+    
+    try {
+      const result = await handleEnhancedShare(formData, weatherData, recommendedModel);
+      
+      if (result.success) {
+        console.log(`Shared via ${result.method}`);
+      }
+    } catch (error) {
+      console.error('Share error:', error);
+      alert('Sharing failed. Please try again.');
+    } finally {
+      setIsSharing(false);
     }
   };
 
@@ -169,7 +189,9 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
             </div>
             <div className="summary-grid-item">
               <span className="summary-label">Solution:</span>
-              <div className="summary-value">AI-matched recommendation</div>
+              <div className="summary-value">
+                {recommendedModel ? recommendedModel : 'AI-matched recommendation'}
+              </div>
               <div className="summary-subvalue">Based on performance analysis</div>
             </div>
           </div>
@@ -187,17 +209,27 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
           <button 
             onClick={handleDownloadSummary}
             className="summary-download-btn"
+            disabled={isDownloading}
+            style={{
+              opacity: isDownloading ? 0.7 : 1,
+              cursor: isDownloading ? 'not-allowed' : 'pointer'
+            }}
           >
             <Download className="summary-download-icon" />
-            <span>Download Summary (PDF)</span>
+            <span>{isDownloading ? 'Generating PDF...' : 'Download Summary (PDF)'}</span>
           </button>
           
           <button 
             onClick={handleShare}
             className="summary-download-btn"
+            disabled={isSharing}
+            style={{
+              opacity: isSharing ? 0.7 : 1,
+              cursor: isSharing ? 'not-allowed' : 'pointer'
+            }}
           >
             <Share2 className="summary-download-icon" />
-            <span>Share Results</span>
+            <span>{isSharing ? 'Opening Share...' : 'Share Results'}</span>
           </button>
         </div>
 
@@ -244,6 +276,10 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({ formData, onReset }) =
           <button 
             onClick={handleNewProject}
             className="summary-download-btn"
+            style={{ 
+              background: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)'
+            }}
           >
             <RotateCcw size={16} />
             <span>Start New Project</span>
