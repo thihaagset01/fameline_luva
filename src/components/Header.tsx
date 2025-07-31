@@ -21,6 +21,8 @@ import './Header.css';
  * @param totalSteps - The total number of steps in the wizard
  */
 export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
+  /* Progress step labels */
+  const stepLabels = ['User Info', 'Location', 'Context', 'Aesthetics', 'Suggestion', 'Consultation'];
   /**
    * Navigate to a specific step in the wizard
    * 
@@ -40,6 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
       // or state management to avoid a full page reload
       window.location.reload();
     }
+
   };
   return (
     // Header container with fixed positioning and gradient background
@@ -50,31 +53,34 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
         {/* Empty left side to balance the layout visually */}
         <div className="w-6 h-6"></div>
         
-        {/* Home icon in top right - returns to landing page */}
+        {/* Home icon - returns to landing page */}
         <a href="/" className="home-icon-link inline-flex items-center justify-center w-6 h-6">
-          <Home className="w-6 h-6 text-white" />
+          <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/691b4ce4126b21a2b826b1369a540af253ae50a2?width=1107" alt="Home" className="w-6 h-6" />
         </a>
       </div>
-      
+
       {/* Progress dots showing the wizard steps and current position */}
       {/* These dots provide visual feedback about progress and navigation */}
       <div className="progress-dots mt-4 flex gap-4">
-        {/* Generate progress dots based on totalSteps */}
         {Array.from({ length: totalSteps }).map((_, index) => (
-          <div 
-            key={index}
-            className={`progress-dot ${index === currentStep 
-              ? 'active' // Current step (highlighted)
-              : index < currentStep 
-                ? 'completed' // Steps we've already done
-                : ''} ${index < currentStep ? 'clickable' : ''}`} // Only completed steps are clickable
-            onClick={() => index < currentStep ? navigateToStep(index) : null} // Navigate back to completed steps
-            role={index < currentStep ? "button" : undefined} // Accessibility: only completed steps are interactive
-            tabIndex={index < currentStep ? 0 : undefined} // Keyboard navigation for completed steps
-            aria-label={index < currentStep ? `Go back to step ${index + 1}` : undefined} // Screen reader text
-          >
-            {/* Show step number for current and future steps, empty for completed steps */}
-            {index < currentStep ? '' : (index + 1)}
+          <div key={index} className="progress-step">
+            <div 
+              className={`progress-dot ${index === currentStep 
+                ? 'active' // Current step (highlighted)
+                : index < currentStep 
+                  ? 'completed' // Steps we've already done
+                  : ''} ${index < currentStep ? 'clickable' : ''}`} // Only completed steps are clickable
+              onClick={() => index < currentStep ? navigateToStep(index) : null} // Navigate back to completed steps
+              role={index < currentStep ? "button" : undefined} // Accessibility: only completed steps are interactive
+              tabIndex={index < currentStep ? 0 : undefined} // Keyboard navigation for completed steps
+              aria-label={index < currentStep ? `Go back to step ${index + 1}: ${stepLabels[index]}` : undefined} // Screen reader text
+            >
+              {/* Show step number for current and future steps, empty for completed steps */}
+              {index < currentStep ? '' : (index + 1)}
+            </div>
+            <div className="progress-label">
+              {stepLabels[index] || `Step ${index + 1}`}
+            </div>
           </div>
         ))}
       </div>

@@ -339,7 +339,7 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
     <div className="project-context-step">
       {/* Page title and description */}
       <h1 className="page-title">Project Context</h1>
-      <p className="page-subtitle">Tell us about your louver application requirements.</p>
+      <p className="page-subtitle">Tell us about your application and technical requirements.</p>
 
       {/* Step 1: Application Selection */}
       <div className={`substep-container ${currentSubStep >= 1 ? 'substep-fade-in' : ''}`}>

@@ -15,7 +15,7 @@
 .page-title {
   font-size: 2rem;
   font-weight: 700;
-  margin-bottom: 2rem;
+  margin-bottom: 0rem;
   text-align: center;
   color: var(--text-primary);
 }
@@ -36,7 +36,7 @@
   .aesthetics-title {
     font-size: 4rem;
     font-weight: 700;
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
     font-family: 'Poppins', sans-serif;
     background: linear-gradient(90deg, #ffffff, #10b981);
     -webkit-background-clip: text;

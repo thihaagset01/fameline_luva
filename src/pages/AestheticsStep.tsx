@@ -128,7 +128,7 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
 
   return (
     <div className="app-container fixed-height-page aesthetics-step">
-      <h1 className="aesthetics-title">Design Aesthetics</h1>
+      <h1 className="aesthetics-title">Aesthetics</h1>
       <div className="aesthetics-container">
       
         {/* Left column - Controls for structural elements */}

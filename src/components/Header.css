@@ -24,21 +24,25 @@ header {
 
 /* Home icon link styling */
 .home-icon-link {
-  display: inline-flex;
-  align-items: center;
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  width: 6rem;
+  height: 6rem;
   justify-content: center;
-  padding: 0.5rem;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  color: white;
   transition: all 0.3s ease;
-  backdrop-filter: blur(10px);
   z-index: 1000;
 }
 
+.home-icon-link img,
+.home-icon-link svg {
+  width: auto;
+  height: 50px;
+  object-fit: contain;
+}
+
 .home-icon-link:hover {
-  transform: scale(1.1);
+  transform: scale(1.02);
 }
 
 .home-icon-link svg {
@@ -53,13 +57,20 @@ header {
 /* Progress dots styling - used by Header component */
 .progress-dots {
   display: flex;
-  gap: 2rem;
-  align-items: center;
+  gap: 4rem;
+  align-items: flex-start;
   position: absolute;  
   top: 5rem;
   left: 50%;
   transform: translate(-50%, -50%);
   margin-top: 1rem;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .progress-dot {
@@ -106,6 +117,23 @@ header {
   color: white;
   animation: pulse 2s infinite;
   box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+}
+
+.progress-label {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 200;
+  text-align: center;
+  white-space: nowrap;
+  transition: color 0.3s ease;
+}
+
+.progress-step .progress-dot.completed + .progress-label {
+  color: #10b981;
+}
+
+.progress-step .progress-dot.active + .progress-label {
+  color: white;
 }
 
 @keyframes pulse {

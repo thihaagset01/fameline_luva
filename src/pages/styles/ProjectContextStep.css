@@ -8,13 +8,12 @@
   justify-content: center;
   min-height: 100vh;
   padding: 2rem;
-  padding-top: 6rem; /* Account for fixed header */
+  padding-top: 8rem; /* Account for fixed header */
 }
 
 .project-context-step .page-title {
   font-size: 4rem;
   font-weight: 700;
-  margin-bottom: 0.75rem;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(90deg, #ffffff, #10b981);
   -webkit-background-clip: text;
@@ -22,14 +21,13 @@
   background-clip: text;
   color: transparent;
   letter-spacing: -0.7px;
+  margin-bottom: 0.5rem;
 }
 
-.project-context-step .page-subtitle 
-  {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1rem;
-    margin-bottom: 20px;
-
+.project-context-step .page-subtitle {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 .project-context-grid {
@@ -172,7 +170,7 @@
 /* Selection Options Row */
 .selection-option-row {
   display: flex;
-  gap: 0.75rem;
+  gap: 1rem;
   margin: 1rem 0;
   justify-content: center;
   flex-wrap: wrap;
