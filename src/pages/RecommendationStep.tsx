@@ -263,6 +263,13 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
     try {
       setLoading(true);
       setActiveModelIndex(0);
+      console.log('🏗️ RecommendationStep - FormData being sent to engine:', {
+        bladeOrientation: formData.bladeOrientation,
+        louverApplication: formData.louverApplication,
+        airflowRequirement: formData.airflowRequirement,
+        waterTolerance: formData.waterTolerance,
+        environment: formData.environment
+      });
       
       const result = await recommendationEngine.getRecommendation(formData);
       const enhancedResult = result as unknown as EnhancedLouverRecommendation;

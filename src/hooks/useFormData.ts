@@ -37,9 +37,10 @@ export const useFormData = () => {
    * @param value - The new value for the field
    */
   const updateFormData = useCallback((field: string, value: string) => {
+    console.log('📝 useFormData - Updating field:', field, 'with value:', value);
     setFormData(prev => {
       const updated = { ...prev, [field]: value };
-      
+      console.log('📝 useFormData - New formData:', updated);
       // ✨ Auto-populate intelligent defaults when application is selected
       // This makes the form smarter and easier to use - when a user selects an application
       // like "Commercial Ventilation", we automatically set recommended values for airflow
