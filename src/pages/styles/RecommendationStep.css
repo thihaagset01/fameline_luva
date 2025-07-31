@@ -29,7 +29,6 @@
   line-height: 1.1;
 }
 
-
 .recommendations-description {
   font-size: 1rem;
   color: var(--text-secondary);
@@ -456,49 +455,6 @@
   pointer-events: none;
   opacity: 0.8;
 }
-
-/* Panel overlay with quick specs - FIXED */
-.panel-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(10px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  border-radius: inherit;
-  pointer-events: none; /* IMPORTANT: Don't block clicks */
-}
-
-.louver-3d-panel:hover .panel-overlay {
-  opacity: 1;
-}
-
-.quick-specs {
-  display: flex;
-  gap: 20px;
-  color: white;
-  pointer-events: none;
-}
-
-.quick-specs .spec-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.quick-specs .spec-icon {
-  font-size: 16px;
-}
-
 
 .nav-dot {
   width: 2.25rem;

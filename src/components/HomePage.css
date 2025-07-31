@@ -1,12 +1,8 @@
-/* Import League Spartan font */
-@import url("https://fonts.googleapis.com/css2?family=League+Spartan:wght@300;400;600;700&display=swap");
+/**
+ * HomePage.css
+ * Styles specific to the HomePage
+ */
 
-/* Reset and base styles */
-/* * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-} */
 
 .hero-page {
   width: 100%;
@@ -22,12 +18,7 @@
   );
   position: relative;
   overflow-x: hidden;
-  font-family:
-    "League Spartan",
-    -apple-system,
-    Roboto,
-    Helvetica,
-    sans-serif;
+  font-family: 'Poppins', sans-serif;
   color: #fff;
   border: 4px solid #000;
 }
@@ -85,7 +76,7 @@
   align-items: center;
   padding: 20px 80px;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.2);
   backdrop-filter: blur(5px);
 }
 
@@ -109,7 +100,7 @@
   border: none;
   color: #fff;
   font-family: "League Spartan", sans-serif;
-  font-size: 15px;
+  font-size: 9px;
   font-weight: 400;
   cursor: pointer;
   transition: color 0.3s ease;
@@ -139,28 +130,30 @@
 
 .performance-title {
   color: #ccffcd;
-  font-size: 65px;
+  font-size: 48px;
   font-weight: 700;
+  font-family: 'Poppins', sans-serif;
   line-height: 90px;
-  margin-bottom: 20px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  margin-top: 0.2rem;
 }
 
 .beautiful-facade {
   color: #fff;
-  font-size: 80px;
+  font-size: 64px;
   font-weight: 700;
+  font-family: 'Poppins', sans-serif;
   line-height: 90px;
-  margin-bottom: 40px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .hero-description {
   color: #fff;  
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 400;
+  font-family: 'Poppins', sans-serif;
   line-height: 35px;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
   max-width: 744px;
 }
 
@@ -169,8 +162,8 @@
   border: none;
   border-radius: 50px;
   color: #fff;
-  font-family: "League Spartan", sans-serif;
-  font-size: 30px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
   font-weight: 400;
   padding: 26px 15px;
   width: 278px;
@@ -206,10 +199,11 @@
 
 .section-title {
   color: #fff;
-  font-size: 70px;
+  font-size: 56px;
   font-weight: 700;
   line-height: 90px;
   margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .highlight-green {
@@ -218,11 +212,12 @@
 
 .section-description {
   color: #fff;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 400;
   line-height: 35px;
   margin: 0 auto 80px;
   max-width: 1189px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .louver-showcase {
@@ -298,10 +293,11 @@
 
 .about-title {
   color: #fff;
-  font-size: 70px;
+  font-size: 56px;
   font-weight: 700;
   line-height: 90px;
   margin-bottom: 40px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-title .highlight-green {
@@ -310,9 +306,10 @@
 
 .about-description {
   color: #fff;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 400;
   line-height: 35px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .about-description .highlight-green {
@@ -379,21 +376,22 @@
   padding: 40px;
   width: 355px;
   min-height: 542px;
-  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 10px 24px rgba(0, 0, 0, 0.5);
 }
 
 .filter-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 24px;
 }
 
 .filter-header h3 {
   color: #fff;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 700;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: 'Poppins', sans-serif;
 }
 
 .filter-close {
@@ -412,10 +410,11 @@
 
 .filter-section h4 {
   color: #fff;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 400;
   margin-bottom: 20px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: 'Poppins', sans-serif;
 }
 
 .filter-option {
@@ -436,9 +435,10 @@
 
 .filter-option span {
   color: #fff;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 300;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Product Grid */
@@ -499,6 +499,7 @@
   letter-spacing: 1px;
   color: #fff;
   padding: 40px 0px 0px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .type{
@@ -535,6 +536,7 @@
   font-size: 130%;
   letter-spacing: 1px;
   margin-top: 5px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-card:hover .content {
@@ -559,6 +561,7 @@
   font-size: 170%;
   letter-spacing: 1px;
   overflow-wrap: normal;
+  font-family: 'Poppins', sans-serif;
 }
 
 .photo {
@@ -579,7 +582,7 @@
 .product-card:hover .photo img {
   max-width: 90%;
   width: 200px;
-  transform: translate(100px, -30px);
+  transform: translate(100px, -24px);
 }
 
 /* Recent Projects Section */
@@ -620,6 +623,7 @@
 	border: none;
 	outline: none;
 	padding-bottom: 4px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .nav-arrow:hover {
@@ -765,6 +769,7 @@
   font-weight: 700;
   line-height: 50px;
   margin: 10px 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 .location {
@@ -774,7 +779,8 @@
   color: #fff;
   font-size: 20px;
   font-weight: 400;
-  line-height: 30px;
+  line-height: 24px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .location img {
@@ -786,8 +792,9 @@
   color: #fff;
   font-size: 20px;
   font-weight: 400;
-  line-height: 30px;
+  line-height: 24px;
   max-width: 450px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-name {
@@ -796,6 +803,7 @@
   font-weight: 700;
   line-height: 50px;
   margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .product-type {
@@ -804,6 +812,7 @@
   font-weight: 400;
   line-height: 50px;
   margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .divider {
@@ -822,14 +831,15 @@
   color: #fff;
   font-size: 20px;
   font-weight: 700;
-  line-height: 30px;
+  line-height: 24px;
 }
 
 .client-info span {
   color: #fff;
   font-size: 20px;
   font-weight: 400;
-  line-height: 30px;
+  line-height: 24px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .carousel-indicators {
@@ -880,6 +890,7 @@
   font-weight: 700;
   line-height: 90px;
   margin-bottom: 60px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .cta-btn {
@@ -918,9 +929,10 @@
 
 .footer-contact p {
   color: #fff;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 400;
   margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .social-links {
@@ -941,9 +953,10 @@
 
 .footer-bottom p {
   color: #fff;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: 400;
   line-height: 35px;
+  font-family: 'Poppins', sans-serif;
 }
 
 /* Responsive Design */
@@ -1033,7 +1046,7 @@
 
   .hero-description {
     font-size: 24px;
-    line-height: 30px;
+    line-height: 24px;
   }
 
   .section-title {
@@ -1043,7 +1056,7 @@
 
   .section-description {
     font-size: 24px;
-    line-height: 30px;
+    line-height: 24px;
   }
 
   .about-title {
@@ -1053,7 +1066,7 @@
 
   .about-description {
     font-size: 24px;
-    line-height: 30px;
+    line-height: 24px;
   }
 
   .cta-title {
@@ -1115,7 +1128,7 @@
   }
 
   .performance-title {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 35px;
   }
 
@@ -1126,13 +1139,13 @@
 
   .find-louver-btn {
     font-size: 24px;
-    padding: 30px 30px;
+    padding: 24px 24px;
     width: 240px;
     height: 65px;
   }
 
   .section-title {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 35px;
   }
 
@@ -1142,7 +1155,7 @@
   }
 
   .about-title {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 35px;
   }
 
@@ -1152,7 +1165,7 @@
   }
 
   .cta-title {
-    font-size: 30px;
+    font-size: 24px;
     line-height: 35px;
   }
 

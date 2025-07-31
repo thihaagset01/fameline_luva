@@ -6,7 +6,7 @@
 /* Summary page container */
 .summary-step {
   padding: 2rem;
-  padding-top: 10rem; /* Added top padding to account for fixed header */
+  padding-top: 8rem; /* Added top padding to account for fixed header */
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -20,22 +20,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Success icon */
-.success-icon-container {
-  margin-bottom: 2rem;
-}
-
-.success-icon {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: rgba(var(--primary-rgb), 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary);
 }
 
 /* Summary title styles */
@@ -66,7 +50,6 @@
   background-color: rgba(255, 255, 255, 0.05);
   border-radius: 1rem;
   padding: 2rem;
-  margin-bottom: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   width: 100%;
 }

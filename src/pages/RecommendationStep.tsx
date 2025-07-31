@@ -415,20 +415,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
               {Math.round((model.confidenceScore || 0.8) * 100)}% Match
             </div>
           )}
-          
-          {/* Quick specs overlay */}
-          <div className="panel-overlay">
-            <div className="quick-specs">
-              <div className="spec-item">
-                <span className="spec-icon">🌬️</span>
-                <span>{model.airflowRating}/10</span>
-              </div>
-              <div className="spec-item">
-                <span className="spec-icon">💧</span>
-                <span>{model.waterResistanceRating}/10</span>
-              </div>
-            </div>
-          </div>
         </div>
       );
     })}
@@ -568,28 +554,28 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
             {/* Technical specifications - Shows the louver's key performance metrics */}
             <div className="recommendations-specs">
               <div className="spec-item">
-                <div className="spec-label">Airflow</div>
+                <div className="spec-label">AIRFLOW</div>
                 <div className="spec-value">
                   <span>{!isNaN(recommendation.airflowRating) && recommendation.airflowRating !== undefined ? recommendation.airflowRating : '-'}</span>
                   <span className="spec-unit">/10</span>
                 </div>
               </div>
               <div className="spec-item">
-                <div className="spec-label">Water Resistance</div>
+                <div className="spec-label">WATER RESISTANCE</div>
                 <div className="spec-value">
                   <span>{!isNaN(recommendation.waterResistanceRating) && recommendation.waterResistanceRating !== undefined ? recommendation.waterResistanceRating : '-'}</span>
                   <span className="spec-unit">/10</span>
                 </div>
               </div>
               <div className="spec-item">
-                <div className="spec-label">Durability</div>
+                <div className="spec-label">DURABILITY</div>
                 <div className="spec-value">
                   <span>{!isNaN(recommendation.durabilityRating) && recommendation.durabilityRating !== undefined ? recommendation.durabilityRating : '-'}</span>
                   <span className="spec-unit">/10</span>
                 </div>
               </div>
               <div className="spec-item">
-                <div className="spec-label">Aesthetics</div>
+                <div className="spec-label">AESTHETICS</div>
                 <div className="spec-value">
                   <span>{!isNaN(recommendation.aestheticsRating) && recommendation.aestheticsRating !== undefined ? recommendation.aestheticsRating : '-'}</span>
                   <span className="spec-unit">/10</span>
@@ -683,20 +669,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                           {Math.round((model.confidenceScore || 0.8) * 100)}% Match
                         </div>
                       )}
-                      
-                      {/* Hover overlay with quick specs */}
-                      <div className="panel-overlay">
-                        <div className="quick-specs">
-                          <div className="spec-item">
-                            <span className="spec-icon">🌬️</span>
-                            <span>{model.airflowRating}/10</span>
-                          </div>
-                          <div className="spec-item">
-                            <span className="spec-icon">💧</span>
-                            <span>{model.waterResistanceRating}/10</span>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   );
                 })}
