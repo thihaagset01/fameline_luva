@@ -99,9 +99,9 @@
   background: none;
   border: none;
   color: #fff;
-  font-family: "League Spartan", sans-serif;
-  font-size: 9px;
+  font-size: 12px;
   font-weight: 400;
+  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   transition: color 0.3s ease;
 }
@@ -907,8 +907,8 @@
     #084716 51.31%,
     #094c18 56.11%
   );
-  backdrop-filter: blur(2px);
-  padding: 60px 80px 40px;
+  backdrop-filter: blur(1px);
+  padding: 60px 60px 40px;
 }
 
 .footer-content {
