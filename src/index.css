@@ -325,10 +325,6 @@ body.has-scrollable-page {
   100% { box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
 }
 
-/* Font Imports */
-/* Inter is our primary font family - a clean, modern sans-serif that works well for UI */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
 /* 4. Tailwind Base Layer */
 /* Core HTML element styling using Tailwind's @layer directive */
 @layer base {
@@ -342,7 +338,7 @@ body.has-scrollable-page {
     height: 100%;
     background-color: #0f172a;
     color: #f8fafc;
-    font-family: 'Poppins', 'Inter', sans-serif;
+    font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
