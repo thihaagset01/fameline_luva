@@ -31,6 +31,7 @@ import { STEPS } from '@/utils/constants';
  * 2. Form data state via the useFormData hook
  * 3. Conditional rendering of the appropriate step component
  * 4. Scroll behavior for different steps
+ * 5. AI recommendation state (NEW)
  * 
  * The wizard has 6 steps:
  * - Step 0: User Info (name, email)
@@ -46,6 +47,9 @@ function App() {
   
   // Custom hook that manages all form data and validation
   const { formData, updateFormData, resetFormData, isStepValid } = useFormData();
+
+  // NEW: State to track the AI recommended model
+  const [recommendedModel, setRecommendedModel] = useState<string>('');
 
   /**
    * Handle scrolling behavior for different steps
@@ -93,6 +97,27 @@ function App() {
   };
 
   /**
+   * Handle AI recommendation callback (NEW)
+   * 
+   * This function is called by the RecommendationStep when the AI generates
+   * a louver recommendation. It stores the recommended model so it can be
+   * passed to the SummaryStep for PDF generation and sharing.
+   */
+  const handleRecommendation = (model: string) => {
+    setRecommendedModel(model);
+  };
+
+  /**
+   * Enhanced reset function (NEW)
+   * 
+   * Resets both form data and the recommended model when starting a new project.
+   */
+  const handleReset = () => {
+    resetFormData();
+    setRecommendedModel('');
+  };
+
+  /**
    * Render the current step component based on the currentStep state
    * 
    * This function uses a switch statement to determine which step component to render
@@ -101,6 +126,8 @@ function App() {
    * - updateFormData: Function to update the form data
    * - onNextStep/onPrevStep: Navigation functions
    * - onReset: Function to reset the form (only used in the final step)
+   * - onRecommendation: Function to handle AI recommendations (NEW)
+   * - recommendedModel: The AI recommended model (NEW)
    * 
    * @returns The React component for the current step
    */
@@ -115,9 +142,20 @@ function App() {
       case 3:
         return <AestheticsStep formData={formData} updateFormData={updateFormData} onPrevStep={prevStep} onNextStep={nextStep} />;
       case 4:
-        return <RecommendationStep formData={formData} />;
+        return (
+          <RecommendationStep 
+            formData={formData} 
+            onRecommendation={handleRecommendation} // NEW: Pass recommendation handler
+          />
+        );
       case 5:
-        return <SummaryStep formData={formData} onReset={resetFormData} />;
+        return (
+          <SummaryStep 
+            formData={formData} 
+            onReset={handleReset} // Updated to use enhanced reset
+            recommendedModel={recommendedModel} // NEW: Pass recommended model
+          />
+        );
       default:
         return null;
     }

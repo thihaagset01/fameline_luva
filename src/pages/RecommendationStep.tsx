@@ -61,7 +61,9 @@ interface EnhancedLouverRecommendation {
  */
 interface RecommendationStepProps {
   formData: FormData;
+  onRecommendation?: (model: string) => void; // NEW: Add this prop
 }
+
 
 /**
  * Helper functions for formatting and displaying louver information 🔠
@@ -200,7 +202,7 @@ const ErrorState: React.FC<{ error: string; onRetry: () => void }> = ({ error, o
  * for different recommended models. The left side shows detailed information about
  * the currently selected model.
  */
-export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData }) => {
+export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData, onRecommendation }) => {
   
   // State variables to store the current recommendation, loading status, error messages, and active model index
   const [recommendation, setRecommendation] = useState<EnhancedLouverRecommendation | null>(null);
@@ -236,6 +238,27 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   // Fix for limiting to exactly 3 recommendations total
 
 // In your fetchRecommendation function, limit alternatives to 2:
+  /**
+   * Fetches recommendation data from the recommendation engine
+   * 
+   * This function calls the recommendation engine with the current formData,
+   * processes the results, and sets up the primary and alternative models for display.
+   * 
+   * ⚙️ Process flow:
+   * 1. Set loading state to true
+   * 2. Call the recommendation engine with formData
+   * 3. Process the returned data and format it for display
+   * 4. Set up the primary and alternative models
+   * 5. Update component state with the results
+   * 
+   * It also handles loading states and error conditions appropriately, ensuring
+   * that the UI always reflects the current state of the recommendation process.
+   * 
+   * The function is called automatically when the component mounts and whenever
+   * the formData changes via useEffect.
+   * 
+   * @private Internal component method
+   */
   const fetchRecommendation = async () => {
     try {
       setLoading(true);
@@ -313,6 +336,10 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
       })));
       
       setAllModels(finalModels);
+      if (onRecommendation && enhancedResult.model) {
+        onRecommendation(enhancedResult.model);
+        console.log('📞 Notified parent of recommendation:', enhancedResult.model);
+      }
     } catch (err) {
       console.error('Error getting recommendation:', err);
       setError('Failed to get recommendation. Please try again.');
@@ -462,7 +489,13 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
         water: selectedModel?.waterResistanceRating,
         durability: selectedModel?.durabilityRating
       });
-    } else {
+      // 🚀 ADD THIS: Notify parent when user selects a different model
+      if (onRecommendation && selectedModel.model) {
+        onRecommendation(selectedModel.model);
+        console.log('📞 Notified parent of model selection:', selectedModel.model);
+      }
+    } 
+    else {
       console.warn('❌ Invalid index:', index, 'Models length:', allModels.length);
     }
   };
