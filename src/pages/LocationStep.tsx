@@ -5,6 +5,7 @@ import { StepProps } from '@/types';
 import { weatherService } from '@/services/weatherService';
 import { ENVIRONMENT_OPTIONS } from '@/utils/constants';
 import './styles/LocationStep.css';
+import { Orb } from '@/components/Orb';
 
 /**
  * 📍 LocationStep Component - FIXED VERSION
@@ -251,6 +252,12 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
 
   return (
     <div className="step-container">
+      {/* Orb in top-right corner */}
+      <div className="orb-position-top-right">
+        <div className="orb-text"></div>
+          <Orb size="10rem" />
+          <div className="floating-text">I would love to visit someday!</div>
+      </div>
       <div className="step-content">
         <div className="step-header">
           <h2 className="step-title">Project Location</h2>

@@ -35,6 +35,12 @@
   line-height: 1.5;
 }
 
+.recommendations-louver-type {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
 /* Recommendations grid */
 .recommendations-grid {
   display: grid;
