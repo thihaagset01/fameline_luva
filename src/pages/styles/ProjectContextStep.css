@@ -7,8 +7,6 @@
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  padding: 2rem;
-  padding-top: 8rem; /* Account for fixed header */
 }
 
 .project-context-step .page-title {
@@ -21,7 +19,8 @@
   background-clip: text;
   color: transparent;
   letter-spacing: -0.7px;
-  margin-bottom: 0.5rem;
+  margin: 0.5rem 0;
+  padding-top: 10rem;
 }
 
 .project-context-step .page-subtitle {
@@ -353,7 +352,7 @@
   position: absolute;
   top: 100%;
   left: 3rem;
-  border-width: 0px;
+  border-width: 0px; /* change to 15 for speech bubble tail */
   border-style: solid;
   border-color: rgba(255, 255, 255, 0.2) transparent transparent transparent;
 }
@@ -393,7 +392,6 @@
 @media (max-width: 768px) {
   .project-context-step {
     padding: 1rem;
-    padding-top: 5rem;
   }
   
   .application-grid {

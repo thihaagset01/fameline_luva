@@ -6,15 +6,12 @@
 /* App container - matches legacy layout */
 .app-container {
   width: 100%;
-  min-height: 100vh;
+  height: 100vh !important;
+  max-height: 100vh !important;
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow-y: hidden;
-  padding: 0;
-  margin: 0 auto;
-  padding-top:2rem;
-  padding-bottom: 6rem; /* Reduced padding for better space utilization */
+  overflow: hidden !important;
 }
 
 /* Content card - side by side layout */
