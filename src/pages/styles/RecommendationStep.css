@@ -167,7 +167,7 @@
   border-radius: 1rem;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
-  margin-top:6rem; 
+  margin-top: 8rem; 
   width:100%;
   max-width:400px;
   
@@ -263,7 +263,7 @@
 
 .louver-3d-container {
   position: relative;
-  width: 100%;
+  width: 500px;
   height: 500px;
   perspective: 1200px;
   transform-style: preserve-3d;
@@ -305,10 +305,8 @@
 
 /* Primary panel (front and center) */
 .louver-3d-panel.primary {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
-  z-index: 30;
+  transform: translate(-50%, -50%) scale(1);
+  /* Allow movement unless active; default transform for inactive state */
   background: linear-gradient(
     135deg, 
     rgba(16, 185, 129, 0.3) 0%,
@@ -317,15 +315,16 @@
   );
 }
 
-.louver-3d-panel.primary:hover {
-  transform: translate(-50%, -50%) scale(1.05);
+.louver-3d-panel.primary:not(.active) {
+  transform: translateX(-180px) scale(0.8) rotateY(25deg);
+  z-index: 20;
+  opacity: 0.8;
 }
+
 
 /* Secondary panel (behind left) */
 .louver-3d-panel.secondary {
-  top: 50%;
-  left: 50%;
-  transform: translate(-130%, -50%) rotateY(25deg) scale(0.85);
+  transform: translateX(180px) scale(0.8) rotateY(-25deg);
   z-index: 20;
   opacity: 0.8;
   background: linear-gradient(
@@ -336,16 +335,25 @@
   );
 }
 
-.louver-3d-panel.secondary:hover {
-  transform: translate(-130%, -50%) rotateY(15deg) scale(0.9);
-  opacity: 1;
+/* When tertiary is active, push secondary to the right instead of left */
+
+.louver-3d-panel.tertiary.active ~ .louver-3d-panel.secondary:not(.active) {
+  transform: translateX(180px) scale(0.8) rotateY(-25deg);
+  z-index: 20;
+  opacity: 0.8;
 }
+
+/* When primary is active, push secondary to the left */
+.louver-3d-panel.primary.active ~ .louver-3d-panel.secondary:not(.active) {
+  transform: translateX(-180px) scale(0.8) rotateY(25deg);
+  z-index: 20;
+  opacity: 0.8;
+}
+
 
 /* Tertiary panel (behind right) */
 .louver-3d-panel.tertiary {
-  top: 50%;
-  left: 50%;
-  transform: translate(30%, -50%) rotateY(-25deg) scale(0.8);
+  transform: translateX(180px) scale(0.85) rotateY(-25deg);
   z-index: 15;
   opacity: 0.7;
   background: linear-gradient(
@@ -356,10 +364,12 @@
   );
 }
 
-.louver-3d-panel.tertiary:hover {
-  transform: translate(30%, -50%) rotateY(-15deg) scale(0.85);
-  opacity: 1;
+.louver-3d-panel.tertiary:not(.active) {
+  transform: translateX(180px) scale(0.85) rotateY(-25deg);
+  z-index: 15;
+  opacity: 0.7;
 }
+
 
 /* Active state */
 .louver-3d-panel.active {
@@ -370,6 +380,7 @@
     0 0 40px rgba(16, 185, 129, 0.6),
     inset 0 2px 0 rgba(255, 255, 255, 0.4);
   animation: activeGlow 2s ease-in-out infinite alternate;
+  transform: translateX(0) scale(1.05) rotateY(0deg);
 }
 
 /* Color variants for different model types */
@@ -400,8 +411,8 @@
 /* Model badge */
 .louver-model-badge {
   position: absolute;
-  bottom: 15px;
   left: 50%;
+  bottom: 15px;
   transform: translateX(-50%);
   background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(10px);
@@ -462,25 +473,48 @@
   opacity: 0.8;
 }
 
+/* Navigation dots - removed borders and improved animations */
 .nav-dot {
+  margin-top: 2rem;
   width: 2.25rem;
   height: 2.25rem;
-  border-radius: 9999px;
-  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
   cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  border: none;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-dot::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
   transition: all 0.3s ease;
 }
 
-.nav-dot:hover {
-  background: rgba(255, 255, 255, 0.5);
-  transform: scale(1.2);
-}
+
 
 .nav-dot.active {
-  background-color: #34d399;
-  box-shadow: 0 0 10px rgba(52, 211, 153, 0.5);
-  position: relative;
-  z-index: 1;
+  background: linear-gradient(135deg, #34d399, #10b981);
+  box-shadow: 
+    0 0 20px rgba(52, 211, 153, 0.4),
+    0 4px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.nav-dot.active::before {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
 }
 /* Animations */
 @keyframes activeGlow {
@@ -548,10 +582,10 @@
   }
   
   .louver-3d-panel.secondary {
-    transform: translate(-110%, -50%) rotateY(20deg) scale(0.8);
+    transform: translateX(-180px) scale(0.85) rotateY(25deg);
   }
   
   .louver-3d-panel.tertiary {
-    transform: translate(10%, -50%) rotateY(-20deg) scale(0.75);
+    transform: translateX(180px) scale(0.8) rotateY(-25deg);
   }
 }

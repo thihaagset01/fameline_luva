@@ -346,7 +346,7 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
             <div className="orb-position-top-right">
               <div className="orb-text"></div>
                 <Orb size="10rem" />
-                <div className="floating-text">Your project sounds cool!</div>
+                <div className="floating-text">Scroll down, there's more!</div>
             </div>
 
       {/* Step 1: Application Selection */}
