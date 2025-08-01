@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StepProps } from '@/types';
 import './styles/AestheticsStep.css';
+import { Orb } from '@/components/Orb';
 
 /**
  * 🎨 AestheticsStep Component
@@ -130,7 +131,14 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
     <div className="app-container fixed-height-page aesthetics-step">
       <h1 className="aesthetics-title">Aesthetics</h1>
       <div className="aesthetics-container">
-      
+
+        {/* Orb in top-right corner */}
+                    <div className="orb-position-top-right">
+                      <div className="orb-text"></div>
+                        <Orb size="10rem" />
+                        <div className="floating-text">Ooh, this louver is looking good!</div>
+                    </div>
+
         {/* Left column - Controls for structural elements */}
         {/* These toggle buttons let users select key structural features */}
         <div className="aesthetics-left-controls">
@@ -199,9 +207,9 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
           {!showBladeOrientation && (
             <div className="aesthetics-note">
               <div className="note-content">
-                <h4>🎯 Orientation Optimized</h4>
+                <h4>Horizontal Orientation</h4>
                 <p>
-                  <strong>Horizontal orientation</strong> is recommended for{' '}
+                  is recommended for{' '}
                   <span className="application-highlight">
                     {formData.louverApplication?.replace('-', ' ')} applications
                   </span>{' '}
@@ -209,13 +217,13 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
                 </p>
                 <div className="note-details">
                   {formData.louverApplication === 'commercial-general' && (
-                    <small>✅ MRT stations and commercial buildings prefer horizontal</small>
+                    <small>MRT stations and commercial buildings prefer horizontal</small>
                   )}
                   {formData.louverApplication === 'infrastructure' && (
-                    <small>✅ LTA and infrastructure projects use horizontal orientation</small>
+                    <small>LTA and infrastructure projects use horizontal orientation</small>
                   )}
                   {formData.louverApplication === 'specialized-acoustic' && (
-                    <small>✅ Acoustic performance optimized for horizontal orientation</small>
+                    <small>Acoustic performance optimized for horizontal orientation</small>
                   )}
                 </div>
               </div>

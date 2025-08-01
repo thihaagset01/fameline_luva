@@ -2,6 +2,7 @@ import * as React from 'react';
 import './styles/ProjectContextStep.css';
 import { useState, useEffect, useCallback, memo } from 'react';
 import { StepProps } from '@/types';
+import { Orb } from '@/components/Orb';
 
 /**
  * 📃 ProjectContextStep Component
@@ -340,6 +341,13 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
       {/* Page title and description */}
       <h1 className="page-title">Project Context</h1>
       <p className="page-subtitle">Tell us about your application and technical requirements.</p>
+
+      {/* Orb in top-right corner */}
+            <div className="orb-position-top-right">
+              <div className="orb-text"></div>
+                <Orb size="10rem" />
+                <div className="floating-text">Your project sounds cool!</div>
+            </div>
 
       {/* Step 1: Application Selection */}
       <div className={`substep-container ${currentSubStep >= 1 ? 'substep-fade-in' : ''}`}>

@@ -250,7 +250,7 @@
 .orb-position-top-right {
   position: absolute;
   top: 15rem;
-  right: 5rem;
+  right: 10rem;
   z-index: 1000;
   transform: scale(0.5);
   transform-origin: top right;
@@ -277,7 +277,7 @@
   z-index: 1000;
   position: absolute;
   bottom: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
   background: rgba(255, 255, 255, 0.1);
   padding: 0.5rem 1rem;
   border-radius: 1rem;
@@ -290,9 +290,8 @@
   content: '';
   position: absolute;
   top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  border-width: 6px;
+  left: 3rem;
+  border-width: 0px; /* change to 15 for speech bubble tail */
   border-style: solid;
   border-color: rgba(255, 255, 255, 0.2) transparent transparent transparent;
 }
