@@ -663,12 +663,6 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                         </div>
                       )}
                       
-                      {/* Confidence indicator for alternatives */}
-                      {index > 0 && (
-                        <div className="confidence-indicator">
-                          {Math.round((model.confidenceScore || 0.8) * 100)}% Match
-                        </div>
-                      )}
                     </div>
                   );
                 })}

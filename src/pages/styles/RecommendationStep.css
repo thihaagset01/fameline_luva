@@ -458,21 +458,6 @@
   letter-spacing: 0.5px;
 }
 
-/* Confidence indicator */
-.confidence-indicator {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(0, 0, 0, 0.7);
-  color: white;
-  font-size: 9px;
-  padding: 4px 8px;
-  border-radius: 10px;
-  font-weight: 500;
-  pointer-events: none;
-  opacity: 0.8;
-}
-
 /* Navigation dots - removed borders and improved animations */
 .nav-dot {
   margin-top: 2rem;
@@ -500,7 +485,6 @@
   transform: translate(-50%, -50%);
   transition: all 0.3s ease;
 }
-
 
 
 .nav-dot.active {
@@ -543,29 +527,6 @@
   }
   100% {
     transform: scale(1);
-    opacity: 1;
-  }
-}
-
-/* Entrance animations */
-.louver-3d-panel {
-  animation: panelEntrance 0.6s ease-out forwards;
-}
-
-.louver-3d-panel.secondary {
-  animation-delay: 0.2s;
-}
-
-.louver-3d-panel.tertiary {
-  animation-delay: 0.4s;
-}
-
-@keyframes panelEntrance {
-  0% {
-    opacity: 0;
-    transform: translateY(50px) scale(0.8);
-  }
-  100% {
     opacity: 1;
   }
 }
