@@ -13,14 +13,14 @@ function FBXModel({ url, pivot = [0, 0, 0] }) {
 }
 
 const FBXModelViewer = ({ url }) => (
-  <div style={{ width: "100%", height: "800px" }}>
+  <div style={{ width: "100%", height: "900px" }}>
     <Canvas camera={{ position: [1, 1, 1], fov: 50 }}>
-      <ambientLight intensity={0.8} />
-      <directionalLight position={[0, -50, 0]} />
+      <ambientLight intensity={1.5} />
+      <directionalLight position={[0, 50, 0]} />
       <Suspense fallback={null}>
         <FBXModel url={url} />
       </Suspense>
-      <OrbitControls maxDistance={4} minDistance={3}/>
+      <OrbitControls maxDistance={4} minDistance={2}/>
     </Canvas>
   </div>
 );

@@ -7,18 +7,8 @@
 .hero-page {
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(
-    179deg,
-    #000 3.68%,
-    #031b08 11.86%,
-    #001505 36.73%,
-    #000b03 59.2%,
-    #061b0b 81.97%,
-    #000 98.86%
-  );
   position: relative;
   overflow-x: hidden;
-  font-family: 'Poppins', sans-serif;
   color: #fff;
   border: 4px solid #000;
 }
@@ -37,7 +27,7 @@
 .green-blur {
   position: absolute;
   right: 10%;
-  top: 30%;
+  top: 32%;
   opacity: 0.6;
   filter: blur(100px);
 }
@@ -99,9 +89,8 @@
   background: none;
   border: none;
   color: #fff;
-  font-size: 12px;
+  font-size: 100%;
   font-weight: 400;
-  font-family: 'Poppins', sans-serif;
   cursor: pointer;
   transition: color 0.3s ease;
 }
@@ -115,7 +104,7 @@
 .hero-section {
   position: relative;
   z-index: 10;
-  padding: 90px 80px 120px;
+  padding: 55px 80px 120px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -132,8 +121,6 @@
   color: #ccffcd;
   font-size: 48px;
   font-weight: 700;
-  font-family: 'Poppins', sans-serif;
-  line-height: 90px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   margin-top: 0.2rem;
 }
@@ -142,7 +129,6 @@
   color: #fff;
   font-size: 64px;
   font-weight: 700;
-  font-family: 'Poppins', sans-serif;
   line-height: 90px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
@@ -180,7 +166,8 @@
 
 .hero-image {
   flex: 1;
-  max-width: 600px;
+  max-width: 700px;
+  margin-right: 10%;
 }
 
 .hero-image img {
@@ -193,17 +180,21 @@
 .why-performance-section {
   position: relative;
   z-index: 10;
-  padding: 120px 80px;
+  padding: 120px 0;
   text-align: center;
 }
 
 .section-title {
+  position: relative;
   color: #fff;
   font-size: 56px;
   font-weight: 700;
   line-height: 90px;
-  margin-bottom: 40px;
+  margin-top: 70px;
   font-family: 'Poppins', sans-serif;
+  z-index: 2;
+  text-align: flex-start;
+  justify-content: center;
 }
 
 .highlight-green {
@@ -213,7 +204,7 @@
 .section-description {
   color: #fff;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 35px;
   margin: 0 auto 80px;
   max-width: 1189px;
@@ -221,19 +212,27 @@
 }
 
 .louver-showcase {
-  margin: 80px 0;
+  position: relative;
+  width: 100%;
+  height: 130vh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
-.louver-showcase img {
-  width: 459px;
-  height: 586px;
-  box-shadow: 157px 159px 4px rgba(0, 0, 0, 0.25);
+.louver-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
 }
 
 /* Toggle Controls */
 .toggle-controls {
+  position: relative;
+  z-index: 3;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -242,7 +241,7 @@
   background: #181818;
   border-radius: 100px;
   width: fit-content;
-  margin: 0 auto;
+  margin: 0 auto 40px;
 }
 
 .toggle-item {
@@ -257,7 +256,7 @@
   width: 140px;
   height: 140px;
   border-radius: 50%;
-  background: #181818;
+  background: #1c3e28;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -410,8 +409,8 @@
 
 .filter-section h4 {
   color: #fff;
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 30px;
+  font-weight: 600;
   margin-bottom: 20px;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   font-family: 'Poppins', sans-serif;
@@ -423,6 +422,12 @@
   gap: 15px;
   margin-bottom: 15px;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filter-option.active .radio-circle {
+  background: #8ce88e;
+  border-color: #8ce88e;
 }
 
 .radio-circle {
@@ -431,14 +436,34 @@
   border: 1px solid #8ce88e;
   border-radius: 50%;
   background: transparent;
+  transition: all 0.3s ease;
 }
 
 .filter-option span {
   color: #fff;
-  font-size: 24px;
+  font-size: 25px;
   font-weight: 300;
   text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  font-family: 'Poppins', sans-serif;
+}
+
+.clear-all-filters {
+  background: #8ce88e;
+  border: none;
+  border-radius: 25px;
+  color: #000;
+  font-family: "League Spartan", sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 15px 30px;
+  margin-top: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+
+.clear-all-filters:hover {
+  background: #75e780;
+  transform: translateY(-2px);
 }
 
 /* Product Grid */
@@ -448,18 +473,21 @@
   gap: 40px;
   max-width: 1600px;
   margin: 0 auto;
+  min-height: 1200px; /* Prevent layout shift when filtering */
+  position: relative; /* Maintain positioning context */
 }
 
 .product-card {
   position: relative;
   background: #000;
-  --product-color: #1b3f20;
+  --product-color: #34D399;
   border-radius: 25px;
   padding: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 525px;
+  max-height: 525px;
   transition: transform 0.3s ease;
   overflow: hidden;
 }
@@ -478,14 +506,15 @@
 
 /* For clip pathing */
 .product-card:hover:before {
-  clip-path: rect(0px 700px 550px 0px);
+  clip-path: rect(0px 750px 600px 0px);
 }
 
 .content{
   position: absolute;
-  bottom: 0;
   width: 100%;
+  bottom: 0px;
   height: 290px;
+  line-height: 1.50;
   text-align: left;
   margin-left: 90px;
   transition: 1s;
@@ -498,36 +527,32 @@
   font-weight: 700;
   letter-spacing: 1px;
   color: #fff;
-  padding: 40px 0px 0px;
+  padding: 10px 0px 0px;
   font-family: 'Poppins', sans-serif;
 }
 
 .type{
   display: flex;
   justify-content: left;
-  align-items: top;
-  padding: 10px 0px;
   transition: .5s;
   visibility: hidden;
   opacity: 0;
   max-width: 80%;
+  margin-top: -12%;
 }
 
 .traits{
   justify-content: left;
-  align-items: left;
-  padding: 10px 0px;
+  padding: 5px 0px;
   transition: .5s;
   visibility: hidden;
   opacity: 0;
+  line-height: 1.3;
+  margin-bottom: -2%;
 }
 
 .trait{
-  margin-top: -80px;
-}
-
-.acoustic-trait{
-  margin-top: -145px;
+  margin-top: -35%;
 }
 
 .rating{
@@ -535,30 +560,48 @@
   font-weight: 400;
   font-size: 130%;
   letter-spacing: 1px;
-  margin-top: 5px;
+  margin-top: -20px;
   font-family: 'Poppins', sans-serif;
 }
 
 .product-card:hover .content {
-  height: 340px;
+  height: 300px;
+  bottom: 5%;
+  color:#000;
 }
 
 .product-card:hover .type {
   visibility: visible;
   opacity: 1;
+  transition-delay: .1s;
+  color:#000;
+}
+
+.product-card:hover .rating {
+  visibility: visible;
+  opacity: 1;
+  transition-delay: .1s;
+  color:#000;
+}
+
+.product-card:hover .title {
+  visibility: visible;
+  opacity: 1;
   transition-delay: .3s;
-  }
+  color:#000;
+}
 
 .product-card:hover .traits {
   visibility: visible;
   opacity: 1;
-  transition-delay: .3s;
-  }
+  transition-delay: .1s;
+  color:#000;
+}
 
 .type h3 {
-  color: #fff;
-  font-weight: 550;
-  font-size: 170%;
+
+  font-weight: 500;
+  font-size: 150%;
   letter-spacing: 1px;
   overflow-wrap: normal;
   font-family: 'Poppins', sans-serif;
@@ -797,12 +840,22 @@
   font-family: 'Poppins', sans-serif;
 }
 
+.product-highlight {
+  border: 5px solid #ccffcd;
+  border-radius: 25px;
+  padding: 2.5rem;
+  align-items: center;
+  justify-content: center;
+ 
+}
+
 .product-name {
   color: #ccffcd;
   font-size: 35px;
   font-weight: 700;
-  line-height: 50px;
+  line-height: 10px;
   margin-bottom: 10px;
+  margin-top: 10px;
   font-family: 'Poppins', sans-serif;
 }
 
@@ -903,19 +956,17 @@
   z-index: 10;
   background: linear-gradient(
     119deg,
-    #021802 3.59%,
-    #084716 51.31%,
-    #094c18 56.11%
+    #021802 33.59%,
+    #064e3b 56.11%
   );
-  backdrop-filter: blur(1px);
-  padding: 60px 60px 40px;
+  backdrop-filter: blur(100px);
+  padding: 0px 60px 40px;
 }
 
 .footer-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 40px;
 }
 
 .footer-logo img {
@@ -929,8 +980,8 @@
 
 .footer-contact p {
   color: #fff;
-  font-size: 24px;
-  font-weight: 400;
+  font-size: 36px;
+  font-weight: 500;
   margin-bottom: 20px;
   font-family: 'Poppins', sans-serif;
 }
@@ -942,8 +993,9 @@
 }
 
 .social-links img {
-  width: 60px;
-  height: 60px;
+  width: 80px;
+  height: 80px;
+  border-radius: 5px;
 }
 
 .footer-bottom {
@@ -966,7 +1018,7 @@
   }
 
   .hero-section {
-    padding: 240px 40px 120px;
+    padding: 240px 40px 80px;
     flex-direction: column;
     text-align: center;
   }
@@ -1009,10 +1061,16 @@
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
   }
-}
 
-.product-card:hover .photo img {
-  max-width: 90%;
+  /* Product card content adjustments for medium screens */
+  .content {
+    bottom: 25px;
+    margin-left: 70px;
+  }
+
+  .product-card:hover .content {
+    bottom: 20px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1079,6 +1137,26 @@
     gap: 20px;
   }
 
+  /* Product card content adjustments for mobile screens */
+  .content {
+    bottom: 30px;
+    margin-left: 50px;
+    height: 260px;
+  }
+
+  .product-card:hover .content {
+    bottom: 25px;
+    height: 290px;
+  }
+
+  .title {
+    font-size: 180%;
+  }
+
+  .rating {
+    font-size: 120%;
+  }
+  
   .product-card:hover .photo img {
     max-width: 70%;
   }
@@ -1128,54 +1206,72 @@
   }
 
   .performance-title {
-    font-size: 24px;
+    font-size: 30px;
     line-height: 35px;
   }
 
   .hero-description {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 20px;
   }
 
   .find-louver-btn {
-    font-size: 24px;
-    padding: 24px 24px;
-    width: 240px;
-    height: 65px;
+    font-size: 16px;
+    padding: 12px 24px;
   }
 
   .section-title {
-    font-size: 24px;
+    font-size: 30px;
     line-height: 35px;
   }
 
   .section-description {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 20px;
   }
 
   .about-title {
-    font-size: 24px;
+    font-size: 30px;
     line-height: 35px;
   }
 
   .about-description {
-    font-size: 20px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 20px;
   }
 
   .cta-title {
-    font-size: 24px;
+    font-size: 30px;
     line-height: 35px;
   }
 
+  /* Product card content adjustments for small mobile screens */
+  .content {
+    bottom: 35px;
+    margin-left: 30px;
+    height: 240px;
+  }
+
+  .product-card:hover .content {
+    bottom: 30px;
+    height: 270px;
+  }
+
+  .title {
+    font-size: 160%;
+  }
+
+  .rating {
+    font-size: 110%;
+  }
+
   .toggle-circle {
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
   }
 
   .toggle-circle img {
-    width: 40px;
-    height: 40px;
+    width: 20px;
+    height: 20px;
   }
 }
