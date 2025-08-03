@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
+import '../pages/styles/UserInfoStep.css';
 import FBXModelViewer from "./FBXModelViewer";
 
 const HomePage = () => {
@@ -8,6 +9,247 @@ const HomePage = () => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [activeToggle, setActiveToggle] = useState(2); // Third toggle is active by default
   const [carouselIndex, setCarouselIndex] = useState(0);
+  const videoRef = useRef(null);
+
+  // Filter state
+  const [filters, setFilters] = useState({
+    category: null,
+    frame: null,
+    rainDefence: null,
+    airflow: null
+  });
+
+  // Products data array
+  const products = [
+    {
+      id: 1,
+      name: "PL-1050 CB",
+      type: "Horizontal Single Bank Louver",
+      image: "images/PL-1050 CB f.png",
+      noiseReduction: "NA",
+      rainDefence: "Fair",
+      airflow: "Excellent",
+      bladeSpacing: "50mm",
+      systemDepth: "121mm",
+      category: "Horizontal",
+      frame: "Hidden Mullion"
+    },
+    {
+      id: 2,
+      name: "PL-2050 CB",
+      type: "Horizontal Double Bank Louver",
+      image: "images/PL-2050(CB) f.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Good",
+      bladeSpacing: "50mm",
+      systemDepth: "138mm",
+      category: "Horizontal",
+      frame: "Hidden Mullion"
+    },
+    {
+      id: 3,
+      name: "PL-3050 CB",
+      type: "Horizontal Triple Bank Louver",
+      image: "images/PL-3050(CB) f.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Fair",
+      bladeSpacing: "50mm",
+      systemDepth: "138mm",
+      category: "Horizontal",
+      frame: "Hidden Mullion"
+    },
+    {
+      id: 4,
+      name: "PL-1075 CB",
+      type: "Horizontal Single Bank Louver",
+      image: "images/PL-1075(CB) f.png",
+      noiseReduction: "NA",
+      rainDefence: "Fair",
+      airflow: "Excellent",
+      bladeSpacing: "75mm",
+      systemDepth: "127mm",
+      category: "Horizontal",
+      frame: "Hidden Mullion"
+    },
+    {
+      id: 5,
+      name: "PL-2075 STB",
+      type: "Horizontal Double Bank Louver",
+      image: "images/PL-2075(STB)_1.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Good",
+      bladeSpacing: "75mm",
+      systemDepth: "144mm",
+      category: "Horizontal",
+      frame: "Hidden Mullion"
+    },
+    {
+      id: 6,
+      name: "PL-3075 CB",
+      type: "Horizontal Triple Bank Louver",
+      image: "images/PL-3075(CB) f.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Fair",
+      bladeSpacing: "75mm",
+      systemDepth: "144mm",
+      category: "Horizontal",
+      frame: "Hidden Mullion"
+    },
+    {
+      id: 7,
+      name: "PL-2150V",
+      type: "Vertical Double Bank Louver",
+      image: "images/PL-2150V f.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Good",
+      bladeSpacing: "50mm",
+      systemDepth: "67mm",
+      category: "Vertical",
+      frame: "Visible Mullion"
+    },
+    {
+      id: 8,
+      name: "PL-2170",
+      type: "Horizontal Double Bank Louver",
+      image: "images/PL-2170f.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Good",
+      bladeSpacing: "70mm",
+      systemDepth: "102mm",
+      category: "Horizontal",
+      frame: "Visible Mullion"
+    },
+    {
+      id: 9,
+      name: "PL-2250",
+      type: "Horizontal Double Bank Louver",
+      image: "images/PL-2250 f.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Very Good",
+      bladeSpacing: "50mm",
+      systemDepth: "129mm",
+      category: "Horizontal",
+      frame: "Visible Mullion"
+    },
+    {
+      id: 10,
+      name: "PL-2065V",
+      type: "Vertical Double Bank Louver",
+      image: "images/PL-2065V_3D render (1).png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Very Good",
+      bladeSpacing: "65mm",
+      systemDepth: "144mm",
+      category: "Vertical",
+      frame: "Hidden Mullion"
+    },
+    {
+      id: 11,
+      name: "PL-2250V",
+      type: "Vertical Double Bank Louver",
+      image: "images/PL-2250 V f.png",
+      noiseReduction: "NA",
+      rainDefence: "Excellent",
+      airflow: "Very Good",
+      bladeSpacing: "50mm",
+      systemDepth: "129mm",
+      category: "Vertical",
+      frame: "Visible Mullion"
+    },
+    {
+      id: 12,
+      name: "AC-150",
+      type: "Acoustic Louver",
+      image: "images/AC150f.png",
+      noiseReduction: "Very Good",
+      rainDefence: "Fair",
+      airflow: "Fair",
+      bladeSpacing: "250mm",
+      systemDepth: "155mm",
+      category: "Acoustic",
+      frame: "Visible Mullion"
+    },
+    {
+      id: 13,
+      name: "AC-300",
+      type: "Acoustic Louver",
+      image: "images/AC300 f.png",
+      noiseReduction: "Excellent",
+      rainDefence: "Fair",
+      airflow: "Fair",
+      bladeSpacing: "300mm",
+      systemDepth: "305mm",
+      category: "Acoustic",
+      frame: "Visible Mullion"
+    }
+  ];
+
+  // Filter function
+  const handleFilterChange = (filterType, value) => {
+    console.log('Before change:', filters);
+    console.log('Clicking:', filterType, value);
+    console.log('Current value:', filters[filterType]);
+
+    setFilters(prev => {
+      const newValue = prev[filterType] === value ? null : value; // Toggle: if same value clicked, deselect it
+      console.log('Setting to', newValue);
+      return {
+        ...prev,
+        [filterType]: newValue
+      };
+    });
+    // Scroll to products section after filtering
+    setTimeout(() => {
+      const productsSection = document.getElementById('products');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }, 100);
+  };
+
+  // Clear all filters function
+  const clearAllFilters = () => {
+    setFilters({
+      category: null,
+      frame: null,
+      rainDefence: null,
+      airflow: null
+    });
+  };
+
+  // Filter products based on selected filters
+  const filteredProducts = products.filter(product => {
+    return (
+      (filters.category === null || product.category === filters.category) &&
+      (filters.frame === null || product.frame === filters.frame) &&
+      (filters.rainDefence === null || product.rainDefence === filters.rainDefence) &&
+      (filters.airflow === null || product.airflow === filters.airflow)
+    );
+  });
+
+  // Array of videos for each toggle
+  const videos = [
+    {
+      src: "videos/Louver - Sun Shinning Res 1920x1200 .mp4",
+    },
+    {
+      src: "videos/Louver - Rain Pouring Long.mp4", 
+    },
+    {
+      src: "videos/Louver - Sun Shinning .mp4",
+    },
+    {
+      src: "videos/Louver - Sun Shinning .mp4",
+    }
+  ];
 
   const handleFindLouverClick = () => {
     navigate("/luva-start");
@@ -30,6 +272,12 @@ const HomePage = () => {
 
   const handleToggleClick = (index) => {
     setActiveToggle(index);
+    // Update video source and reload
+    if (videoRef.current) {
+      videoRef.current.src = videos[index].src;
+      videoRef.current.load(); // Load the new video
+      videoRef.current.play(); // Start playing the new video
+    }
   };
 
   const handleCarouselNav = (direction) => {
@@ -90,189 +338,8 @@ const HomePage = () => {
   const totalProjects = projectDetails.length;
 
   return (
-    <div className="hero-page">
-      {/* Background Effects */}
-      <div className="background-effects">
-        <svg
-          className="green-blur"
-          width="861"
-          height="835"
-          viewBox="0 0 1261 1235"
-          fill="none"
-        >
-          <g opacity="0.6" filter="url(#filter0_f_246_73)">
-            <ellipse
-              cx="630.5"
-              cy="617.5"
-              rx="430.5"
-              ry="417.5"
-              fill="#8CE88E"
-            />
-          </g>
-          <defs>
-            <filter
-              id="filter0_f_246_73"
-              x="0"
-              y="0"
-              width="1261"
-              height="1235"
-              filterUnits="userSpaceOnUse"
-              colorInterpolationFilters="sRGB"
-            >
-              <feFlood floodOpacity="0" result="BackgroundImageFix" />
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              />
-              <feGaussianBlur
-                stdDeviation="100"
-                result="effect1_foregroundBlur_246_73"
-              />
-            </filter>
-          </defs>
-        </svg>
-
-        <svg
-          className="yellow-gradient"
-          width="2073"
-          height="1564"
-          viewBox="0 0 2073 1564"
-          fill="none"
-        >
-          <g filter="url(#filter0_f_191_328)">
-            <path
-              d="M105.343 105.671L1967.77 447.562L1430.24 1458.51L105.343 105.671Z"
-              fill="url(#paint0_linear_191_328)"
-            />
-          </g>
-          <defs>
-            <filter
-              id="filter0_f_191_328"
-              x="0.343201"
-              y="0.670654"
-              width="2072.43"
-              height="1562.84"
-              filterUnits="userSpaceOnUse"
-              colorInterpolationFilters="sRGB"
-            >
-              <feFlood floodOpacity="0" result="BackgroundImageFix" />
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              />
-              <feGaussianBlur
-                stdDeviation="52.5"
-                result="effect1_foregroundBlur_191_328"
-              />
-            </filter>
-            <linearGradient
-              id="paint0_linear_191_328"
-              x1="105.343"
-              y1="105.671"
-              x2="2230.23"
-              y2="1235.49"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#FAFFA4" />
-              <stop offset="1" />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        <svg
-          className="gold-blur"
-          width="1405"
-          height="1352"
-          viewBox="0 0 1405 1352"
-          fill="none"
-        >
-          <g filter="url(#filter0_f_188_740)">
-            <ellipse
-              cx="702.185"
-              cy="676.438"
-              rx="514.413"
-              ry="461.729"
-              transform="rotate(-30 702.185 676.438)"
-              fill="url(#paint0_linear_188_740)"
-            />
-          </g>
-          <defs>
-            <filter
-              id="filter0_f_188_740"
-              x="0.319946"
-              y="0.932129"
-              width="1403.73"
-              height="1351.01"
-              filterUnits="userSpaceOnUse"
-              colorInterpolationFilters="sRGB"
-            >
-              <feFlood floodOpacity="0" result="BackgroundImageFix" />
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              />
-              <feGaussianBlur
-                stdDeviation="100"
-                result="effect1_foregroundBlur_188_740"
-              />
-            </filter>
-            <linearGradient
-              id="paint0_linear_188_740"
-              x1="702.185"
-              y1="214.708"
-              x2="702.185"
-              y2="1138.17"
-              gradientUnits="userSpaceOnUse"
-            >
-              <stop stopColor="#C3C67F" />
-              <stop offset="0.879808" />
-            </linearGradient>
-          </defs>
-        </svg>
-
-        <svg
-          className="dark-blur"
-          width="1019"
-          height="1036"
-          viewBox="0 0 1019 1036"
-          fill="none"
-        >
-          <g opacity="0.6" filter="url(#filter0_f_146_59)">
-            <ellipse cx="509.5" cy="518" rx="309.5" ry="318" fill="#111111" />
-          </g>
-          <defs>
-            <filter
-              id="filter0_f_146_59"
-              x="0"
-              y="0"
-              width="1019"
-              height="1036"
-              filterUnits="userSpaceOnUse"
-              colorInterpolationFilters="sRGB"
-            >
-              <feFlood floodOpacity="0" result="BackgroundImageFix" />
-              <feBlend
-                mode="normal"
-                in="SourceGraphic"
-                in2="BackgroundImageFix"
-                result="shape"
-              />
-              <feGaussianBlur
-                stdDeviation="100"
-                result="effect1_foregroundBlur_146_59"
-              />
-            </filter>
-          </defs>
-        </svg>
-      </div>
-
-      {/* Navigation Bar */}
+    <div className="gradient-bg">
+            {/* Navigation Bar */}
       <nav className="navbar">
         <div className="nav-logo" onClick={scrollToTop}>
           <img
@@ -297,7 +364,7 @@ const HomePage = () => {
             Reviews
           </button>
           <button
-            onClick={() => scrollToSection("contact")}
+            onClick={() => scrollToSection("cta")}
             className="nav-link"
           >
             Contact
@@ -328,66 +395,66 @@ const HomePage = () => {
 
       {/* Why Performance Louvers Section */}
       <section className="why-performance-section" id="why-performance">
-        <h2 className="section-title">
-          Why <span className="highlight-green">Performance Louvers</span>?
-        </h2>
-        <p className="section-description">
-          Performance louvers serve multiple functions: regulating ventilation,
-          preventing rain ingress, controlling natural light, and managing
-          acoustic levels.
-        </p>
-
+        
         <div className="louver-showcase">
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/69eb2619c35c7dfe7010afe7b49e58129aa59e0d?width=918"
-            alt="Louver Showcase"
-          />
-        </div>
-
+          <video autoPlay muted loop playsInline className="louver-video" ref={videoRef}>
+            <source src={videos[activeToggle].src} type="video/mp4"/>
+            Your browser does not support this video tag.
+          </video>
+          <div className="section-title">
+            Why <span className="highlight-green">Performance Louvers</span>?
+            <p className="section-description">
+              Performance louvers serve multiple functions: regulating ventilation,
+              preventing rain ingress, controlling natural light, and managing
+              acoustic levels.
+            </p>
+          </div>
+  
         {/* Toggle Controls */}
-        <div className="toggle-controls">
-          <div
-            className={`toggle-item ${activeToggle === 0 ? "active" : ""}`}
-            onClick={() => handleToggleClick(0)}
-          >
-            <div className="toggle-circle">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/da4e09a8e0ee189e969d9eaf6faf0bbb379d841f?width=256"
-                alt="Icon 1"
-              />
+          <div className="toggle-controls">
+            <div
+              className={`toggle-item ${activeToggle === 0 ? "active" : ""}`}
+              onClick={() => handleToggleClick(0)}
+            >
+              <div className="toggle-circle">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/da4e09a8e0ee189e969d9eaf6faf0bbb379d841f?width=256"
+                  alt="Icon 1"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className={`toggle-item ${activeToggle === 1 ? "active" : ""}`}
-            onClick={() => handleToggleClick(1)}
-          >
-            <div className="toggle-circle">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/231ee1d424f2f8e16b5b03a1d2c51f694b2f1686?width=180"
-                alt="Icon 2"
-              />
+            <div
+              className={`toggle-item ${activeToggle === 1 ? "active" : ""}`}
+              onClick={() => handleToggleClick(1)}
+            >
+              <div className="toggle-circle">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/231ee1d424f2f8e16b5b03a1d2c51f694b2f1686?width=180"
+                  alt="Icon 2"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className={`toggle-item ${activeToggle === 2 ? "active" : ""}`}
-            onClick={() => handleToggleClick(2)}
-          >
-            <div className="toggle-circle">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/c56743208f56be9a50f75d9e48c552e11dfceaee?width=190"
-                alt="Icon 3"
-              />
+            <div
+              className={`toggle-item ${activeToggle === 2 ? "active" : ""}`}
+              onClick={() => handleToggleClick(2)}
+            >
+              <div className="toggle-circle">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/c56743208f56be9a50f75d9e48c552e11dfceaee?width=190"
+                  alt="Icon 3"
+                />
+              </div>
             </div>
-          </div>
-          <div
-            className={`toggle-item ${activeToggle === 3 ? "active" : ""}`}
-            onClick={() => handleToggleClick(3)}
-          >
-            <div className="toggle-circle">
-              <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c5b8ae4c0ea646044cebf50621e18c3cfe5ea9a?width=218"
-                alt="Icon 4"
-              />
+            <div
+              className={`toggle-item ${activeToggle === 3 ? "active" : ""}`}
+              onClick={() => handleToggleClick(3)}
+            >
+              <div className="toggle-circle">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/8c5b8ae4c0ea646044cebf50621e18c3cfe5ea9a?width=218"
+                  alt="Icon 4"
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -416,11 +483,17 @@ const HomePage = () => {
             application.
           </p>
         </div>
-        <div className="about-image">
-          <img
-            src=""
-            alt="Luva AI System"
-          />
+        {/* Orb side with correct structure */}
+        <div className="orb-side">
+          <div className="orb-container">
+            <div className="orb">
+              <div className="orb-pulse"></div>
+              <div className="orb-ping"></div>
+              <div className="orb-highlight"></div>
+              <div className="orb-glow"></div>
+              <div className="lava"></div>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -451,42 +524,101 @@ const HomePage = () => {
               </div>
 
               <div className="filter-section">
-                <h4>Bank</h4>
-                <label className="filter-option">
-                  <div className="radio-circle"></div>
-                  <span>Single</span>
-                </label>
-                <label className="filter-option">
-                  <div className="radio-circle"></div>
-                  <span>Double</span>
-                </label>
-                <label className="filter-option">
-                  <div className="radio-circle"></div>
-                  <span>Triple</span>
-                </label>
-              </div>
-
-              <div className="filter-section">
-                <h4>Orientation</h4>
-                <label className="filter-option">
+                <h4>Category</h4>
+                <label 
+                  className={`filter-option ${filters.category === "Horizontal" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("category", "Horizontal")}
+                >
                   <div className="radio-circle"></div>
                   <span>Horizontal</span>
                 </label>
-                <label className="filter-option">
+                <label 
+                  className={`filter-option ${filters.category === "Vertical" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("category", "Vertical")}
+                >
                   <div className="radio-circle"></div>
                   <span>Vertical</span>
+                </label>
+                <label 
+                  className={`filter-option ${filters.category === "Acoustic" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("category", "Acoustic")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Acoustic</span>
+                </label>
+              </div>
+              <div className="filter-section">
+                <h4>Frame</h4>
+                <label 
+                  className={`filter-option ${filters.frame === "Hidden Mullion" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("frame", "Hidden Mullion")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Hidden Mullion</span>
+                </label>
+                <label 
+                  className={`filter-option ${filters.frame === "Visible Mullion" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("frame", "Visible Mullion")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Visible Mullion</span>
                 </label>
               </div>
 
               <div className="filter-section">
-                <h4>Frame</h4>
-                <label className="filter-option">
+                <h4>Rain Defence</h4>
+                <label 
+                  className={`filter-option ${filters.rainDefence === "Fair" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("rainDefence", "Fair")}
+                >
                   <div className="radio-circle"></div>
-                  <span>Hidden Mullion</span>
+                  <span>Fair</span>
                 </label>
-                <label className="filter-option">
+                <label 
+                  className={`filter-option ${filters.rainDefence === "Good" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("rainDefence", "Good")}
+                >
                   <div className="radio-circle"></div>
-                  <span>Visible Mullion</span>
+                  <span>Good</span>
+                </label>
+                <label 
+                  className={`filter-option ${filters.rainDefence === "Excellent" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("rainDefence", "Excellent")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Excellent</span>
+                </label>
+              </div>
+
+              <div className="filter-section">
+                <h4>Airflow</h4>
+                <label 
+                  className={`filter-option ${filters.airflow === "Fair" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("airflow", "Fair")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Fair</span>
+                </label>
+                <label 
+                  className={`filter-option ${filters.airflow === "Good" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("airflow", "Good")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Good</span>
+                </label>
+                <label 
+                  className={`filter-option ${filters.airflow === "Very Good" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("airflow", "Very Good")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Very Good</span>
+                </label>
+                <label 
+                  className={`filter-option ${filters.airflow === "Excellent" ? "active" : ""}`}
+                  onClick={() => handleFilterChange("airflow", "Excellent")}
+                >
+                  <div className="radio-circle"></div>
+                  <span>Excellent</span>
                 </label>
               </div>
             </div>
@@ -495,419 +627,41 @@ const HomePage = () => {
 
         {/* Product Grid */}
         <div className="product-grid">
-          <div className="product-card">
-            <div className='photo'><img
-              src="images/PL-1050 CB f.png"
-              alt="PL-1050 CB"
-            /></div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Fair</div>
+          {filteredProducts.map(product => (
+            <div className="product-card" key={product.id}>
+              <div className='photo'>
+                <img src={product.image} alt={product.name} />
+              </div>
+              <div className='content'>
+                <div className='trait'>
+                  <div className='traits'>
+                    <h3>Noise Reduction:</h3>
+                    <div className='rating'>{product.noiseReduction}</div>
+                    </div>  
+                  <div className='traits'>
+                    <h3>Rain Defence:</h3>
+                    <div className='rating'>{product.rainDefence}</div>
+                  </div>
+                  <div className='traits'>
+                    <h3>Airflow:</h3>
+                    <div className='rating'>{product.airflow}</div>
+                  </div>
+                  <div className='traits'>
+                    <h3>Blade Spacing:</h3>
+                    <div className='rating'>{product.bladeSpacing}</div>
+                  </div>
+                  <div className='traits'>
+                    <h3>System Depth:</h3>
+                    <div className='rating'>{product.systemDepth}</div>
+                  </div>
                 </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Excellent </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 50mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 121mm </div>
+                <h1 className='title'>{product.name}</h1>
+                <div className='type'>
+                  <h3>{product.type}</h3>
                 </div>
               </div>
-              <h1 className='title'>PL-1050 CB</h1>
-                <div className='type'>
-                  <h3> Horizontal Single Bank Louver </h3>
-                </div>
             </div>
-          </div>
-          <div className="product-card">
-            <div className='photo'><img
-              src="images/PL-2050(CB) f.png"
-              alt="PL-2050(CB)"
-            /></div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Good </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 50mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 138mm </div>
-                </div>
-              </div>
-              <h1 className='title'>PL-2050 CB</h1>
-                <div className='type'>
-                  <h3> Horizontal Double Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className='photo'><img
-              src="images/PL-3050(CB) f.png"
-              alt="PL-3050"
-            /></div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Fair </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 50mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 138mm </div>
-                </div>
-              </div>
-              <h1 className='title'>PL-3050 CB</h1>
-                <div className='type'>
-                  <h3> Horizontal Triple Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className='photo'>
-              <img
-              src="images/PL-1075(CB) f.png"
-              alt="PL-1075(CB)"
-            />
-            </div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Fair</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Excellent </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 75mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 127mm </div>
-                </div>
-              </div>
-              <h1 className='title'>PL-1075 CB</h1>
-                <div className='type'>
-                  <h3> Horizontal Single Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className='photo'><img
-              src="images/PL-2075(STB)_1.png"
-              alt="PL-2075(STB)"
-            /></div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Good </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 75mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 144mm </div>
-                </div>
-              </div>
-              <h1 className='title'>PL-2075 STB</h1>
-                <div className='type'>
-                  <h3> Horizontal Double Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className='photo'>
-              <img
-                src="images/PL-3075(CB) f.png"
-                alt="PL-3075(CB)"/>
-            </div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Fair </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 75mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 144mm </div>
-                </div>
-              </div>
-              <h1 className='title'> PL-3075 CB</h1>
-                <div className='type'>
-                  <h3> Horizontal Triple Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className="photo">
-              <img
-                src="images/PL-2170f.png"
-                alt="PL-2150V"
-              />
-            </div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Good </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 70mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 102mm </div>
-                </div>
-              </div>
-              <h1 className='title'> PL-2170 CB</h1>
-                <div className='type'>
-                  <h3> Horizontal Double Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className="photo">
-              <img
-                src="images/PL-2250 f.png"
-                alt="PL-2170f"
-              />
-            </div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Very Good </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 50mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 129mm </div>
-                </div>
-              </div>
-              <h1 className='title'> PL-2250 CB</h1>
-                <div className='type'>
-                  <h3> Horizontal Double Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className="photo">
-              <img
-                src="images/PL-2065V_3D render.png"
-                alt="PL-2065V"
-              />
-            </div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Very Good </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 65mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 144mm </div>
-                </div>
-              </div>
-              <h1 className='title'> PL-2065V </h1>
-                <div className='type'>
-                  <h3> Vertical Double Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className="photo">
-              <img
-                src="images/PL-2150V f.png"
-                alt="PL-2150V"
-              /></div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Good </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 50mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 67mm </div>
-                </div>
-              </div>
-              <h1 className='title'> PL-2150V </h1>
-                <div className='type'>
-                  <h3> Vertical Double Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className='photo'>
-              <img
-                src="images/PL-2250 V f.png"
-                alt="PL-2250 V"
-              /></div>
-            <div className='content'>
-              <div className='trait'>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Very Good </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 50mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 129mm </div>
-                </div>
-              </div>
-              <h1 className='title'> PL-2250V </h1>
-                <div className='type'>
-                  <h3> Vertical Double Bank Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className="photo">
-              <img
-                src="images/AC150f.png"
-                alt="AC-150"
-              />
-            </div>
-            <div className='content'>
-              <div className='acoustic-trait'>
-                <div className='traits'>
-                  <h3> Noise Reduction: </h3>
-                  <div className='rating'> Very Good</div>
-                </div>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Fair</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Fair </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 250mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 155mm </div>
-                </div>
-              </div>
-              <h1 className='title'> AC-150 </h1>
-                <div className='type'>
-                  <h3> Acoustic Louver </h3>
-                </div>
-            </div>
-          </div>
-          <div className="product-card">
-            <div className="photo">
-              <img
-                src="images/AC300 f.png"
-                alt="AC-300"
-              />
-            </div>
-            <div className='content'>
-              <div className='acoustic-trait'>
-                <div className='traits'>
-                  <h3> Noise Reduction: </h3>
-                  <div className='rating'> Excellent</div>
-                </div>
-                <div className='traits'>
-                  <h3> Rain Defence: </h3>
-                  <div className='rating'>Fair</div>
-                </div>
-                <div className='traits'>
-                  <h3> Airflow: </h3>
-                  <div className='rating'> Fair </div>
-                </div>
-                <div className='traits'>
-                  <h3> Blade Spacing: </h3>
-                  <div className='rating'> 300mm </div>
-                </div>
-                <div className='traits'>
-                  <h3> System Depth: </h3>
-                  <div className='rating'> 305mm </div>
-                </div>
-              </div>
-              <h1 className='title'> AC-300 </h1>
-                <div className='type'>
-                  <h3> Acoustic Louver </h3>
-                </div>
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
@@ -916,7 +670,6 @@ const HomePage = () => {
         <h2 className="section-title">
           Explore <span className="highlight-green">Performance Louvers</span>
           <br />
-          < br />
           in Recent Projects
         </h2>
 
@@ -984,7 +737,7 @@ const HomePage = () => {
       </section>
 
       {/* Call to Action Section */}
-      <section className="cta-section">
+      <section className="cta-section" id="cta">
         <h2 className="cta-title">
           Ready to find your{" "}
           <span className="highlight-green">Performance Louver</span>?
@@ -1010,19 +763,19 @@ const HomePage = () => {
             <p>Get in touch with us.</p>
             <div className="social-links">
               <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/874780fdae3873b40bcc1852318ed6320cdb6977?width=160"
+                src="images/md_5b321c98efaa6.jpg"
                 alt="Social 1"
               />
               <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/5c416fc71842302268e4f771e6184ea6c18d6bc5?width=164"
+                src="images/Facebook_logo_(square).png"
                 alt="Social 2"
               />
               <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/64a733384a11b736f1e1dc906559f454d5989d2b?width=154"
+                src="images/печать-201003176.png"
                 alt="Social 3"
               />
               <img
-                src="https://cdn.builder.io/api/v1/image/assets/TEMP/e22febd130ff1084bc82dd56244a6e1607893aa1?width=163"
+                src="images/LinkedIn_icon.svg.png"
                 alt="Social 4"
               />
             </div>
