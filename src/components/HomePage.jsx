@@ -238,13 +238,13 @@ const HomePage = () => {
   // Array of videos for each toggle
   const videos = [
     {
-      src: "videos/Louver - Sun Shinning Res 1920x1200 .mp4",
+      src: "videos/Louver - Wind Test.mp4",
     },
     {
       src: "videos/Louver - Rain Pouring Long.mp4", 
     },
     {
-      src: "videos/Louver - Sun Shinning .mp4",
+      src: "videos/Louver - Sun Shinning Res 1920x1200 .mp4",
     },
     {
       src: "videos/Louver - Sun Shinning .mp4",
@@ -762,22 +762,26 @@ const HomePage = () => {
           <div className="footer-contact">
             <p>Get in touch with us.</p>
             <div className="social-links">
+              <a href="https://wa.me/6588663558" target="_blank">
               <img
                 src="images/md_5b321c98efaa6.jpg"
                 alt="Social 1"
-              />
+              /></a>
+              <a href="https://www.facebook.com/share/1ApBBshqF1/" target="_blank">
               <img
                 src="images/Facebook_logo_(square).png"
                 alt="Social 2"
-              />
+              /></a>
+              <a href="mailto:enquiry@fameline-apsg.com" target="_blank">
               <img
                 src="images/печать-201003176.png"
                 alt="Social 3"
-              />
+              /></a>
+              <a href="https://www.linkedin.com/company/fameline-apsg/" target="_blank">
               <img
                 src="images/LinkedIn_icon.svg.png"
                 alt="Social 4"
-              />
+              /></a>
             </div>
           </div>
         </div>
