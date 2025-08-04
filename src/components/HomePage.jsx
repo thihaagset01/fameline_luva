@@ -238,7 +238,7 @@ const HomePage = () => {
   // Array of videos for each toggle
   const videos = [
     {
-      src: "videos/Louver - Wind Test.mp4",
+      src: "videos/Louver - Wind Test White Air w Leaves.mp4",
     },
     {
       src: "videos/Louver - Rain Pouring Long.mp4", 
