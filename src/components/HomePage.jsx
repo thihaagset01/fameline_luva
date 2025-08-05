@@ -5,6 +5,179 @@ import '../pages/styles/UserInfoStep.css';
 import FBXModelViewer from "./FBXModelViewer";
 import "./HomeOrb.css";
 
+// Products data array - exported for use in other components
+export const products = [
+  {
+    id: 1,
+    name: "PL-1050 CB",
+    type: "Horizontal Single Bank Louver",
+    image: "images/PL-1050 CB f.png",
+    noiseReduction: "NA",
+    rainDefence: "Fair",
+    airflow: "Excellent",
+    bladeSpacing: "50mm",
+    systemDepth: "121mm",
+    category: "Horizontal",
+    frame: "Hidden Mullion"
+  },
+  {
+    id: 2,
+    name: "PL-2050 CB",
+    type: "Horizontal Double Bank Louver",
+    image: "images/PL-2050(CB) f.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Good",
+    bladeSpacing: "50mm",
+    systemDepth: "138mm",
+    category: "Horizontal",
+    frame: "Hidden Mullion"
+  },
+  {
+    id: 3,
+    name: "PL-3050 CB",
+    type: "Horizontal Triple Bank Louver",
+    image: "images/PL-3050(CB) f.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Fair",
+    bladeSpacing: "50mm",
+    systemDepth: "138mm",
+    category: "Horizontal",
+    frame: "Hidden Mullion"
+  },
+  {
+    id: 4,
+    name: "PL-1075 CB",
+    type: "Horizontal Single Bank Louver",
+    image: "images/PL-1075(CB) f.png",
+    noiseReduction: "NA",
+    rainDefence: "Fair",
+    airflow: "Excellent",
+    bladeSpacing: "75mm",
+    systemDepth: "127mm",
+    category: "Horizontal",
+    frame: "Hidden Mullion"
+  },
+  {
+    id: 5,
+    name: "PL-2075 STB",
+    type: "Horizontal Double Bank Louver",
+    image: "images/PL-2075(STB)_1.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Good",
+    bladeSpacing: "75mm",
+    systemDepth: "144mm",
+    category: "Horizontal",
+    frame: "Hidden Mullion"
+  },
+  {
+    id: 6,
+    name: "PL-3075 CB",
+    type: "Horizontal Triple Bank Louver",
+    image: "images/PL-3075(CB) f.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Fair",
+    bladeSpacing: "75mm",
+    systemDepth: "144mm",
+    category: "Horizontal",
+    frame: "Hidden Mullion"
+  },
+  {
+    id: 7,
+    name: "PL-2150V",
+    type: "Vertical Double Bank Louver",
+    image: "images/PL-2150V f.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Good",
+    bladeSpacing: "50mm",
+    systemDepth: "67mm",
+    category: "Vertical",
+    frame: "Visible Mullion"
+  },
+  {
+    id: 8,
+    name: "PL-2170",
+    type: "Horizontal Double Bank Louver",
+    image: "images/PL-2170f.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Good",
+    bladeSpacing: "70mm",
+    systemDepth: "102mm",
+    category: "Horizontal",
+    frame: "Visible Mullion"
+  },
+  {
+    id: 9,
+    name: "PL-2250",
+    type: "Horizontal Double Bank Louver",
+    image: "images/PL-2250 f.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Very Good",
+    bladeSpacing: "50mm",
+    systemDepth: "129mm",
+    category: "Horizontal",
+    frame: "Visible Mullion"
+  },
+  {
+    id: 10,
+    name: "PL-2065V",
+    type: "Vertical Double Bank Louver",
+    image: "images/PL-2065V_3D render (1).png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Very Good",
+    bladeSpacing: "65mm",
+    systemDepth: "144mm",
+    category: "Vertical",
+    frame: "Hidden Mullion"
+  },
+  {
+    id: 11,
+    name: "PL-2250V",
+    type: "Vertical Double Bank Louver",
+    image: "images/PL-2250 V f.png",
+    noiseReduction: "NA",
+    rainDefence: "Excellent",
+    airflow: "Very Good",
+    bladeSpacing: "50mm",
+    systemDepth: "129mm",
+    category: "Vertical",
+    frame: "Visible Mullion"
+  },
+  {
+    id: 12,
+    name: "AC-150",
+    type: "Acoustic Louver",
+    image: "images/AC150f.png",
+    noiseReduction: "Very Good",
+    rainDefence: "Fair",
+    airflow: "Fair",
+    bladeSpacing: "250mm",
+    systemDepth: "155mm",
+    category: "Acoustic",
+    frame: "Visible Mullion"
+  },
+  {
+    id: 13,
+    name: "AC-300",
+    type: "Acoustic Louver",
+    image: "images/AC300 f.png",
+    noiseReduction: "Excellent",
+    rainDefence: "Fair",
+    airflow: "Fair",
+    bladeSpacing: "300mm",
+    systemDepth: "305mm",
+    category: "Acoustic",
+    frame: "Visible Mullion"
+  }
+];
+
 const HomePage = () => {
   const navigate = useNavigate();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
@@ -19,179 +192,6 @@ const HomePage = () => {
     rainDefence: null,
     airflow: null
   });
-
-  // Products data array
-  const products = [
-    {
-      id: 1,
-      name: "PL-1050 CB",
-      type: "Horizontal Single Bank Louver",
-      image: "images/PL-1050 CB f.png",
-      noiseReduction: "NA",
-      rainDefence: "Fair",
-      airflow: "Excellent",
-      bladeSpacing: "50mm",
-      systemDepth: "121mm",
-      category: "Horizontal",
-      frame: "Hidden Mullion"
-    },
-    {
-      id: 2,
-      name: "PL-2050 CB",
-      type: "Horizontal Double Bank Louver",
-      image: "images/PL-2050(CB) f.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Good",
-      bladeSpacing: "50mm",
-      systemDepth: "138mm",
-      category: "Horizontal",
-      frame: "Hidden Mullion"
-    },
-    {
-      id: 3,
-      name: "PL-3050 CB",
-      type: "Horizontal Triple Bank Louver",
-      image: "images/PL-3050(CB) f.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Fair",
-      bladeSpacing: "50mm",
-      systemDepth: "138mm",
-      category: "Horizontal",
-      frame: "Hidden Mullion"
-    },
-    {
-      id: 4,
-      name: "PL-1075 CB",
-      type: "Horizontal Single Bank Louver",
-      image: "images/PL-1075(CB) f.png",
-      noiseReduction: "NA",
-      rainDefence: "Fair",
-      airflow: "Excellent",
-      bladeSpacing: "75mm",
-      systemDepth: "127mm",
-      category: "Horizontal",
-      frame: "Hidden Mullion"
-    },
-    {
-      id: 5,
-      name: "PL-2075 STB",
-      type: "Horizontal Double Bank Louver",
-      image: "images/PL-2075(STB)_1.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Good",
-      bladeSpacing: "75mm",
-      systemDepth: "144mm",
-      category: "Horizontal",
-      frame: "Hidden Mullion"
-    },
-    {
-      id: 6,
-      name: "PL-3075 CB",
-      type: "Horizontal Triple Bank Louver",
-      image: "images/PL-3075(CB) f.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Fair",
-      bladeSpacing: "75mm",
-      systemDepth: "144mm",
-      category: "Horizontal",
-      frame: "Hidden Mullion"
-    },
-    {
-      id: 7,
-      name: "PL-2150V",
-      type: "Vertical Double Bank Louver",
-      image: "images/PL-2150V f.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Good",
-      bladeSpacing: "50mm",
-      systemDepth: "67mm",
-      category: "Vertical",
-      frame: "Visible Mullion"
-    },
-    {
-      id: 8,
-      name: "PL-2170",
-      type: "Horizontal Double Bank Louver",
-      image: "images/PL-2170f.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Good",
-      bladeSpacing: "70mm",
-      systemDepth: "102mm",
-      category: "Horizontal",
-      frame: "Visible Mullion"
-    },
-    {
-      id: 9,
-      name: "PL-2250",
-      type: "Horizontal Double Bank Louver",
-      image: "images/PL-2250 f.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Very Good",
-      bladeSpacing: "50mm",
-      systemDepth: "129mm",
-      category: "Horizontal",
-      frame: "Visible Mullion"
-    },
-    {
-      id: 10,
-      name: "PL-2065V",
-      type: "Vertical Double Bank Louver",
-      image: "images/PL-2065V_3D render (1).png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Very Good",
-      bladeSpacing: "65mm",
-      systemDepth: "144mm",
-      category: "Vertical",
-      frame: "Hidden Mullion"
-    },
-    {
-      id: 11,
-      name: "PL-2250V",
-      type: "Vertical Double Bank Louver",
-      image: "images/PL-2250 V f.png",
-      noiseReduction: "NA",
-      rainDefence: "Excellent",
-      airflow: "Very Good",
-      bladeSpacing: "50mm",
-      systemDepth: "129mm",
-      category: "Vertical",
-      frame: "Visible Mullion"
-    },
-    {
-      id: 12,
-      name: "AC-150",
-      type: "Acoustic Louver",
-      image: "images/AC150f.png",
-      noiseReduction: "Very Good",
-      rainDefence: "Fair",
-      airflow: "Fair",
-      bladeSpacing: "250mm",
-      systemDepth: "155mm",
-      category: "Acoustic",
-      frame: "Visible Mullion"
-    },
-    {
-      id: 13,
-      name: "AC-300",
-      type: "Acoustic Louver",
-      image: "images/AC300 f.png",
-      noiseReduction: "Excellent",
-      rainDefence: "Fair",
-      airflow: "Fair",
-      bladeSpacing: "300mm",
-      systemDepth: "305mm",
-      category: "Acoustic",
-      frame: "Visible Mullion"
-    }
-  ];
 
   // Filter function
   const handleFilterChange = (filterType, value) => {
@@ -344,7 +344,7 @@ const HomePage = () => {
       <nav className="navbar">
         <div className="nav-logo" onClick={scrollToTop}>
           <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/691b4ce4126b21a2b826b1369a540af253ae50a2?width=1107"
+            src="images/Logo (1).png"
             alt="Logo"
           />
         </div>
@@ -754,7 +754,7 @@ const HomePage = () => {
         <div className="footer-content">
           <div className="footer-logo">
             <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/691b4ce4126b21a2b826b1369a540af253ae50a2?width=1107"
+              src="images/Logo (1).png"
               alt="Fameline Logo"
             />
           </div>

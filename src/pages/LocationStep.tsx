@@ -255,7 +255,7 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
       {/* Orb in top-right corner */}
       <div className="orb-position-top-right">
         <div className="orb-text"></div>
-          <Orb size="10rem" />
+          <Orb size="12rem" />
           <div className="floating-text">I would love to visit someday!</div>
       </div>
       <div className="step-content">

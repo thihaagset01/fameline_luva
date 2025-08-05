@@ -250,7 +250,7 @@
 .orb-position-top-right {
   position: absolute;
   top: 15rem;
-  right: 10rem;
+  left: -70rem;
   z-index: 1000;
   transform: scale(0.5);
   transform-origin: top right;
@@ -272,7 +272,7 @@
   font-style: italic;
   color: #86e1c3a6;
   font-family: 'Poppins', sans-serif;
-  animation: floatText 20s ease-in-out infinite;
+  animation: floatText 5s ease-in-out infinite;
   pointer-events: none;
   z-index: 1000;
   position: absolute;
