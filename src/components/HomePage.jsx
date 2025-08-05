@@ -484,17 +484,17 @@ const HomePage = () => {
           </p>
         </div>
         {/* Orb side with correct structure */}
-        <div className="orb-side">
-          <div className="orb-container">
-            <div className="orb">
-              <div className="orb-pulse"></div>
-              <div className="orb-ping"></div>
-              <div className="orb-highlight"></div>
-              <div className="orb-glow"></div>
+            <div 
+              className="home-orb"
+              style={{ width: "20rem", height: "20rem" } }
+            >
+              
+              <div className="home-orb-pulse"></div>
+              <div className="home-orb-ping"></div>
+              <div className="home-orb-highlight"></div>
+              <div className="home-orb-glow"></div>
               <div className="lava"></div>
             </div>
-          </div>
-        </div>
       </section>
 
       {/* Our Performance Louvers Section */}
