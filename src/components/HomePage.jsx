@@ -248,7 +248,7 @@ const HomePage = () => {
       src: "videos/Louver - Sun Shinning Res 1920x1200 .mp4",
     },
     {
-      src: "videos/Louver - Sun Shinning .mp4",
+      src: "videos/Louver - Accoustic .mp4",
     }
   ];
 
@@ -398,7 +398,7 @@ const HomePage = () => {
       <section className="why-performance-section" id="why-performance">
         
         <div className="louver-showcase">
-          <video autoPlay muted loop playsInline className="louver-video" ref={videoRef}>
+          <video autoPlay loop playsInline className="louver-video" ref={videoRef}>
             <source src={videos[activeToggle].src} type="video/mp4"/>
             Your browser does not support this video tag.
           </video>
