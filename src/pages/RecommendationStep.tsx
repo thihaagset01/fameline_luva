@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import './styles/RecommendationStep.css';
 import { Download } from 'lucide-react';
 import { FormData } from '@/types';
+import { products } from '../components/HomePage';
 import { recommendationEngine } from '@/engine/recommendationEngine';
 
 /**
@@ -655,7 +656,7 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
                           {model.type} Bank{model.model?.startsWith('AC-') ? ' • Acoustic' : ''}
                         </div>
                       </div>
-                      
+                  
                       {/* Active selection indicator */}
                       {activeModelIndex === index && (
                         <div className="active-model-indicator">

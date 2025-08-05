@@ -442,17 +442,14 @@
 /* Active indicator */
 .active-model-indicator {
   position: absolute;
-  top: 10px;
-  right: 10px;
-  background: linear-gradient(135deg, #10b981, #34d399);
+  top: 1rem;
+  right: 1rem;
+  background: rgba(16, 185, 129, 0.9);
   color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
   font-weight: 600;
-  font-size: 10px;
-  padding: 6px 10px;
-  border-radius: 15px;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
-  pointer-events: none;
-  animation: indicatorPop 0.3s ease-out forwards;
   font-family: 'Poppins', sans-serif;
   text-transform: uppercase;
   letter-spacing: 0.5px;

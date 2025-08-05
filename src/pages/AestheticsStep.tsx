@@ -135,7 +135,7 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
         {/* Orb in top-right corner */}
                     <div className="orb-position-top-right">
                       <div className="orb-text"></div>
-                        <Orb size="10rem" />
+                        <Orb size="12rem" />
                         <div className="floating-text">Ooh, this louver is looking good!</div>
                     </div>
 
@@ -243,8 +243,8 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
             >
               <div className="louver-slats" style={{
                 background: formData.bladeOrientation === 'horizontal' 
-                  ? 'repeating-linear-gradient(0deg, transparent 0px, transparent 20px, rgba(0, 0, 0, 0.1) 20px, rgba(0, 0, 0, 0.1) 22px)'
-                  : 'repeating-linear-gradient(90deg, transparent 0px, transparent 20px, rgba(0, 0, 0, 0.1) 20px, rgba(0, 0, 0, 0.1) 22px)'
+                  ? 'repeating-linear-gradient(0deg, transparent 0px, transparent 20px, rgba(0, 0, 0, 0.4) 20px, rgba(0, 0, 0, 0.1) 22px)'
+                  : 'repeating-linear-gradient(90deg, transparent 0px, transparent 20px, rgba(0, 0, 0, 0.4) 20px, rgba(0, 0, 0, 0.1) 22px)'
               }}>
               </div>
               
@@ -252,8 +252,8 @@ export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }
                 <div className="mullion-indicator" style={{
                   position: 'absolute',
                   inset: '1rem',
-                  border: '2px solid rgba(0, 0, 0, 0.3)',
-                  borderRadius: '0.5rem',
+                  border: '5px solid rgba(0, 0, 0, 0.3)',
+                  borderRadius: '1rem',
                   pointerEvents: 'none'
                 }}></div>
               )}
