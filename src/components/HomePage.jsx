@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import '../pages/styles/UserInfoStep.css';
 import FBXModelViewer from "./FBXModelViewer";
+import "./HomeOrb.css";
 
 const HomePage = () => {
   const navigate = useNavigate();
@@ -484,16 +485,14 @@ const HomePage = () => {
           </p>
         </div>
         {/* Orb side with correct structure */}
-            <div 
-              className="home-orb"
-              style={{ width: "20rem", height: "20rem" } }
-            >
-              
-              <div className="home-orb-pulse"></div>
-              <div className="home-orb-ping"></div>
-              <div className="home-orb-highlight"></div>
-              <div className="home-orb-glow"></div>
-              <div className="lava"></div>
+            <div className="home-orb-container">
+              <div className="home-orb">
+                <div className="home-orb-pulse"></div>
+                <div className="home-orb-ping"></div>
+                <div className="home-orb-highlight"></div>
+                <div className="home-orb-glow"></div>
+                <div className="home-lava"></div>
+              </div>
             </div>
       </section>
 
