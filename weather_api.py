@@ -120,19 +120,15 @@ def get_mock_weather_data(latitude, longitude):
     if abs_lat < 10:  # Equatorial
         temperature = 27 + (2 * math.sin(math.radians(longitude * 0.5)))
         rainfall = 2200 + (300 * math.cos(math.radians(longitude * 0.3)))
-        rain_class = 'A'
     elif abs_lat < 23.5:  # Tropical
         temperature = 25 + (8 * (23.5 - abs_lat) / 23.5)
         rainfall = 1400 + (600 * (23.5 - abs_lat) / 23.5)
-        rain_class = 'A' if rainfall > 1800 else 'B'
     elif abs_lat < 35:  # Subtropical  
         temperature = 18 + (7 * (35 - abs_lat) / 11.5)
         rainfall = 800 + (400 * math.cos(math.radians(longitude * 0.2)))
-        rain_class = 'B' if rainfall > 1200 else 'C'
     else:  # Temperate/Cold
         temperature = 8 + (12 * (60 - abs_lat) / 25)
         rainfall = 600 + (200 * math.sin(math.radians(longitude * 0.4)))
-        rain_class = 'C' if rainfall > 750 else 'D'
     
     # Add coastal effects
     coastal_factor = 1 + (0.1 * math.sin(math.radians(longitude * 2)))
@@ -147,7 +143,7 @@ def get_mock_weather_data(latitude, longitude):
         'rainfall': round(rainfall, 0),
         'wind_speed': round(wind_speed, 1),
         'wind_direction': round(wind_direction, 0),
-        'rain_class': rain_class
+        'rain_class': 'D'
     }
 
 def get_climate_data(latitude, longitude):
