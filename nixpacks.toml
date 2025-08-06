@@ -1,0 +1,5 @@
+[providers]
+python = "3.11"
+
+[start]
+cmd = "python weather_api.py"
