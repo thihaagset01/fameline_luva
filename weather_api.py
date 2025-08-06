@@ -36,10 +36,10 @@ FLASK_DEBUG = os.getenv('FLASK_DEBUG', '0') == '1'
 ALLOWED_ORIGINS = os.getenv('ALLOWED_ORIGINS', 
     'http://localhost:3000,http://127.0.0.1:3000,http://localhost:3001,https://fameline-luva-production.up.railway.app').split(',')
 
-print(f"🚀 Flask starting: PORT={FLASK_PORT}, DEBUG={FLASK_DEBUG}")
+""" print(f"🚀 Flask starting: PORT={FLASK_PORT}, DEBUG={FLASK_DEBUG}")
 print(f"🌐 Allowed origins: {ALLOWED_ORIGINS}")
 print(f"🌍 Earth Engine available: {EE_AVAILABLE}")
-print(f"📍 Geopy available: {GEOPY_AVAILABLE}")
+print(f"📍 Geopy available: {GEOPY_AVAILABLE}") """
 
 # Initialize services
 EE_INITIALIZED = False
