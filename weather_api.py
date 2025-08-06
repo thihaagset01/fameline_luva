@@ -5,6 +5,8 @@ import json
 import math
 import traceback
 from dotenv import load_dotenv
+import base64
+import tempfile
 
 # Try to import optional dependencies with fallbacks
 try:
@@ -51,8 +53,28 @@ if GEOPY_AVAILABLE:
     geolocator = Nominatim(user_agent="louverboy_weather", timeout=10)
 
 # Initialize Earth Engine
+import base64
+import json
+import tempfile
+
+# Initialize Earth Engine with base64 credentials
 if EE_AVAILABLE:
     try:
+        # Try base64 credentials first (Railway deployment)
+        creds_base64 = os.getenv('GOOGLE_APPLICATION_CREDENTIALS_BASE64')
+        if creds_base64:
+            # Decode and write to temporary file
+            creds_json = base64.b64decode(creds_base64).decode('utf-8')
+            
+            # Create temporary credentials file
+            with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
+                f.write(creds_json)
+                temp_creds_path = f.name
+            
+            # Set environment variable for Earth Engine
+            os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = temp_creds_path
+        
+        # Now initialize Earth Engine
         EE_PROJECT_ID = os.getenv('EE_PROJECT_ID')
         if EE_PROJECT_ID:
             ee.Initialize(project=EE_PROJECT_ID)
@@ -61,6 +83,7 @@ if EE_AVAILABLE:
             print(f"✅ Earth Engine initialized with project: {EE_PROJECT_ID}")
         else:
             print("⚠️ EE_PROJECT_ID not set - Earth Engine disabled")
+            
     except Exception as e:
         print(f"❌ Earth Engine initialization failed: {e}")
         EE_INITIALIZED = False
