@@ -1,1 +1,1 @@
-web: python weather_api.py
+web: gunicorn weather_api:app --bind 0.0.0.0:$PORT
