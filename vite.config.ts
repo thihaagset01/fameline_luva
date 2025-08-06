@@ -37,6 +37,12 @@ export default defineConfig({
   },
   preview: {
     host: '0.0.0.0', // Important for Railway preview
-    port: parseInt(process.env.PORT || '3001')
+    port: parseInt(process.env.PORT || '3001'),
+    allowedHosts: [
+      'localhost',
+      '.railway.app', // Allow all Railway subdomains
+      '.up.railway.app', // Allow all Railway deployment domains
+      'famelineluva.up.railway.app'
+    ]
   }
 })

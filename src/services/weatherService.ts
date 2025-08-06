@@ -17,7 +17,7 @@ class WeatherService {
    * Base URL for the Flask backend API
    * Uses environment variable for Railway deployment or fallback to localhost
    */
-  private baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+  private baseUrl = import.meta.env.VITE_API_URL || 'https://famelineluva-production.up.railway.app';
   
   /**
    * In-memory cache to store weather data by location
