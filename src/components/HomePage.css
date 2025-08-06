@@ -673,7 +673,7 @@
 }
 
 .nav-arrow:hover {
-	background: #12b981;
+	background: #12b981c1;
 	transform: translateY(-50%) scale(1.3);
 }
 
