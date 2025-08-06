@@ -17,9 +17,10 @@ export default defineConfig({
       '@/utils': resolve(__dirname, './src/utils')
     }
   },
+  base: './', // Ensure relative paths work on Railway
   build: {
     outDir: 'dist',
-    sourcemap: true,
+    sourcemap: process.env.NODE_ENV !== 'production',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -31,10 +32,11 @@ export default defineConfig({
     }
   },
   server: {
-    port: 3000,
-    open: true
+    host: '0.0.0.0', // Important for Railway
+    port: parseInt(process.env.PORT || '3000')
   },
   preview: {
-    port: 3001
+    host: '0.0.0.0', // Important for Railway preview
+    port: parseInt(process.env.PORT || '3001')
   }
 })

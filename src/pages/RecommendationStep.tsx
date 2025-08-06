@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react';
 import './styles/RecommendationStep.css';
 import { Download } from 'lucide-react';
 import { FormData } from '@/types';
-import { products } from '../components/HomePage';
 import { recommendationEngine } from '@/engine/recommendationEngine';
 
 /**

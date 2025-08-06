@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import {  CheckCircle, AlertCircle, Cloud } from 'lucide-react';
 import { StepProps } from '@/types';
-import { weatherService } from '@/services/weatherService';
+import WeatherService from '@/services/weatherService';
 import { ENVIRONMENT_OPTIONS } from '@/utils/constants';
 import './styles/LocationStep.css';
 import { Orb } from '@/components/Orb';
@@ -81,7 +81,7 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     setWeatherLoading(true);
     
     try {
-      const weatherData = await weatherService.getWeatherData(location);
+      const weatherData = await WeatherService.getInstance().getWeatherData(location);
       
       // Update form data with weather information
       updateFormData('weatherData', JSON.stringify(weatherData));
@@ -118,7 +118,7 @@ export const LocationStep: React.FC<StepProps> = ({ formData, updateFormData }) 
     setLocationError('');
 
     try {
-      const result = await weatherService.validateLocation(location);
+      const result = await WeatherService.getInstance().validateLocation(location);
       setLocationValid(true);
       setValidatedAddress(result.location);
       setLocationError('');

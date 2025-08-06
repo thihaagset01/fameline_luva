@@ -10,7 +10,6 @@
  * - Click functionality on completed steps to navigate backward
  */
 import * as React from 'react';
-import { Home } from 'lucide-react';
 import { HeaderProps } from '@/types';
 import './Header.css';
 

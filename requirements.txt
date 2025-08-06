@@ -2,3 +2,4 @@ Flask==2.3.3
 geopy==2.4.1
 python-dotenv==1.0.0
 earthengine-api==0.1.375
+gunicorn==21.2.0me

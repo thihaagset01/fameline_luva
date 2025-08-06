@@ -114,8 +114,6 @@ export const handleEnhancedShare = async (
   // Try Web Share API first (mobile & modern browsers)
   if (navigator.share) {
     try {
-      const emailContent = generateEmailContent(formData, weatherData, recommendedModel);
-      
       await navigator.share({
         title: 'Fameline Luva AI Recommendation',
         text: `Louver specification for ${formData.location || 'project'} - ${recommendedModel || 'AI recommendation'}`,

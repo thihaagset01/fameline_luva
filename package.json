@@ -5,12 +5,13 @@
   "description": "AI-powered louver selection and specification system",
   "type": "module",
   "scripts": {
-    "start": "concurrently \"npm run dev\" \"npm run start-flask\"",
-    "dev": "vite",
+    "start": "npm run preview",
+    "dev": "vite --host 0.0.0.0 --port $PORT",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "start-flask": "python weather_api.py"
+    "preview": "vite preview --host 0.0.0.0 --port $PORT",
+    "start-flask": "python weather_api.py",
+    "local": "concurrently \"npm run dev\" \"npm run start-flask\""
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",

@@ -19,6 +19,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import App from './App.tsx'
+// @ts-ignore - Ignore TypeScript for this JSX import
 import HomePage from './components/HomePage.jsx'
 import './index.css'
 

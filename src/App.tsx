@@ -9,7 +9,6 @@
  */
 import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
-import { NavigationButton } from '@/components/NavigationButton';
 import { NavigationContainer } from '@/components/NavigationContainer';
 // Step components for the wizard flow
 import { UserInfoStep } from '@/pages/UserInfoStep';
