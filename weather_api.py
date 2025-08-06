@@ -191,14 +191,15 @@ def get_climate_data(latitude, longitude):
         rain_mm = precip_m_per_hour * 1000 * 24 * 365
         
         # Determine rain class
-        if rain_mm > 2000:
+        if rainfall > 4000:
             rain_class = 'A'
-        elif rain_mm > 1000:
+        elif rainfall > 3000:
             rain_class = 'B'
-        elif rain_mm > 500:
+        elif rainfall > 2000:
             rain_class = 'C'
         else:
             rain_class = 'D'
+
         
         return {
             'temperature': temp_celsius,
