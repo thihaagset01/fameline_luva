@@ -58,12 +58,12 @@ function adjustColor(hex: string, percent: number): string {
  * All user selections are stored in formData and updated via updateFormData.
  */
 export const AestheticsStep: React.FC<StepProps> = ({ formData, updateFormData }) => {
-  console.log('🎨 AestheticsStep - Current formData:', {
+  /*console.log('🎨 AestheticsStep - Current formData:', {
     bladeOrientation: formData.bladeOrientation,
     mullionVisibility: formData.mullionVisibility,
     color: formData.color,
     louverApplication: formData.louverApplication
-  });
+  });*/
 
   /**
    * 🧠 Smart Logic: Only show blade orientation when vertical models are viable

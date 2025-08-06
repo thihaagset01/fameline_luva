@@ -195,9 +195,9 @@ const HomePage = () => {
 
   // Filter function
   const handleFilterChange = (filterType, value) => {
-    console.log('Before change:', filters);
+    /*console./* log('Before change:', filters);
     console.log('Clicking:', filterType, value);
-    console.log('Current value:', filters[filterType]);
+    console.log('Current value:', filters[filterType]); */
 
     setFilters(prev => {
       const newValue = prev[filterType] === value ? null : value; // Toggle: if same value clicked, deselect it

@@ -497,18 +497,18 @@ class RecommendationEngine {
    * @private Internal scoring method
    */
   private applyContextualAdjustments(louver: LouverModel, formData: FormData): number {
-    console.log('🧠 Recommendation Engine - Processing model:', louver.model);
+    /* console.log('🧠 Recommendation Engine - Processing model:', louver.model);
     console.log('🧠 Received formData.bladeOrientation:', formData.bladeOrientation);
-    console.log('🧠 Model ends with V?:', louver.model.endsWith('V'));
+    console.log('🧠 Model ends with V?:', louver.model.endsWith('V')); */
     let adjustment = 0;
     if (formData.bladeOrientation) {
       const isVerticalModel = louver.model.endsWith('V');
       const userWantsVertical = formData.bladeOrientation === 'vertical';
-      console.log('🧠 Processing blade orientation:', {
+      /*console.log('🧠 Processing blade orientation:', {
         userWantsVertical,
         isVerticalModel,
         model: louver.model
-      });
+      });*/
       // Check if this model has a vertical alternative
     const hasVerticalAlternative = this.hasVerticalVersion(louver.model);
       
@@ -546,7 +546,7 @@ class RecommendationEngine {
         adjustment += 10;
       }
     }
-    console.log('🧠 Final adjustment for', louver.model + ':', adjustment);
+    /*console.log('🧠 Final adjustment for', louver.model + ':', adjustment);*/
     return Math.min(Math.max(adjustment, -25), 25); // Cap adjustments
   }
   private hasVerticalVersion(modelName: string): boolean {
