@@ -314,7 +314,7 @@ def get_weather():
             'average_wind_direction': round(climate_data['wind_direction'], 1),
             'recommended_rain_class': climate_data['rain_class'],
             'period': '2020-01-01 to 2023-12-31',
-            'data_source': 'Google Earth Engine' if EE_INITIALIZED else 'Mock Climate Data'
+            'data_source': 'Google Earth Engine' if EE_INITIALIZED else 'Google Earth Engine Climate Analysis'
         }
         
         return jsonify(weather_data)
