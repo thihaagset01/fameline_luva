@@ -1,0 +1,21 @@
+# Ignore frontend files for backend deployment
+package.json
+package-lock.json
+node_modules/
+src/
+public/
+dist/
+vite.config.ts
+tsconfig.json
+tsconfig.node.json
+tailwind.config.js
+postcss.config.js
+index.html
+.gitignore
+
+# Keep only backend files
+# requirements.txt
+# weather_api.py
+# Procfile
+# runtime.txt
+# nixpacks.toml
