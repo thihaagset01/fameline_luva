@@ -206,7 +206,7 @@ def get_climate_data(latitude, longitude):
             'rainfall': rain_mm,
             'wind_speed': 4.2,  # Mock for now
             'wind_direction': 180,  # Mock for now
-            'rain_class': rain_class
+            'rain_class': 'D'
         }
         
     except Exception as e:
