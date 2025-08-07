@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import "./HomePage.css";
 import '../pages/styles/UserInfoStep.css';
@@ -340,6 +340,20 @@ const HomePage = () => {
 
   return (
     <div className="gradient-bg">
+      <div className="mobile-orientation-lock">
+        <div className="overlay-orb-container">
+          <div className="overlay-orb">
+            <div className="overlay-lava"></div>
+            <div className="overlay-orb-ping"></div>
+            <div className="overlay-orb-pulse"></div>
+            <div className="overlay-orb-highlight"></div>
+            <div className="overlay-orb-glow"></div>
+          </div>
+        </div>
+        <div className="rotate-message">
+          Please rotate your device or view on desktop
+        </div>
+      </div>
             {/* Navigation Bar */}
       <nav className="navbar">
         <div className="nav-logo" onClick={scrollToTop}>
