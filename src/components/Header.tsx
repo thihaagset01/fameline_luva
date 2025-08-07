@@ -63,16 +63,13 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
       <div className="progress-dots mt-4 flex gap-4">
         {Array.from({ length: totalSteps }).map((_, index) => (
           <div key={index} className="progress-step">
-            <div 
+            <div
               className={`progress-dot ${index === currentStep 
-                ? 'active' // Current step (highlighted)
+                ? 'active'
                 : index < currentStep 
-                  ? 'completed' // Steps we've already done
-                  : ''} ${index < currentStep ? 'clickable' : ''}`} // Only completed steps are clickable
-              onClick={() => index < currentStep ? navigateToStep(index) : null} // Navigate back to completed steps
-              role={index < currentStep ? "button" : undefined} // Accessibility: only completed steps are interactive
-              tabIndex={index < currentStep ? 0 : undefined} // Keyboard navigation for completed steps
-              aria-label={index < currentStep ? `Go back to step ${index + 1}: ${stepLabels[index]}` : undefined} // Screen reader text
+                  ? 'completed'
+                  : ''}`}
+              onClick={() => {}}
             >
               {/* Show step number for current and future steps, empty for completed steps */}
               {index < currentStep ? '' : (index + 1)}
@@ -86,3 +83,32 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
     </header>
   );
 };
+
+      {/* Progress dots showing the wizard steps and current position
+      {/* These dots provide visual feedback about progress and navigation */}
+//       <div className="progress-dots mt-4 flex gap-4">
+//         {Array.from({ length: totalSteps }).map((_, index) => (
+//           <div key={index} className="progress-step">
+//             <div 
+//               className={`progress-dot ${index === currentStep 
+//                 ? 'active' // Current step (highlighted)
+//                 : index < currentStep 
+//                   ? 'completed' // Steps we've already done
+//                   : ''} ${index < currentStep ? 'clickable' : ''}`} // Only completed steps are clickable
+//               onClick={() => index < currentStep ? navigateToStep(index) : null} // Navigate back to completed steps
+//               role={index < currentStep ? "button" : undefined} // Accessibility: only completed steps are interactive
+//               tabIndex={index < currentStep ? 0 : undefined} // Keyboard navigation for completed steps
+//               aria-label={index < currentStep ? `Go back to step ${index + 1}: ${stepLabels[index]}` : undefined} // Screen reader text
+//             >
+//               {/* Show step number for current and future steps, empty for completed steps */}
+//               {index < currentStep ? '' : (index + 1)}
+//             </div>
+//             <div className="progress-label">
+//               {stepLabels[index] || `Step ${index + 1}`}
+//             </div>
+//           </div>
+//         ))}
+//       </div>
+//     </header>
+//   );
+// }; */}
