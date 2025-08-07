@@ -31,7 +31,7 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
    * 
    * @param stepIndex - The step index to navigate to (0-based)
    */
-  const navigateToStep = (stepIndex: number) => {
+  /* const navigateToStep = (stepIndex: number) => {
     // Only allow navigation to completed steps (prevent jumping ahead)
     if (stepIndex <= currentStep) {
       // Use window.history to update the URL hash without a full navigation
@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({ currentStep, totalSteps }) => {
       window.location.reload();
     }
 
-  };
+  }; */
   return (
     // Header container with fixed positioning and gradient background
     // The high z-index (100) ensures it stays above other content
