@@ -338,8 +338,23 @@ const HomePage = () => {
   ];
   const totalProjects = projectDetails.length;
 
+  const [isMobilePortrait, setIsMobilePortrait] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isMobile = window.innerWidth <= 1100;
+      setIsMobilePortrait(isMobile && isPortrait);
+    };
+
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
+
   return (
     <div className="gradient-bg">
+      {isMobilePortrait && (
       <div className="mobile-orientation-lock">
         <div className="overlay-orb-container">
           <div className="overlay-orb">
@@ -351,9 +366,11 @@ const HomePage = () => {
           </div>
         </div>
         <div className="rotate-message">
-          Please rotate your device or view on desktop
+          Please view on desktop for the Luva experience
         </div>
       </div>
+      )}
+      
             {/* Navigation Bar */}
       <nav className="navbar">
         <div className="nav-logo" onClick={scrollToTop}>

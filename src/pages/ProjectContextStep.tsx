@@ -336,8 +336,39 @@ export const ProjectContextStep: React.FC<StepProps> = ({ formData, updateFormDa
 
   const recommendedOptions = getRecommendedOptions();
 
+  // Max Width Responsive Layout
+  const [isMobilePortrait, setIsMobilePortrait] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isMobile = window.innerWidth <= 1100;
+      setIsMobilePortrait(isMobile && isPortrait);
+    };
+
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
+
   return (
     <div className="project-context-step">
+      {isMobilePortrait && ( // Max Width Responsive Layout
+      <div className="mobile-orientation-lock">
+        <div className="overlay-orb-container">
+          <div className="overlay-orb">
+            <div className="overlay-lava"></div>
+            <div className="overlay-orb-ping"></div>
+            <div className="overlay-orb-pulse"></div>
+            <div className="overlay-orb-highlight"></div>
+            <div className="overlay-orb-glow"></div>
+          </div>
+        </div>
+        <div className="rotate-message">
+          Please view on desktop for the Luva experience
+        </div>
+      </div>
+      )}
       {/* Page title and description */}
       <h1 className="page-title">Project Context</h1>
       <p className="page-subtitle">Tell us about your application and technical requirements.</p>

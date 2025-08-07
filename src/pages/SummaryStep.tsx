@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import './styles/SummaryStep.css';
 import { Download, Share2, RotateCcw } from 'lucide-react';
 import { FormData, WeatherData } from '@/types';
@@ -146,9 +147,40 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
       ? appMap[formData.louverApplication as keyof typeof appMap]
       : formData.purpose?.replace('-', ' ');
   };
+  
+  // Max Width Responsive Layout
+  const [isMobilePortrait, setIsMobilePortrait] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isMobile = window.innerWidth <= 1100;
+      setIsMobilePortrait(isMobile && isPortrait);
+    };
+
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
 
   return (
     <div className="summary-step scrollable-page">
+      {isMobilePortrait && ( // Max Width Responsive Layout
+      <div className="mobile-orientation-lock">
+        <div className="overlay-orb-container">
+          <div className="overlay-orb">
+            <div className="overlay-lava"></div>
+            <div className="overlay-orb-ping"></div>
+            <div className="overlay-orb-pulse"></div>
+            <div className="overlay-orb-highlight"></div>
+            <div className="overlay-orb-glow"></div>
+          </div>
+        </div>
+        <div className="rotate-message">
+          Please view on desktop for the Luva experience
+        </div>
+      </div>
+      )}
       <div className="summary-completion">
 
         {/* Main Message */}

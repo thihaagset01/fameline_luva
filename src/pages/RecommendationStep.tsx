@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import './styles/RecommendationStep.css';
 import { Download } from 'lucide-react';
 import { FormData } from '@/types';
@@ -210,6 +210,21 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   const [error, setError] = useState<string | null>(null);
   const [activeModelIndex, setActiveModelIndex] = useState(0);  // Tracks which model is currently selected (0 = primary recommendation, 1-2 = alternative options)
   const [allModels, setAllModels] = useState<EnhancedLouverRecommendation[]>([]);
+
+  // Max Width Responsive Layout
+  const [isMobilePortrait, setIsMobilePortrait] = useState(false);
+
+  useEffect(() => {
+    const checkOrientation = () => {
+      const isPortrait = window.innerHeight > window.innerWidth;
+      const isMobile = window.innerWidth <= 1100;
+      setIsMobilePortrait(isMobile && isPortrait);
+    };
+
+    checkOrientation();
+    window.addEventListener("resize", checkOrientation);
+    return () => window.removeEventListener("resize", checkOrientation);
+  }, []);
 
   // Stores previous formData to compare and prevent unnecessary API calls when formData hasn't changed
   const prevFormDataRef = React.useRef<FormData | null>(null);
@@ -524,7 +539,26 @@ export const RecommendationStep: React.FC<RecommendationStepProps> = ({ formData
   if (!recommendation) {
     return <LoadingState />;
   }
-  
+
+  if (isMobilePortrait) {
+    return(
+      <div className="mobile-orientation-lock">
+        <div className="overlay-orb-container">
+          <div className="overlay-orb">
+            <div className="overlay-lava"></div>
+            <div className="overlay-orb-ping"></div>
+            <div className="overlay-orb-pulse"></div>
+            <div className="overlay-orb-highlight"></div>
+            <div className="overlay-orb-glow"></div>
+          </div>
+        </div>
+        <div className="rotate-message">
+          Please view on desktop for the Luva experience
+        </div>
+      </div>
+    );
+  }
+
   // Render the main recommendation UI with information and 3D visualization
   return (
     <div className="recommendations-step">

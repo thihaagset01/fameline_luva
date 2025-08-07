@@ -233,3 +233,254 @@
   color: var(--text-tertiary);
   font-style: italic;
 }
+
+/* Max Width Overlay */
+@media only screen and (max-width: 1420px) and (orientation: portrait) {
+  body::after {
+    position: fixed;
+    z-index: 10000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 20px;
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .mobile-orientation-lock {
+    position: fixed;
+    z-index: 10001;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.904);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    pointer-events: all;
+  }
+
+  .rotate-message {
+    color: white;
+    font-size: 25px;
+    z-index: 10001;
+    text-align: center;
+  }
+
+  .mobile-orientation-lock .overlay-orb-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 5;
+    transform: scale(0.5);
+    transform-origin: center;
+    top: 2rem;
+  }
+  .mobile-orientation-lock .overlay-orb {
+    width: 12rem;
+    height: 12rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+    box-shadow: 0 0 60px rgba(16, 185, 129, 0.6);
+    position: relative;
+    animation: float 6s ease-in-out infinite;
+    overflow: hidden;
+    z-index: 10002;
+  }
+
+  .mobile-orientation-lock .overlay-orb-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(135deg, rgba(52, 211, 153, 0.3) 0%, transparent 50%, rgba(5, 150, 105, 0.3) 100%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+
+  .mobile-orientation-lock .overlay-orb-ping {
+    position: absolute;
+    inset: -1rem;
+    border-radius: 50%;
+    background-color: rgba(52, 211, 153, 0.2);
+    opacity: 0.3;
+    animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+  }
+
+  .mobile-orientation-lock .overlay-orb-highlight {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: linear-gradient(315deg, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  }
+
+  .mobile-orientation-lock .overlay-orb-glow {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+    filter: blur(1rem);
+    box-shadow: 
+      0 0 60px rgba(52, 211, 153, 0.4),
+      0 0 120px rgba(52, 211, 153, 0.2),
+      inset 0 0 60px rgba(52, 211, 153, 0.1);
+  }
+
+  .mobile-orientation-lock .overlay-lava {
+    filter: blur(25px);
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    width: 190px;
+    height: 190px;
+    z-index: 10;
+    opacity: 1;
+    mix-blend-mode: screen;
+    animation: colorShift 20s infinite linear;
+  }
+  
+  .mobile-orientation-lock .overlay-lava::before {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background:
+      radial-gradient(circle at 30% 30%, #34d399 0%, transparent 45%),
+      radial-gradient(circle at 70% 30%, #10b981 0%, transparent 45%),
+      radial-gradient(circle at 50% 60%, #059669 0%, transparent 45%),
+      radial-gradient(circle at 80% 40%, #064e3b 0%, transparent 45%);
+    filter: blur(8px);
+    opacity: 1;
+    mix-blend-mode: screen;
+  }
+  .mobile-orientation-lock .overlay-lava::after {
+    content: '';
+    position: absolute;
+    width: 120%;
+    height: 120%;
+    background:
+      radial-gradient(circle at 40% 40%, #34d399 0%, transparent 35%),
+      radial-gradient(circle at 60% 40%, #10b981 0%, transparent 35%),
+      radial-gradient(circle at 50% 70%, #059669 0%, transparent 35%),
+      radial-gradient(circle at 70% 50%, #064e3b 0%, transparent 35%);
+    filter: blur(12px);
+    opacity: 1;
+    mix-blend-mode: screen;
+    animation: pulse 4s ease-in-out infinite alternate;
+  }
+
+  .mobile-orientation-lock .overlay-orb::before {
+    content: '';
+    position: absolute;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 14px;
+    height: 28px;
+    background: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+    z-index: 60;
+    animation:
+      blink 4s infinite,
+      lookAround 10s infinite ease-in-out;
+  }
+
+  .mobile-orientation-lock .overlay-orb::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    box-shadow: 0 0 60px rgba(255, 255, 255, 0.1);
+    animation: glowPulse 2s ease-in-out infinite;
+  }
+
+  /* Keyframe animations */
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0) rotateX(10deg) rotateY(10deg);
+    }
+    25% {
+      transform: translateY(-10px) rotateX(5deg) rotateY(15deg);
+    }
+    50% {
+      transform: translateY(-15px) rotateX(0deg) rotateY(10deg);
+    }
+    75% {
+      transform: translateY(-5px) rotateX(-5deg) rotateY(5deg);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 0.8;
+    }
+    100% {
+      opacity: 0.5;
+    }
+  }
+
+  @keyframes ping {
+    75%, 100% {
+      transform: scale(1.2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes blink {
+    0%, 96% { height: 30px; }
+    98% { height: 3px; }
+    100% { height: 30px; }
+  }
+
+  @keyframes lookAround {
+    0%, 40% {
+      left: 47%;
+      box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+    }
+    45% {
+      left: 40%;
+      box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+    }
+    55% {
+      left: 40%;
+      box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+    }
+    60% {
+      left: 54%;
+      box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+    }
+    70% {
+      left: 54%;
+      box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+    }
+    75% {
+      left: 47%;
+      box-shadow: 30px 0 0 rgba(255, 255, 255, 1);
+    }
+  }
+
+  @keyframes glowPulse {
+    0%, 100% {
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.3);
+    }
+    50% {
+      box-shadow: 0 0 40px rgba(52, 211, 153, 0.5);
+    }
+  }
+}
